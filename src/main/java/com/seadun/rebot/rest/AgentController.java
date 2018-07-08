@@ -61,7 +61,6 @@ public class AgentController {
 		String hostIP = Utils.getIp(req);
 		JSONObject jsonData = JSON.parseObject(data);
 		String msgFrom = jsonData.getString("from");
-		String content = jsonData.getString("content");
 		String uuid = jsonData.getString("uuid");
 		if (BIOS.equals(msgFrom)) {
 			//获取设备序列号
@@ -70,6 +69,7 @@ public class AgentController {
 			Computer computer = new Computer();
 			computer.setId(uuid);
 			computer.setBiosSn(biosSn);
+			computer.setIp(hostIP);
 			
 			computer.setUptDate(new Date());
 			computer.setCrtDate(new Date());
@@ -88,6 +88,7 @@ public class AgentController {
 			computer.setId(uuid);
 			computer.setOpSystem(opSystem);
 			computer.setOpInstallDate(opInstallDate);
+			computer.setIp(hostIP);
 			
 			computer.setCrtDate(new Date());
 			computer.setUptDate(new Date());
@@ -100,7 +101,7 @@ public class AgentController {
 			JSONArray jsa = jsonData.getJSONArray("content");
 			jsa.forEach(obj->{
 				JSONObject jsb = (JSONObject) obj;
-				String macAddress = jsb.getString("mac_address");
+				String macAddress = jsb.getString("MACAddress");
 				//to-do 存入数据库
 				
 				Network network = new  Network();
@@ -144,13 +145,14 @@ public class AgentController {
 			jsa.forEach(obj->{
 				JSONObject jsb = (JSONObject) obj;
 				//显卡型号
-				String videoType = jsb.getString("video_type");
+				String videoType = jsb.getString("Caption");
 				//to-do 存入数据库
 				
 				Video video = new Video();
 				video.setId(UUID.randomUUID().toString());
 				video.setComputerId(uuid);
-				video.setVideoSn(UUID.randomUUID().toString());
+				//to-do 确定显卡个数
+				video.setVideoSn(uuid);
 				video.setVideoType(videoType);
 				
 				video.setCrtTime(new Date());

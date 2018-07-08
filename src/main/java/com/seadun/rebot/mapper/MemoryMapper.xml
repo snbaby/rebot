@@ -56,7 +56,7 @@
         upt_time,
       </if>
     </trim>
-    <trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=VARCHAR},
       </if>
@@ -88,7 +88,7 @@
         mem_capacity = #{memCapacity,jdbcType=VARCHAR},
       </if>
       <if test="uptTime != null">
-        upt_time = #{uptTime,jdbcType=TIMESTAMP},
+        upt_time = #{uptTime,jdbcType=TIMESTAMP}
       </if>
     </trim>
   </insert>

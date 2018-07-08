@@ -94,7 +94,7 @@
         ip = #{ip,jdbcType=VARCHAR},
       </if>
       <if test="uptDate != null">
-        upt_date = #{uptDate,jdbcType=TIMESTAMP},
+        upt_date = #{uptDate,jdbcType=TIMESTAMP}
       </if>
     </trim>
   </insert>

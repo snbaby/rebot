@@ -73,12 +73,12 @@
       </if>
     </trim>
     ON DUPLICATE KEY UPDATE
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
+    <trim>
       <if test="videoType != null">
         video_type = #{videoType,jdbcType=VARCHAR},
       </if>
       <if test="uptTime != null">
-        upt_time = #{uptTime,jdbcType=TIMESTAMP},
+        upt_time = #{uptTime,jdbcType=TIMESTAMP}
       </if>
     </trim>
   </insert>
