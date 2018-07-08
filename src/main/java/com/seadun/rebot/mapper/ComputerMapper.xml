@@ -79,6 +79,27 @@
         #{uptDate,jdbcType=TIMESTAMP},
       </if>
     </trim>
+    ON DUPLICATE KEY UPDATE
+    <trim>
+      <if test="biosSn != null">
+        bios_sn = #{biosSn,jdbcType=VARCHAR},
+      </if>
+      <if test="opSystem != null">
+        op_system = #{opSystem,jdbcType=VARCHAR},
+      </if>
+      <if test="opInstallDate != null">
+        op_install_date = #{opInstallDate,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null">
+        ip = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="crtDate != null">
+        crt_date = #{crtDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uptDate != null">
+        upt_date = #{uptDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.seadun.rebot.entity.Computer">
     update computer

@@ -87,6 +87,24 @@
         #{uptTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
+    ON DUPLICATE KEY UPDATE
+    <trim>
+      <if test="diskInterfaceType != null">
+        disk_interface_type = #{diskInterfaceType,jdbcType=VARCHAR},
+      </if>
+      <if test="diskCapacity != null">
+        disk_capacity = #{diskCapacity,jdbcType=VARCHAR},
+      </if>
+      <if test="diskShellSn != null">
+        disk_shell_sn = #{diskShellSn,jdbcType=VARCHAR},
+      </if>
+      <if test="crtTime != null">
+        crt_time = #{crtTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uptTime != null">
+        upt_time = #{uptTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.seadun.rebot.entity.Disk">
     update disk

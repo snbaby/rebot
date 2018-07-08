@@ -63,6 +63,15 @@
         #{uptTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
+    ON DUPLICATE KEY UPDATE
+    <trim>
+      <if test="crtTime != null">
+        crt_time = #{crtTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uptTime != null">
+        upt_time = #{uptTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.seadun.rebot.entity.Network">
     update network

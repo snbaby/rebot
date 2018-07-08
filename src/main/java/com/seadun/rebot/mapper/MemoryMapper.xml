@@ -56,7 +56,7 @@
         upt_time,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
+    <trim>
       <if test="id != null">
         #{id,jdbcType=VARCHAR},
       </if>
@@ -77,6 +77,21 @@
       </if>
       <if test="uptTime != null">
         #{uptTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+    ON DUPLICATE KEY UPDATE
+    <trim>
+      <if test="memType != null">
+        mem_type = #{memType,jdbcType=VARCHAR},
+      </if>
+      <if test="memCapacity != null">
+        mem_capacity = #{memCapacity,jdbcType=VARCHAR},
+      </if>
+      <if test="crtTime != null">
+        crt_time = #{crtTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uptTime != null">
+        upt_time = #{uptTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
