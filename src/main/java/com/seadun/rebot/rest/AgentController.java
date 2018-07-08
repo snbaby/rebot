@@ -74,6 +74,7 @@ public class AgentController {
 			computer.setUptDate(new Date());
 			computer.setCrtDate(new Date());
 			
+			log.debug(">>>>>设备序列号:{}",JSON.toJSONString(computer));
 			computerMapper.insertSelective(computer);
 			//to-do 存入数据库
 		}else if(OPERATING_SYSTEM.equals(msgFrom)) {
@@ -91,6 +92,7 @@ public class AgentController {
 			computer.setCrtDate(new Date());
 			computer.setUptDate(new Date());
 			
+			log.debug(">>>>>操作系统:{}",JSON.toJSONString(computer));
 			computerMapper.insertSelective(computer);
 		}else if(DISK_DRIVE.equals(msgFrom)) {
 			//to-do 暂时不做处理，待刘毅给出解决方案 
@@ -109,6 +111,7 @@ public class AgentController {
 				network.setCrtTime(new Date());
 				network.setUptTime(new Date());
 				
+				log.debug(">>>>>网卡:{}",JSON.toJSONString(network));
 				networkMapper.insertSelective(network);
 			});
 			
@@ -133,6 +136,7 @@ public class AgentController {
 				memory.setCrtTime(new Date());
 				memory.setUptTime(new Date());
 				
+				log.debug(">>>>>内存:{}",JSON.toJSONString(memory));
 				memoryMapper.insertSelective(memory);
 			});
 		}else if(VIDEO.equals(msgFrom)) {
@@ -152,11 +156,12 @@ public class AgentController {
 				video.setCrtTime(new Date());
 				video.setUptTime(new Date());
 				
+				log.debug(">>>>>显卡:{}",JSON.toJSONString(video));
 				videoMapper.insertSelective(video);
 			});
 		}else {
 			//非必须采取的指标
-			log.debug(">>>>>非采取的指标:{},内容:{}",msgFrom,jsonData);
+			log.debug(">>>>>未采取的指标:{},内容:{}",msgFrom,jsonData);
 		}
 		
 		Map<String, Object> ret = new HashMap<String, Object>();
