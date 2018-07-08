@@ -6,11 +6,12 @@
     <result column="bios_sn" jdbcType="VARCHAR" property="biosSn" />
     <result column="op_system" jdbcType="VARCHAR" property="opSystem" />
     <result column="op_install_date" jdbcType="VARCHAR" property="opInstallDate" />
+    <result column="ip" jdbcType="VARCHAR" property="ip" />
     <result column="crt_date" jdbcType="TIMESTAMP" property="crtDate" />
     <result column="upt_date" jdbcType="TIMESTAMP" property="uptDate" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, bios_sn, op_system, op_install_date, crt_date, upt_date
+    id, bios_sn, op_system, op_install_date, ip, crt_date, upt_date
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -24,11 +25,11 @@
   </delete>
   <insert id="insert" parameterType="com.seadun.rebot.entity.Computer">
     insert into computer (id, bios_sn, op_system, 
-      op_install_date, crt_date, upt_date
-      )
+      op_install_date, ip, crt_date, 
+      upt_date)
     values (#{id,jdbcType=VARCHAR}, #{biosSn,jdbcType=VARCHAR}, #{opSystem,jdbcType=VARCHAR}, 
-      #{opInstallDate,jdbcType=VARCHAR}, #{crtDate,jdbcType=TIMESTAMP}, #{uptDate,jdbcType=TIMESTAMP}
-      )
+      #{opInstallDate,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, #{crtDate,jdbcType=TIMESTAMP}, 
+      #{uptDate,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.seadun.rebot.entity.Computer">
     insert into computer
@@ -44,6 +45,9 @@
       </if>
       <if test="opInstallDate != null">
         op_install_date,
+      </if>
+      <if test="ip != null">
+        ip,
       </if>
       <if test="crtDate != null">
         crt_date,
@@ -65,6 +69,9 @@
       <if test="opInstallDate != null">
         #{opInstallDate,jdbcType=VARCHAR},
       </if>
+      <if test="ip != null">
+        #{ip,jdbcType=VARCHAR},
+      </if>
       <if test="crtDate != null">
         #{crtDate,jdbcType=TIMESTAMP},
       </if>
@@ -85,6 +92,9 @@
       <if test="opInstallDate != null">
         op_install_date = #{opInstallDate,jdbcType=VARCHAR},
       </if>
+      <if test="ip != null">
+        ip = #{ip,jdbcType=VARCHAR},
+      </if>
       <if test="crtDate != null">
         crt_date = #{crtDate,jdbcType=TIMESTAMP},
       </if>
@@ -99,6 +109,7 @@
     set bios_sn = #{biosSn,jdbcType=VARCHAR},
       op_system = #{opSystem,jdbcType=VARCHAR},
       op_install_date = #{opInstallDate,jdbcType=VARCHAR},
+      ip = #{ip,jdbcType=VARCHAR},
       crt_date = #{crtDate,jdbcType=TIMESTAMP},
       upt_date = #{uptDate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}

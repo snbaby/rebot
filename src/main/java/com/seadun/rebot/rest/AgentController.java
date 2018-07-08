@@ -27,9 +27,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class AgentController {
 	
-	private static final String HELPER2017 = "helper2017";
-	private static final String MSG_TYPE_EVENT_PLUGIN_POST = "event-plugin-post";
-	private static final String SOC_PLUGIN = "soc-plugin-";
 	private static final String BIOS = "BIOS";
 	private static final String OPERATING_SYSTEM = "OperatingSystem";
 	private static final String DISK_DRIVE = "DiskDrive";

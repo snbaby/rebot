@@ -11,6 +11,8 @@ public class Computer {
 
     private String opInstallDate;
 
+    private String ip;
+
     private Date crtDate;
 
     private Date uptDate;
@@ -45,6 +47,14 @@ public class Computer {
 
     public void setOpInstallDate(String opInstallDate) {
         this.opInstallDate = opInstallDate;
+    }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
     }
 
     public Date getCrtDate() {
