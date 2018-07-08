@@ -1,29 +1,23 @@
 package com.seadun.rebot.entity;
 
-import org.springframework.web.multipart.MultipartFile;
+import java.util.Date;
 
 public class User {
-    private Integer id;
+    private String id;
 
     private String userName;
 
     private String userPassword;
-    
-   /* private MultipartFile file;
 
-    public MultipartFile getFile() {
-		return file;
-	}
+    private Date crtTime;
 
-	public void setFile(MultipartFile file) {
-		this.file = file;
-	}*/
+    private Date crtUser;
 
-	public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -41,5 +35,21 @@ public class User {
 
     public void setUserPassword(String userPassword) {
         this.userPassword = userPassword;
+    }
+
+    public Date getCrtTime() {
+        return crtTime;
+    }
+
+    public void setCrtTime(Date crtTime) {
+        this.crtTime = crtTime;
+    }
+
+    public Date getCrtUser() {
+        return crtUser;
+    }
+
+    public void setCrtUser(Date crtUser) {
+        this.crtUser = crtUser;
     }
 }

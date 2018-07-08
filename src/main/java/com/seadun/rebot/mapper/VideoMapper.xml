@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.seadun.rebot.mapper.VideoMapper">
+  <resultMap id="BaseResultMap" type="com.seadun.rebot.entity.Video">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="computer_id" jdbcType="VARCHAR" property="computerId" />
+    <result column="video_sn" jdbcType="VARCHAR" property="videoSn" />
+    <result column="video_type" jdbcType="VARCHAR" property="videoType" />
+    <result column="crt_time" jdbcType="TIMESTAMP" property="crtTime" />
+    <result column="upt_time" jdbcType="TIMESTAMP" property="uptTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, computer_id, video_sn, video_type, crt_time, upt_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from video
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from video
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.seadun.rebot.entity.Video">
+    insert into video (id, computer_id, video_sn, 
+      video_type, crt_time, upt_time
+      )
+    values (#{id,jdbcType=VARCHAR}, #{computerId,jdbcType=VARCHAR}, #{videoSn,jdbcType=VARCHAR}, 
+      #{videoType,jdbcType=VARCHAR}, #{crtTime,jdbcType=TIMESTAMP}, #{uptTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.seadun.rebot.entity.Video">
+    insert into video
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="computerId != null">
+        computer_id,
+      </if>
+      <if test="videoSn != null">
+        video_sn,
+      </if>
+      <if test="videoType != null">
+        video_type,
+      </if>
+      <if test="crtTime != null">
+        crt_time,
+      </if>
+      <if test="uptTime != null">
+        upt_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="computerId != null">
+        #{computerId,jdbcType=VARCHAR},
+      </if>
+      <if test="videoSn != null">
+        #{videoSn,jdbcType=VARCHAR},
+      </if>
+      <if test="videoType != null">
+        #{videoType,jdbcType=VARCHAR},
+      </if>
+      <if test="crtTime != null">
+        #{crtTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uptTime != null">
+        #{uptTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.seadun.rebot.entity.Video">
+    update video
+    <set>
+      <if test="computerId != null">
+        computer_id = #{computerId,jdbcType=VARCHAR},
+      </if>
+      <if test="videoSn != null">
+        video_sn = #{videoSn,jdbcType=VARCHAR},
+      </if>
+      <if test="videoType != null">
+        video_type = #{videoType,jdbcType=VARCHAR},
+      </if>
+      <if test="crtTime != null">
+        crt_time = #{crtTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uptTime != null">
+        upt_time = #{uptTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.seadun.rebot.entity.Video">
+    update video
+    set computer_id = #{computerId,jdbcType=VARCHAR},
+      video_sn = #{videoSn,jdbcType=VARCHAR},
+      video_type = #{videoType,jdbcType=VARCHAR},
+      crt_time = #{crtTime,jdbcType=TIMESTAMP},
+      upt_time = #{uptTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

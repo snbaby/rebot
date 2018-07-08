@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.seadun.rebot.mapper.NetworkMapper">
+  <resultMap id="BaseResultMap" type="com.seadun.rebot.entity.Network">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="computer_id" jdbcType="VARCHAR" property="computerId" />
+    <result column="mac_address" jdbcType="VARCHAR" property="macAddress" />
+    <result column="crt_time" jdbcType="TIMESTAMP" property="crtTime" />
+    <result column="upt_time" jdbcType="TIMESTAMP" property="uptTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, computer_id, mac_address, crt_time, upt_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from network
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from network
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.seadun.rebot.entity.Network">
+    insert into network (id, computer_id, mac_address, 
+      crt_time, upt_time)
+    values (#{id,jdbcType=VARCHAR}, #{computerId,jdbcType=VARCHAR}, #{macAddress,jdbcType=VARCHAR}, 
+      #{crtTime,jdbcType=TIMESTAMP}, #{uptTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.seadun.rebot.entity.Network">
+    insert into network
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="computerId != null">
+        computer_id,
+      </if>
+      <if test="macAddress != null">
+        mac_address,
+      </if>
+      <if test="crtTime != null">
+        crt_time,
+      </if>
+      <if test="uptTime != null">
+        upt_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="computerId != null">
+        #{computerId,jdbcType=VARCHAR},
+      </if>
+      <if test="macAddress != null">
+        #{macAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="crtTime != null">
+        #{crtTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uptTime != null">
+        #{uptTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.seadun.rebot.entity.Network">
+    update network
+    <set>
+      <if test="computerId != null">
+        computer_id = #{computerId,jdbcType=VARCHAR},
+      </if>
+      <if test="macAddress != null">
+        mac_address = #{macAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="crtTime != null">
+        crt_time = #{crtTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uptTime != null">
+        upt_time = #{uptTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.seadun.rebot.entity.Network">
+    update network
+    set computer_id = #{computerId,jdbcType=VARCHAR},
+      mac_address = #{macAddress,jdbcType=VARCHAR},
+      crt_time = #{crtTime,jdbcType=TIMESTAMP},
+      upt_time = #{uptTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
