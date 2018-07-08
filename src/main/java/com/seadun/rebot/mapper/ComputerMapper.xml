@@ -93,9 +93,6 @@
       <if test="ip != null">
         ip = #{ip,jdbcType=VARCHAR},
       </if>
-      <if test="crtDate != null">
-        crt_date = #{crtDate,jdbcType=TIMESTAMP},
-      </if>
       <if test="uptDate != null">
         upt_date = #{uptDate,jdbcType=TIMESTAMP},
       </if>

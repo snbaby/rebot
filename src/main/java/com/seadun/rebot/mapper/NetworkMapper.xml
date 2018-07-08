@@ -65,9 +65,6 @@
     </trim>
     ON DUPLICATE KEY UPDATE
     <trim>
-      <if test="crtTime != null">
-        crt_time = #{crtTime,jdbcType=TIMESTAMP},
-      </if>
       <if test="uptTime != null">
         upt_time = #{uptTime,jdbcType=TIMESTAMP},
       </if>
