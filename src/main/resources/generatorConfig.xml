@@ -10,7 +10,7 @@
     <javaModelGenerator targetPackage="com.seadun.rebot.entity" targetProject="rebot/src/main/java" />
     <sqlMapGenerator targetPackage="com.seadun.rebot.mapper" targetProject="rebot/src/main/java" />
     <javaClientGenerator targetPackage="com.seadun.rebot.mapper" targetProject="rebot/src/main/java" type="XMLMAPPER" />
-    <table schema="rebot" tableName="computer" domainObjectName="Computer"  enableCountByExample="false" enableUpdateByExample="false"  
+    <!-- <table schema="rebot" tableName="computer" domainObjectName="Computer"  enableCountByExample="false" enableUpdateByExample="false"  
             enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
     </table>
     <table schema="rebot" tableName="disk" domainObjectName="Disk"  enableCountByExample="false" enableUpdateByExample="false"  
@@ -26,6 +26,12 @@
             enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
     </table>
     <table schema="rebot" tableName="video" domainObjectName="Video"  enableCountByExample="false" enableUpdateByExample="false"  
+            enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+    </table> -->
+    <table schema="rebot" tableName="contract" domainObjectName="Contract"  enableCountByExample="false" enableUpdateByExample="false"  
+            enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+    </table>
+    <table schema="rebot" tableName="contract_detail" domainObjectName="ContractDetail"  enableCountByExample="false" enableUpdateByExample="false"  
             enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
     </table>
   </context>

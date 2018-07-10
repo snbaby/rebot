@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.seadun.rebot.mapper.ContractDetailMapper">
+  <resultMap id="BaseResultMap" type="com.seadun.rebot.entity.ContractDetail">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="contract_id" jdbcType="VARCHAR" property="contractId" />
+    <result column="eq_type" jdbcType="VARCHAR" property="eqType" />
+    <result column="eq_no" jdbcType="VARCHAR" property="eqNo" />
+    <result column="computer_id" jdbcType="VARCHAR" property="computerId" />
+    <result column="crt_time" jdbcType="TIMESTAMP" property="crtTime" />
+    <result column="upt_time" jdbcType="TIMESTAMP" property="uptTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, contract_id, eq_type, eq_no, computer_id, crt_time, upt_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from contract_detail
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from contract_detail
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.seadun.rebot.entity.ContractDetail">
+    insert into contract_detail (id, contract_id, eq_type, 
+      eq_no, computer_id, crt_time, 
+      upt_time)
+    values (#{id,jdbcType=VARCHAR}, #{contractId,jdbcType=VARCHAR}, #{eqType,jdbcType=VARCHAR}, 
+      #{eqNo,jdbcType=VARCHAR}, #{computerId,jdbcType=VARCHAR}, #{crtTime,jdbcType=TIMESTAMP}, 
+      #{uptTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.seadun.rebot.entity.ContractDetail">
+    insert into contract_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="contractId != null">
+        contract_id,
+      </if>
+      <if test="eqType != null">
+        eq_type,
+      </if>
+      <if test="eqNo != null">
+        eq_no,
+      </if>
+      <if test="computerId != null">
+        computer_id,
+      </if>
+      <if test="crtTime != null">
+        crt_time,
+      </if>
+      <if test="uptTime != null">
+        upt_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="contractId != null">
+        #{contractId,jdbcType=VARCHAR},
+      </if>
+      <if test="eqType != null">
+        #{eqType,jdbcType=VARCHAR},
+      </if>
+      <if test="eqNo != null">
+        #{eqNo,jdbcType=VARCHAR},
+      </if>
+      <if test="computerId != null">
+        #{computerId,jdbcType=VARCHAR},
+      </if>
+      <if test="crtTime != null">
+        #{crtTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uptTime != null">
+        #{uptTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+    ON DUPLICATE KEY UPDATE
+    <trim>
+      <if test="uptTime != null">
+        upt_time = #{uptTime,jdbcType=TIMESTAMP}
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.seadun.rebot.entity.ContractDetail">
+    update contract_detail
+    <set>
+      <if test="contractId != null">
+        contract_id = #{contractId,jdbcType=VARCHAR},
+      </if>
+      <if test="eqType != null">
+        eq_type = #{eqType,jdbcType=VARCHAR},
+      </if>
+      <if test="eqNo != null">
+        eq_no = #{eqNo,jdbcType=VARCHAR},
+      </if>
+      <if test="computerId != null">
+        computer_id = #{computerId,jdbcType=VARCHAR},
+      </if>
+      <if test="crtTime != null">
+        crt_time = #{crtTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uptTime != null">
+        upt_time = #{uptTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.seadun.rebot.entity.ContractDetail">
+    update contract_detail
+    set contract_id = #{contractId,jdbcType=VARCHAR},
+      eq_type = #{eqType,jdbcType=VARCHAR},
+      eq_no = #{eqNo,jdbcType=VARCHAR},
+      computer_id = #{computerId,jdbcType=VARCHAR},
+      crt_time = #{crtTime,jdbcType=TIMESTAMP},
+      upt_time = #{uptTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
