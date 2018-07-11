@@ -13,7 +13,7 @@ public class RebotExceptionConstants {
 	
 	// excel解析错误
 	public static final String EXCEL_PRASE_ERROR_CODE = "EXCEL_PRASE_ERROR";
-	public static final String EXCEL_PRASE_ERROR_MESSAGE = "excel 格式错误";
+	public static final String EXCEL_PRASE_ERROR_MESSAGE = "文件格式错误";
 	public static final HttpStatus EXCEL_PRASE_ERROR_HTTP_STATUS = HttpStatus.BAD_REQUEST;
 	
 	// excel解析错误
