@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,10 +26,8 @@ import com.seadun.rebot.entity.Computer;
 import com.seadun.rebot.entity.Memory;
 import com.seadun.rebot.entity.Network;
 import com.seadun.rebot.entity.Video;
-import com.seadun.rebot.mapper.ComputerMapper;
-import com.seadun.rebot.mapper.MemoryMapper;
-import com.seadun.rebot.mapper.NetworkMapper;
-import com.seadun.rebot.mapper.VideoMapper;
+import com.seadun.rebot.response.ResponseSuccessResult;
+import com.seadun.rebot.service.AgentService;
 import com.seadun.rebot.util.Utils;
 
 import lombok.extern.slf4j.Slf4j;
@@ -38,6 +38,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class AgentController {
 	
+	
+	@Autowired
+	private AgentService agentService;
+	
+	
 	private static final String BIOS = "BIOS";
 	private static final String OPERATING_SYSTEM = "OperatingSystem";
 	private static final String DISK_DRIVE = "DiskDrive";
@@ -45,24 +50,22 @@ public class AgentController {
 	private static final String PHYSICAL_MEMORY = "PhysicalMemory";
 	private static final String VIDEO = "VideoController";
 	
-	@Autowired
-	private ComputerMapper computerMapper;
-	@Autowired
-	private NetworkMapper networkMapper;
-	@Autowired
-	private MemoryMapper memoryMapper;
-	@Autowired
-	private VideoMapper videoMapper;
-	
 	@PostMapping(value = { "/sbox/data/{hostName}" })
 	@ResponseBody
-	public Map<String, Object> clientData(@PathVariable String hostName,String data, HttpServletRequest req) {
+	public ResponseEntity<ResponseSuccessResult> clientData(@PathVariable String hostName,String data, HttpServletRequest req) {
 		log.debug(">>>>>待处理的数据:{}",data);
 		String hostIP = Utils.getIp(req);
 		JSONObject jsonData = JSON.parseObject(data);
 		String msgFrom = jsonData.getString("from");
 		String uuid = jsonData.getString("uuid");
+		
 		if (BIOS.equals(msgFrom)) {
+			/*if(1==1) {
+				throw new RebotException(RebotExceptionConstants.ASSET_CODE_NOT_EXISTS_ERROR_CODE,
+						RebotExceptionConstants.ASSET_CODE_NOT_EXISTS_ERROR_MESSAGE,
+						RebotExceptionConstants.ASSET_CODE_NOT_EXISTS_ERROR_HTTP_STATUS);
+			}*/
+			
 			//获取设备序列号
 			String biosSn = jsonData.getJSONArray("content").getJSONObject(0).getString("SerialNumber");
 			
@@ -75,7 +78,7 @@ public class AgentController {
 			computer.setCrtDate(new Date());
 			
 			log.debug(">>>>>设备序列号:{}",JSON.toJSONString(computer));
-			computerMapper.insertSelective(computer);
+			agentService.save(computer);
 			//to-do 存入数据库
 		}else if(OPERATING_SYSTEM.equals(msgFrom)) {
 			//操作系统
@@ -94,7 +97,7 @@ public class AgentController {
 			computer.setUptDate(new Date());
 			
 			log.debug(">>>>>操作系统:{}",JSON.toJSONString(computer));
-			computerMapper.insertSelective(computer);
+			agentService.save(computer);
 		}else if(DISK_DRIVE.equals(msgFrom)) {
 			//to-do 暂时不做处理，待刘毅给出解决方案 
 		}else if(NETWORK_ADAPTER.equals(msgFrom)) {
@@ -113,7 +116,7 @@ public class AgentController {
 				network.setUptTime(new Date());
 				
 				log.debug(">>>>>网卡:{}",JSON.toJSONString(network));
-				networkMapper.insertSelective(network);
+				agentService.save(network);
 			});
 			
 		}else if(PHYSICAL_MEMORY.equals(msgFrom)) {
@@ -138,7 +141,7 @@ public class AgentController {
 				memory.setUptTime(new Date());
 				
 				log.debug(">>>>>内存:{}",JSON.toJSONString(memory));
-				memoryMapper.insertSelective(memory);
+				agentService.save(memory);
 			});
 		}else if(VIDEO.equals(msgFrom)) {
 			JSONArray jsa = jsonData.getJSONArray("content");
@@ -159,17 +162,15 @@ public class AgentController {
 				video.setUptTime(new Date());
 				
 				log.debug(">>>>>显卡:{}",JSON.toJSONString(video));
-				videoMapper.insertSelective(video);
+				agentService.save(video);
 			});
 		}else {
 			//非必须采取的指标
 			log.debug(">>>>>未采取的指标:{},内容:{}",msgFrom,jsonData);
 		}
 		
-		Map<String, Object> ret = new HashMap<String, Object>();
-		ret.put("code", "200");
-		ret.put("checking", "Y");
-		return ret;
+		ResponseSuccessResult responseResult = new ResponseSuccessResult(HttpStatus.OK.value(), "success");
+		return new ResponseEntity<>(responseResult, HttpStatus.OK);
 	}
 	
 	

@@ -21,4 +21,9 @@ public class RebotExceptionConstants {
 	public static final String EXCEL_CONTENT_ERROR_MESSAGE = "excel內容错误";
 	public static final HttpStatus EXCEL_CONTENT_ERROR_HTTP_STATUS = HttpStatus.BAD_REQUEST;
 	
+	// excel解析错误
+	public static final String ASSET_CODE_NOT_EXISTS_ERROR_CODE = "ASSET_CODE_NOT_EXISTS_ERROR";
+	public static final String ASSET_CODE_NOT_EXISTS_ERROR_MESSAGE = "无可分配的资产号";
+	public static final HttpStatus ASSET_CODE_NOT_EXISTS_ERROR_HTTP_STATUS = HttpStatus.NOT_ACCEPTABLE;
+	
 }

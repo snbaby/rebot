@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.seadun.rebot.mapper.ContractAllViewMapper">
+  <resultMap id="BaseResultMap" type="com.seadun.rebot.entity.ContractAllView">
+    <result column="cd_id" jdbcType="VARCHAR" property="cdId" />
+    <result column="contract_id" jdbcType="VARCHAR" property="contractId" />
+    <result column="eq_type" jdbcType="VARCHAR" property="eqType" />
+    <result column="eq_no" jdbcType="VARCHAR" property="eqNo" />
+    <result column="computer_id" jdbcType="VARCHAR" property="computerId" />
+    <result column="c_id" jdbcType="VARCHAR" property="cId" />
+    <result column="contract" jdbcType="VARCHAR" property="contract" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+  </resultMap>
+  <insert id="insert" parameterType="com.seadun.rebot.entity.ContractAllView">
+    insert into contract_all_view (cd_id, contract_id, eq_type, 
+      eq_no, computer_id, c_id, 
+      contract, status)
+    values (#{cdId,jdbcType=VARCHAR}, #{contractId,jdbcType=VARCHAR}, #{eqType,jdbcType=VARCHAR}, 
+      #{eqNo,jdbcType=VARCHAR}, #{computerId,jdbcType=VARCHAR}, #{cId,jdbcType=VARCHAR}, 
+      #{contract,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.seadun.rebot.entity.ContractAllView">
+    insert into contract_all_view
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="cdId != null">
+        cd_id,
+      </if>
+      <if test="contractId != null">
+        contract_id,
+      </if>
+      <if test="eqType != null">
+        eq_type,
+      </if>
+      <if test="eqNo != null">
+        eq_no,
+      </if>
+      <if test="computerId != null">
+        computer_id,
+      </if>
+      <if test="cId != null">
+        c_id,
+      </if>
+      <if test="contract != null">
+        contract,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="cdId != null">
+        #{cdId,jdbcType=VARCHAR},
+      </if>
+      <if test="contractId != null">
+        #{contractId,jdbcType=VARCHAR},
+      </if>
+      <if test="eqType != null">
+        #{eqType,jdbcType=VARCHAR},
+      </if>
+      <if test="eqNo != null">
+        #{eqNo,jdbcType=VARCHAR},
+      </if>
+      <if test="computerId != null">
+        #{computerId,jdbcType=VARCHAR},
+      </if>
+      <if test="cId != null">
+        #{cId,jdbcType=VARCHAR},
+      </if>
+      <if test="contract != null">
+        #{contract,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <select id="selectTotal" parameterType="com.seadun.rebot.entity.ContractAllView" resultType="java.lang.Integer">
+    select 
+    count(1)
+    from contract
+    where 1=1
+    <if test="cdId != null">
+      and cd_id = #{cdId,jdbcType=VARCHAR}
+    </if>
+    <if test="contractId != null">
+      and contract_id = #{contractId,jdbcType=VARCHAR}
+    </if>
+    <if test="eqType != null">
+      and eq_type = #{eqType,jdbcType=VARCHAR}
+    </if>
+    <if test="eqNo != null">
+      and eq_no = #{eqNo,jdbcType=VARCHAR}
+    </if>
+    <if test="computerId != null">
+      and computer_id = #{computerId,jdbcType=VARCHAR}
+    </if>
+    <if test="computerId == null">
+      and computer_id is null 
+    </if>
+    <if test="cId != null">
+      and c_id = #{cId,jdbcType=VARCHAR}
+    </if>
+    <if test="contract != null">
+      and contract = #{contract,jdbcType=VARCHAR}
+    </if>
+    <if test="status != null">
+      and status = #{status,jdbcType=VARCHAR}
+    </if>
+  </select>
+  <select id="selectVerified" resultType="java.lang.Integer">
+    select 
+    count(1)
+    from contract
+    where status = 'YES'
+    AND computer_id is null
+  </select>
+</mapper>

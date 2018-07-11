@@ -5,14 +5,14 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
-import com.seadun.rebot.interceptor.TokenInterceptor;
+import com.seadun.rebot.interceptor.SboxInterceptor;
 
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurationSupport {
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(new TokenInterceptor()).addPathPatterns("/**").excludePathPatterns("/auth/token");
+		registry.addInterceptor(new SboxInterceptor()).addPathPatterns("/api/**");
 		super.addInterceptors(registry);
 	}
 

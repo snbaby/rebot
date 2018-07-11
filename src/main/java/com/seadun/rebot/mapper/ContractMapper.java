@@ -1,5 +1,7 @@
 package com.seadun.rebot.mapper;
 
+import java.util.List;
+
 import com.seadun.rebot.entity.Contract;
 
 public interface ContractMapper {
@@ -14,4 +16,6 @@ public interface ContractMapper {
     int updateByPrimaryKeySelective(Contract record);
 
     int updateByPrimaryKey(Contract record);
+    
+    List<Contract> select(Contract contract);
 }

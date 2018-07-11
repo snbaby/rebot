@@ -19,6 +19,33 @@
     from contract_detail
     where id = #{id,jdbcType=VARCHAR}
   </select>
+  
+  <!-- 新增根據對象查詢所有的匹配內容 -->
+  <select id="select" parameterType="com.seadun.rebot.entity.ContractDetail" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from contract_detail
+    where 1=1
+    <if test="id != null">
+       and id = #{id,jdbcType=VARCHAR}
+     </if>
+     <if test="contractId != null">
+       and contract_id = #{contractId,jdbcType=VARCHAR}
+     </if>
+     <if test="eqType != null">
+       and eq_type = #{eqType,jdbcType=VARCHAR}
+     </if>
+     <if test="eqNo != null">
+       and eq_no = #{eqNo,jdbcType=VARCHAR}
+     </if>
+     <if test="computerId != null">
+       and computer_id = #{computerId,jdbcType=VARCHAR}
+     </if>
+     <if test="computerId == null">
+       and computer_id is null
+     </if>
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from contract_detail
     where id = #{id,jdbcType=VARCHAR}

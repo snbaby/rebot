@@ -27,11 +27,14 @@
     </table>
     <table schema="rebot" tableName="video" domainObjectName="Video"  enableCountByExample="false" enableUpdateByExample="false"  
             enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-    </table> -->
+    </table>
     <table schema="rebot" tableName="contract" domainObjectName="Contract"  enableCountByExample="false" enableUpdateByExample="false"  
             enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
     </table>
     <table schema="rebot" tableName="contract_detail" domainObjectName="ContractDetail"  enableCountByExample="false" enableUpdateByExample="false"  
+            enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+    </table> -->
+    <table schema="rebot" tableName="contract_all_view" domainObjectName="ContractAllView"  enableCountByExample="false" enableUpdateByExample="false"  
             enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
     </table>
   </context>
