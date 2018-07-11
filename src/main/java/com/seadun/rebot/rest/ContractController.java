@@ -25,11 +25,7 @@ public class ContractController {
 			@RequestParam String endTime) {
 		log.debug(">>>>>获取合同分页数据,pageNo:{},pageSize:{},contract:{},startTime:{},endTime{}", pageNo, pageSize, contract,
 				startTime, endTime);
-		if(1==1) {
-			throw new RebotException(RebotExceptionConstants.EXCEL_PRASE_ERROR_CODE,
-					RebotExceptionConstants.EXCEL_PRASE_ERROR_MESSAGE,
-					RebotExceptionConstants.EXCEL_PRASE_ERROR_HTTP_STATUS);
-		}
+		
 		ResponseSuccessResult responseResult = new ResponseSuccessResult(HttpStatus.OK.value(), "success");
 		return new ResponseEntity<>(responseResult, HttpStatus.OK);
 	}
