@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.seadun.rebot.mapper.DetectionAccountMapper">
+  <resultMap id="BaseResultMap" type="com.seadun.rebot.entity.DetectionAccount">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
+    <result column="cost_record_id" jdbcType="VARCHAR" property="costRecordId" />
+    <result column="account_name" jdbcType="VARCHAR" property="accountName" />
+    <result column="account_score" jdbcType="DOUBLE" property="accountScore" />
+    <result column="detail_score0" jdbcType="DOUBLE" property="detailScore0" />
+    <result column="detail_score1" jdbcType="DOUBLE" property="detailScore1" />
+    <result column="detail_score2" jdbcType="DOUBLE" property="detailScore2" />
+    <result column="detail_score3" jdbcType="DOUBLE" property="detailScore3" />
+    <result column="detail_score4" jdbcType="DOUBLE" property="detailScore4" />
+    <result column="user_info_id" jdbcType="VARCHAR" property="userInfoId" />
+    <result column="cost" jdbcType="DOUBLE" property="cost" />
+    <result column="register_info_score" jdbcType="DOUBLE" property="registerInfoScore" />
+    <result column="identify_info_score" jdbcType="DOUBLE" property="identifyInfoScore" />
+    <result column="background_info_score" jdbcType="DOUBLE" property="backgroundInfoScore" />
+    <result column="trade_process_score" jdbcType="DOUBLE" property="tradeProcessScore" />
+    <result column="trade_habit_score" jdbcType="DOUBLE" property="tradeHabitScore" />
+    <result column="logistics_character_score" jdbcType="DOUBLE" property="logisticsCharacterScore" />
+    <result column="account_history_score" jdbcType="DOUBLE" property="accountHistoryScore" />
+    <result column="activity_score0" jdbcType="DOUBLE" property="activityScore0" />
+    <result column="activity_score1" jdbcType="DOUBLE" property="activityScore1" />
+    <result column="account_growup_score" jdbcType="DOUBLE" property="accountGrowupScore" />
+    <result column="trade_frequency_score" jdbcType="DOUBLE" property="tradeFrequencyScore" />
+    <result column="like_info_score" jdbcType="DOUBLE" property="likeInfoScore" />
+    <result column="activity_score2" jdbcType="DOUBLE" property="activityScore2" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, created_at, updated_at, cost_record_id, account_name, account_score, detail_score0, 
+    detail_score1, detail_score2, detail_score3, detail_score4, user_info_id, cost, register_info_score, 
+    identify_info_score, background_info_score, trade_process_score, trade_habit_score, 
+    logistics_character_score, account_history_score, activity_score0, activity_score1, 
+    account_growup_score, trade_frequency_score, like_info_score, activity_score2
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from detection_account
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from detection_account
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from detection_account
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.seadun.rebot.entity.DetectionAccount">
+    insert into detection_account (id, created_at, updated_at, 
+      cost_record_id, account_name, account_score, 
+      detail_score0, detail_score1, detail_score2, 
+      detail_score3, detail_score4, user_info_id, 
+      cost, register_info_score, identify_info_score, 
+      background_info_score, trade_process_score, trade_habit_score, 
+      logistics_character_score, account_history_score, 
+      activity_score0, activity_score1, account_growup_score, 
+      trade_frequency_score, like_info_score, activity_score2
+      )
+    values (#{id,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, 
+      #{costRecordId,jdbcType=VARCHAR}, #{accountName,jdbcType=VARCHAR}, #{accountScore,jdbcType=DOUBLE}, 
+      #{detailScore0,jdbcType=DOUBLE}, #{detailScore1,jdbcType=DOUBLE}, #{detailScore2,jdbcType=DOUBLE}, 
+      #{detailScore3,jdbcType=DOUBLE}, #{detailScore4,jdbcType=DOUBLE}, #{userInfoId,jdbcType=VARCHAR}, 
+      #{cost,jdbcType=DOUBLE}, #{registerInfoScore,jdbcType=DOUBLE}, #{identifyInfoScore,jdbcType=DOUBLE}, 
+      #{backgroundInfoScore,jdbcType=DOUBLE}, #{tradeProcessScore,jdbcType=DOUBLE}, #{tradeHabitScore,jdbcType=DOUBLE}, 
+      #{logisticsCharacterScore,jdbcType=DOUBLE}, #{accountHistoryScore,jdbcType=DOUBLE}, 
+      #{activityScore0,jdbcType=DOUBLE}, #{activityScore1,jdbcType=DOUBLE}, #{accountGrowupScore,jdbcType=DOUBLE}, 
+      #{tradeFrequencyScore,jdbcType=DOUBLE}, #{likeInfoScore,jdbcType=DOUBLE}, #{activityScore2,jdbcType=DOUBLE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.seadun.rebot.entity.DetectionAccount">
+    insert into detection_account
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="createdAt != null">
+        created_at,
+      </if>
+      <if test="updatedAt != null">
+        updated_at,
+      </if>
+      <if test="costRecordId != null">
+        cost_record_id,
+      </if>
+      <if test="accountName != null">
+        account_name,
+      </if>
+      <if test="accountScore != null">
+        account_score,
+      </if>
+      <if test="detailScore0 != null">
+        detail_score0,
+      </if>
+      <if test="detailScore1 != null">
+        detail_score1,
+      </if>
+      <if test="detailScore2 != null">
+        detail_score2,
+      </if>
+      <if test="detailScore3 != null">
+        detail_score3,
+      </if>
+      <if test="detailScore4 != null">
+        detail_score4,
+      </if>
+      <if test="userInfoId != null">
+        user_info_id,
+      </if>
+      <if test="cost != null">
+        cost,
+      </if>
+      <if test="registerInfoScore != null">
+        register_info_score,
+      </if>
+      <if test="identifyInfoScore != null">
+        identify_info_score,
+      </if>
+      <if test="backgroundInfoScore != null">
+        background_info_score,
+      </if>
+      <if test="tradeProcessScore != null">
+        trade_process_score,
+      </if>
+      <if test="tradeHabitScore != null">
+        trade_habit_score,
+      </if>
+      <if test="logisticsCharacterScore != null">
+        logistics_character_score,
+      </if>
+      <if test="accountHistoryScore != null">
+        account_history_score,
+      </if>
+      <if test="activityScore0 != null">
+        activity_score0,
+      </if>
+      <if test="activityScore1 != null">
+        activity_score1,
+      </if>
+      <if test="accountGrowupScore != null">
+        account_growup_score,
+      </if>
+      <if test="tradeFrequencyScore != null">
+        trade_frequency_score,
+      </if>
+      <if test="likeInfoScore != null">
+        like_info_score,
+      </if>
+      <if test="activityScore2 != null">
+        activity_score2,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="costRecordId != null">
+        #{costRecordId,jdbcType=VARCHAR},
+      </if>
+      <if test="accountName != null">
+        #{accountName,jdbcType=VARCHAR},
+      </if>
+      <if test="accountScore != null">
+        #{accountScore,jdbcType=DOUBLE},
+      </if>
+      <if test="detailScore0 != null">
+        #{detailScore0,jdbcType=DOUBLE},
+      </if>
+      <if test="detailScore1 != null">
+        #{detailScore1,jdbcType=DOUBLE},
+      </if>
+      <if test="detailScore2 != null">
+        #{detailScore2,jdbcType=DOUBLE},
+      </if>
+      <if test="detailScore3 != null">
+        #{detailScore3,jdbcType=DOUBLE},
+      </if>
+      <if test="detailScore4 != null">
+        #{detailScore4,jdbcType=DOUBLE},
+      </if>
+      <if test="userInfoId != null">
+        #{userInfoId,jdbcType=VARCHAR},
+      </if>
+      <if test="cost != null">
+        #{cost,jdbcType=DOUBLE},
+      </if>
+      <if test="registerInfoScore != null">
+        #{registerInfoScore,jdbcType=DOUBLE},
+      </if>
+      <if test="identifyInfoScore != null">
+        #{identifyInfoScore,jdbcType=DOUBLE},
+      </if>
+      <if test="backgroundInfoScore != null">
+        #{backgroundInfoScore,jdbcType=DOUBLE},
+      </if>
+      <if test="tradeProcessScore != null">
+        #{tradeProcessScore,jdbcType=DOUBLE},
+      </if>
+      <if test="tradeHabitScore != null">
+        #{tradeHabitScore,jdbcType=DOUBLE},
+      </if>
+      <if test="logisticsCharacterScore != null">
+        #{logisticsCharacterScore,jdbcType=DOUBLE},
+      </if>
+      <if test="accountHistoryScore != null">
+        #{accountHistoryScore,jdbcType=DOUBLE},
+      </if>
+      <if test="activityScore0 != null">
+        #{activityScore0,jdbcType=DOUBLE},
+      </if>
+      <if test="activityScore1 != null">
+        #{activityScore1,jdbcType=DOUBLE},
+      </if>
+      <if test="accountGrowupScore != null">
+        #{accountGrowupScore,jdbcType=DOUBLE},
+      </if>
+      <if test="tradeFrequencyScore != null">
+        #{tradeFrequencyScore,jdbcType=DOUBLE},
+      </if>
+      <if test="likeInfoScore != null">
+        #{likeInfoScore,jdbcType=DOUBLE},
+      </if>
+      <if test="activityScore2 != null">
+        #{activityScore2,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.seadun.rebot.entity.DetectionAccount">
+    update detection_account
+    <set>
+      <if test="createdAt != null">
+        created_at = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="costRecordId != null">
+        cost_record_id = #{costRecordId,jdbcType=VARCHAR},
+      </if>
+      <if test="accountName != null">
+        account_name = #{accountName,jdbcType=VARCHAR},
+      </if>
+      <if test="accountScore != null">
+        account_score = #{accountScore,jdbcType=DOUBLE},
+      </if>
+      <if test="detailScore0 != null">
+        detail_score0 = #{detailScore0,jdbcType=DOUBLE},
+      </if>
+      <if test="detailScore1 != null">
+        detail_score1 = #{detailScore1,jdbcType=DOUBLE},
+      </if>
+      <if test="detailScore2 != null">
+        detail_score2 = #{detailScore2,jdbcType=DOUBLE},
+      </if>
+      <if test="detailScore3 != null">
+        detail_score3 = #{detailScore3,jdbcType=DOUBLE},
+      </if>
+      <if test="detailScore4 != null">
+        detail_score4 = #{detailScore4,jdbcType=DOUBLE},
+      </if>
+      <if test="userInfoId != null">
+        user_info_id = #{userInfoId,jdbcType=VARCHAR},
+      </if>
+      <if test="cost != null">
+        cost = #{cost,jdbcType=DOUBLE},
+      </if>
+      <if test="registerInfoScore != null">
+        register_info_score = #{registerInfoScore,jdbcType=DOUBLE},
+      </if>
+      <if test="identifyInfoScore != null">
+        identify_info_score = #{identifyInfoScore,jdbcType=DOUBLE},
+      </if>
+      <if test="backgroundInfoScore != null">
+        background_info_score = #{backgroundInfoScore,jdbcType=DOUBLE},
+      </if>
+      <if test="tradeProcessScore != null">
+        trade_process_score = #{tradeProcessScore,jdbcType=DOUBLE},
+      </if>
+      <if test="tradeHabitScore != null">
+        trade_habit_score = #{tradeHabitScore,jdbcType=DOUBLE},
+      </if>
+      <if test="logisticsCharacterScore != null">
+        logistics_character_score = #{logisticsCharacterScore,jdbcType=DOUBLE},
+      </if>
+      <if test="accountHistoryScore != null">
+        account_history_score = #{accountHistoryScore,jdbcType=DOUBLE},
+      </if>
+      <if test="activityScore0 != null">
+        activity_score0 = #{activityScore0,jdbcType=DOUBLE},
+      </if>
+      <if test="activityScore1 != null">
+        activity_score1 = #{activityScore1,jdbcType=DOUBLE},
+      </if>
+      <if test="accountGrowupScore != null">
+        account_growup_score = #{accountGrowupScore,jdbcType=DOUBLE},
+      </if>
+      <if test="tradeFrequencyScore != null">
+        trade_frequency_score = #{tradeFrequencyScore,jdbcType=DOUBLE},
+      </if>
+      <if test="likeInfoScore != null">
+        like_info_score = #{likeInfoScore,jdbcType=DOUBLE},
+      </if>
+      <if test="activityScore2 != null">
+        activity_score2 = #{activityScore2,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.seadun.rebot.entity.DetectionAccount">
+    update detection_account
+    set created_at = #{createdAt,jdbcType=TIMESTAMP},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      cost_record_id = #{costRecordId,jdbcType=VARCHAR},
+      account_name = #{accountName,jdbcType=VARCHAR},
+      account_score = #{accountScore,jdbcType=DOUBLE},
+      detail_score0 = #{detailScore0,jdbcType=DOUBLE},
+      detail_score1 = #{detailScore1,jdbcType=DOUBLE},
+      detail_score2 = #{detailScore2,jdbcType=DOUBLE},
+      detail_score3 = #{detailScore3,jdbcType=DOUBLE},
+      detail_score4 = #{detailScore4,jdbcType=DOUBLE},
+      user_info_id = #{userInfoId,jdbcType=VARCHAR},
+      cost = #{cost,jdbcType=DOUBLE},
+      register_info_score = #{registerInfoScore,jdbcType=DOUBLE},
+      identify_info_score = #{identifyInfoScore,jdbcType=DOUBLE},
+      background_info_score = #{backgroundInfoScore,jdbcType=DOUBLE},
+      trade_process_score = #{tradeProcessScore,jdbcType=DOUBLE},
+      trade_habit_score = #{tradeHabitScore,jdbcType=DOUBLE},
+      logistics_character_score = #{logisticsCharacterScore,jdbcType=DOUBLE},
+      account_history_score = #{accountHistoryScore,jdbcType=DOUBLE},
+      activity_score0 = #{activityScore0,jdbcType=DOUBLE},
+      activity_score1 = #{activityScore1,jdbcType=DOUBLE},
+      account_growup_score = #{accountGrowupScore,jdbcType=DOUBLE},
+      trade_frequency_score = #{tradeFrequencyScore,jdbcType=DOUBLE},
+      like_info_score = #{likeInfoScore,jdbcType=DOUBLE},
+      activity_score2 = #{activityScore2,jdbcType=DOUBLE}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

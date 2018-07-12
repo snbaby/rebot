@@ -1,41 +1,127 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <generatorConfiguration>
-  <context id="Mysql">
-  	<commentGenerator>  
-        <!-- 是否去除自动生成的注释 true：是 ： false:否 -->  
-        <property name="suppressAllComments" value="true"/>  
-    </commentGenerator> 
-    <jdbcConnection connectionURL="jdbc:mysql://192.168.2.70:3306/rebot" driverClass="com.mysql.jdbc.Driver" password="123456" userId="root" />
-    <javaModelGenerator targetPackage="com.seadun.rebot.entity" targetProject="rebot/src/main/java" />
-    <sqlMapGenerator targetPackage="com.seadun.rebot.mapper" targetProject="rebot/src/main/java" />
-    <javaClientGenerator targetPackage="com.seadun.rebot.mapper" targetProject="rebot/src/main/java" type="XMLMAPPER" />
-    <!-- <table schema="rebot" tableName="computer" domainObjectName="Computer"  enableCountByExample="false" enableUpdateByExample="false"  
-            enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-    </table>
-    <table schema="rebot" tableName="disk" domainObjectName="Disk"  enableCountByExample="false" enableUpdateByExample="false"  
-            enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-    </table>
-    <table schema="rebot" tableName="memory" domainObjectName="Memory"  enableCountByExample="false" enableUpdateByExample="false"  
-            enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-    </table>
-    <table schema="rebot" tableName="network" domainObjectName="Network"  enableCountByExample="false" enableUpdateByExample="false"  
-            enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-    </table>
-    <table schema="rebot" tableName="user" domainObjectName="User"  enableCountByExample="false" enableUpdateByExample="false"  
-            enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-    </table>
-    <table schema="rebot" tableName="video" domainObjectName="Video"  enableCountByExample="false" enableUpdateByExample="false"  
-            enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-    </table>
-    <table schema="rebot" tableName="contract" domainObjectName="Contract"  enableCountByExample="false" enableUpdateByExample="false"  
-            enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-    </table>
-    <table schema="rebot" tableName="contract_detail" domainObjectName="ContractDetail"  enableCountByExample="false" enableUpdateByExample="false"  
-            enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-    </table> -->
-    <table schema="rebot" tableName="contract_all_view" domainObjectName="ContractAllView"  enableCountByExample="false" enableUpdateByExample="false"  
-            enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-    </table>
-  </context>
+	<context id="Mysql">
+		<commentGenerator>
+			<!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+			<property
+				name="suppressAllComments"
+				value="true" />
+		</commentGenerator>
+		<jdbcConnection
+			connectionURL="jdbc:mysql://120.79.197.22:3306/tknDb2"
+			driverClass="com.mysql.jdbc.Driver"
+			password="Apple1688!@#"
+			userId="root" />
+		<javaModelGenerator
+			targetPackage="com.seadun.rebot.entity"
+			targetProject="rebot/src/main/java" />
+		<sqlMapGenerator
+			targetPackage="mapper"
+			targetProject="rebot/src/main/resources"/>
+		<javaClientGenerator
+		targetPackage="com.seadun.rebot.mapper"
+			targetProject="rebot/src/main/java" 
+			type="XMLMAPPER"/>
+		<!-- <table
+			schema="rebot"
+			tableName="computer"
+			domainObjectName="Computer"
+			enableCountByExample="false"
+			enableUpdateByExample="false"
+			enableDeleteByExample="false"
+			enableSelectByExample="false"
+			selectByExampleQueryId="false">
+		</table>
+		<table
+			schema="rebot"
+			tableName="disk"
+			domainObjectName="Disk"
+			enableCountByExample="false"
+			enableUpdateByExample="false"
+			enableDeleteByExample="false"
+			enableSelectByExample="false"
+			selectByExampleQueryId="false">
+		</table>
+		<table
+			schema="rebot"
+			tableName="memory"
+			domainObjectName="Memory"
+			enableCountByExample="false"
+			enableUpdateByExample="false"
+			enableDeleteByExample="false"
+			enableSelectByExample="false"
+			selectByExampleQueryId="false">
+		</table>
+		<table
+			schema="rebot"
+			tableName="network"
+			domainObjectName="Network"
+			enableCountByExample="false"
+			enableUpdateByExample="false"
+			enableDeleteByExample="false"
+			enableSelectByExample="false"
+			selectByExampleQueryId="false">
+		</table>
+		<table
+			schema="rebot"
+			tableName="user"
+			domainObjectName="User"
+			enableCountByExample="false"
+			enableUpdateByExample="false"
+			enableDeleteByExample="false"
+			enableSelectByExample="false"
+			selectByExampleQueryId="false">
+		</table>
+		<table
+			schema="rebot"
+			tableName="video"
+			domainObjectName="Video"
+			enableCountByExample="false"
+			enableUpdateByExample="false"
+			enableDeleteByExample="false"
+			enableSelectByExample="false"
+			selectByExampleQueryId="false">
+		</table>
+		<table
+			schema="rebot"
+			tableName="contract"
+			domainObjectName="Contract"
+			enableCountByExample="false"
+			enableUpdateByExample="false"
+			enableDeleteByExample="false"
+			enableSelectByExample="false"
+			selectByExampleQueryId="false">
+		</table>
+		<table
+			schema="rebot"
+			tableName="contract_detail"
+			domainObjectName="ContractDetail"
+			enableCountByExample="false"
+			enableUpdateByExample="false"
+			enableDeleteByExample="false"
+			enableSelectByExample="false"
+			selectByExampleQueryId="false">
+		</table>
+		<table
+			schema="rebot"
+			tableName="contract_all_view"
+			domainObjectName="ContractAllView"
+			enableCountByExample="false"
+			enableUpdateByExample="false"
+			enableDeleteByExample="false"
+			enableSelectByExample="false"
+			selectByExampleQueryId="false">
+		</table> -->
+		<table
+			schema="tknDb2"
+			tableName="detection_account"
+			domainObjectName="DetectionAccount"
+			enableCountByExample="false"
+			enableUpdateByExample="false"
+			enableDeleteByExample="false"
+			enableSelectByExample="false"
+			selectByExampleQueryId="false">
+		</table>
+	</context>
 </generatorConfiguration>

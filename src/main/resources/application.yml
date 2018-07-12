@@ -1,0 +1,23 @@
+logging:
+  level:
+    root: INFO
+  path: ../log
+server:
+  port: 8765
+spring:
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    password: Apple1688!@#
+    url: jdbc:mysql://120.79.197.22:3306/tknDb2?autoReconnect=true&useUnicode=true&characterEncoding=utf8&useSSL=false
+    username: root
+#让mybatis知道mapper在哪里
+mybatis:
+    mapper-locations: classpath:mapper/*.xml
+#分页的配置
+pagehelper:
+  helper-dialect: mysql
+  support-methods-arguments: true
+  params: count=countSql
+  offset-as-page-num: true
+  row-bounds-with-count: true
+  reasonable: true
