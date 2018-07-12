@@ -38,6 +38,23 @@
     </if>
   </select>
   
+  <!-- 新增根據對象查詢所有的匹配內容 -->
+  <select id="selectPage" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from contract
+    where 1=1
+    <if test='contract != null and contract != ""'>
+     and contract like "%"#{contract,jdbcType=VARCHAR}"%"
+    </if>
+    <if test='startTime != null and startTime != ""'>
+     and crt_time <![CDATA[ >= ]]>  #{startTime,jdbcType=VARCHAR}
+    </if>
+    <if test='endTime != null and endTime != ""'>
+     and crt_time <![CDATA[ <= ]]>  #{endTime,jdbcType=VARCHAR}
+    </if>
+  </select>
+  
   
   
   
@@ -113,6 +130,16 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  
+  <update id="updateStatusUnVerified" parameterType="java.lang.String">
+    update contract
+    <set>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+  </update>
+  
   <update id="updateByPrimaryKey" parameterType="com.seadun.rebot.entity.Contract">
     update contract
     set contract = #{contract,jdbcType=VARCHAR},

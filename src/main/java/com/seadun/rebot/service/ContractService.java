@@ -1,14 +1,31 @@
 package com.seadun.rebot.service;
 
-import org.springframework.stereotype.Service;
+import java.util.Date;
 
-import com.alibaba.fastjson.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.seadun.rebot.constant.RebotConstants;
+import com.seadun.rebot.entity.Contract;
+import com.seadun.rebot.mapper.ContractMapper;
 
 @Service
 public class ContractService {
-
-	public JSONObject getContractPage(int pageNo, int pageSize, String contract, String startTime, String endTime) {
-
-		return null;
+	@Autowired
+	private ContractMapper contractMapper;
+	
+	@Transactional
+	public void statusChange(String id,String status) {
+		if(RebotConstants.CONTRACT_VERIFIED.equals(status)) {//开启
+			contractMapper.updateStatusUnVerified(RebotConstants.CONTRACT_UNVERIFIED);
+			Contract contract = new Contract();
+			contract.setId(id);
+			contract.setStatus(status);
+			contract.setUptTime(new Date());
+			contractMapper.updateByPrimaryKeySelective(contract);
+		}else {//关闭
+			contractMapper.updateStatusUnVerified(RebotConstants.CONTRACT_UNVERIFIED);
+		}
 	}
 }

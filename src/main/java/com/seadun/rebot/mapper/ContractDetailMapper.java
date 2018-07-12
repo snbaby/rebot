@@ -2,6 +2,8 @@ package com.seadun.rebot.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.seadun.rebot.entity.ContractDetail;
 
 public interface ContractDetailMapper {
@@ -18,4 +20,12 @@ public interface ContractDetailMapper {
     int updateByPrimaryKey(ContractDetail record);
     
     List<ContractDetail> select(ContractDetail record);
+    
+    long selectCount(@Param("contractId") String contractId);
+    
+    long selectComplete(@Param("contractId") String contractId);
+    
+    long selectUnComplete(@Param("contractId") String contractId);
+    
+    long selectCompleteBefore(@Param("contractId") String contractId,@Param("crtTime") String crtTime);
 }

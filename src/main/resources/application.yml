@@ -1,6 +1,6 @@
 logging:
   level:
-    root: INFO
+    root: DEBUG
   path: ../log
 server:
   port: 8765
@@ -8,8 +8,18 @@ spring:
   datasource:
     driverClassName: com.mysql.jdbc.Driver
     password: Apple1688!@#
-    url: jdbc:mysql://120.79.197.22:3306/tknDb2?autoReconnect=true&useUnicode=true&characterEncoding=utf8&useSSL=false
+    url: jdbc:mysql://120.79.197.22:3306/rebot?autoReconnect=true&useUnicode=true&characterEncoding=utf8&useSSL=false
     username: root
+    type: org.apache.commons.dbcp2.BasicDataSource
+    dbcp2:
+      max-wait-millis: 10000
+      min-idle: 5
+      initial-size: 5
+      validation-query: SELECT 'x'
+      test-while-idle: true
+      time-between-eviction-runs-millis: 300000
+      num-tests-per-eviction-run: 50
+      soft-min-evictable-idle-time-millis: 3600000
 #让mybatis知道mapper在哪里
 mybatis:
     mapper-locations: classpath:mapper/*.xml
