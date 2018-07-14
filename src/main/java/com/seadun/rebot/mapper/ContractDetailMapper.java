@@ -21,11 +21,13 @@ public interface ContractDetailMapper {
     
     List<ContractDetail> select(ContractDetail record);
     
-    long selectCount(@Param("contractId") String contractId);
+    long selectCount(@Param("contractDetail") ContractDetail record);
     
-    long selectComplete(@Param("contractId") String contractId);
+    long selectCountBefore(@Param("contractDetail") ContractDetail record,@Param("uptTime") String uptTime);
+    
+    /*long selectComplete(@Param("contractId") String contractId);
     
     long selectUnComplete(@Param("contractId") String contractId);
     
-    long selectCompleteBefore(@Param("contractId") String contractId,@Param("crtTime") String crtTime);
+    long selectCompleteBefore(@Param("contractId") String contractId,@Param("crtTime") String crtTime);*/
 }

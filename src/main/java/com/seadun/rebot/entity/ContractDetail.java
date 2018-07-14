@@ -16,6 +16,8 @@ public class ContractDetail {
     private Date crtTime;
 
     private Date uptTime;
+    
+    private String status;
 
     public String getId() {
         return id;
@@ -72,4 +74,14 @@ public class ContractDetail {
     public void setUptTime(Date uptTime) {
         this.uptTime = uptTime;
     }
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+    
+    
 }

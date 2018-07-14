@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.seadun.rebot.constant.RebotConstants;
 import com.seadun.rebot.constant.RebotExceptionConstants;
 import com.seadun.rebot.entity.Contract;
 import com.seadun.rebot.entity.ContractDetail;
@@ -96,7 +97,7 @@ public class FileService {
 			Contract contract = new Contract();
 			contract.setId(uuid);
 			contract.setContract(contractNo);
-			contract.setStatus("NO");
+			contract.setStatus(RebotConstants.CONTRACT_UNVERIFIED);
 			contract.setUptTime(new Date());
 			contract.setCrtTime(new Date());
 
@@ -163,6 +164,7 @@ public class FileService {
 					contractDetail.setContractId(uuid);
 					contractDetail.setEqNo(eqNo);
 					contractDetail.setEqType(eqType);
+					contractDetail.setStatus(RebotConstants.CONTRACT_UNCONFIRM);
 					contractDetail.setCrtTime(new Date());
 					contractDetail.setUptTime(new Date());
 					contractDetailMapper.insertSelective(contractDetail);

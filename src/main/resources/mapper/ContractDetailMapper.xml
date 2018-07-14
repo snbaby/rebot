@@ -14,9 +14,11 @@
 			property="crtTime" />
 		<result column="upt_time" jdbcType="TIMESTAMP"
 			property="uptTime" />
+		<result column="status" jdbcType="VARCHAR" property="status" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, contract_id, eq_type, eq_no, computer_id, crt_time, upt_time
+		id, contract_id, eq_type, eq_no, computer_id, crt_time,
+		upt_time, status
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
@@ -52,76 +54,72 @@
 		<if test="computerId == null">
 			and computer_id is null
 		</if>
+		<if test="status != null">
+			and status = #{status,jdbcType=VARCHAR}
+		</if>
 	</select>
 
 	<!-- 获取合同总数 -->
-	<select id="selectCount" parameterType="java.lang.String"
+	<select id="selectCount"
 		resultType="java.lang.Long">
 		select
 		count(id)
 		from contract_detail
 		where 1=1
-		<if test='contractId != null and contractId != "" '>
-			and contract_id = #{contractId,jdbcType=VARCHAR}
+		<if test="contractDetail.contractId != null">
+			and contract_id = #{contractDetail.contractId,jdbcType=VARCHAR},
+		</if>
+		<if test="contractDetail.eqType != null">
+			and eq_type = #{contractDetail.eqType,jdbcType=VARCHAR},
+		</if>
+		<if test="contractDetail.eqNo != null">
+			and eq_no = #{contractDetail.eqNo,jdbcType=VARCHAR},
+		</if>
+		<if test="contractDetail.status != null">
+			and status = #{contractDetail.status,jdbcType=VARCHAR}
 		</if>
 	</select>
 	
 	<!-- 获取合同总数 -->
-	<select id="selectComplete" parameterType="java.lang.String"
+	<select id="selectCountBefore"
 		resultType="java.lang.Long">
 		select
 		count(id)
 		from contract_detail
-		where computer_id is not null
-		<if test='contractId != null and contractId != "" '>
-			and contract_id = #{contractId,jdbcType=VARCHAR}
+		where 1=1
+		<if test="contractDetail.contractId != null">
+			and contract_id = #{contractDetail.contractId,jdbcType=VARCHAR},
+		</if>
+		<if test="contractDetail.eqType != null">
+			and eq_type = #{contractDetail.eqType,jdbcType=VARCHAR},
+		</if>
+		<if test="contractDetail.eqNo != null">
+			and eq_no = #{contractDetail.eqNo,jdbcType=VARCHAR},
+		</if>
+		<if test="contractDetail.status != null">
+			and status = #{contractDetail.status,jdbcType=VARCHAR},
+		</if>
+		<if test="uptTime != null">
+			and upt_time >= #{uptTime,jdbcType=VARCHAR}
 		</if>
 	</select>
-	
-	<!-- 获取合同总数 -->
-	<select id="selectUnComplete" parameterType="java.lang.String"
-		resultType="java.lang.Long">
-		select
-		count(id)
-		from contract_detail
-		where computer_id is null
-		<if test='contractId != null and contractId != "" '>
-			and contract_id = #{contractId,jdbcType=VARCHAR}
-		</if>
-	</select>
-	
-	<!-- 获取合同总数 -->
-	<select id="selectCompleteBefore" parameterType="java.lang.String"
-		resultType="java.lang.Long">
-		select
-		count(id)
-		from contract_detail
-		where computer_id is not null
-		<if test='contractId != null and contractId != "" '>
-			and contract_id = #{contractId,jdbcType=VARCHAR}
-		</if>
-		<if test='crtTime != null and crtTime != "" '>
-			and crt_time <![CDATA[ >= ]]>  #{crtTime,jdbcType=VARCHAR}
-		</if>
-	</select>
-	
-	
-
-
 
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-		delete from contract_detail
+		delete from
+		contract_detail
 		where id = #{id,jdbcType=VARCHAR}
 	</delete>
 	<insert id="insert"
 		parameterType="com.seadun.rebot.entity.ContractDetail">
 		insert into contract_detail (id, contract_id, eq_type,
 		eq_no, computer_id, crt_time,
-		upt_time)
-		values (#{id,jdbcType=VARCHAR}, #{contractId,jdbcType=VARCHAR},
+		upt_time, status)
+		values
+		(#{id,jdbcType=VARCHAR}, #{contractId,jdbcType=VARCHAR},
 		#{eqType,jdbcType=VARCHAR},
-		#{eqNo,jdbcType=VARCHAR}, #{computerId,jdbcType=VARCHAR}, #{crtTime,jdbcType=TIMESTAMP},
-		#{uptTime,jdbcType=TIMESTAMP})
+		#{eqNo,jdbcType=VARCHAR},
+		#{computerId,jdbcType=VARCHAR}, #{crtTime,jdbcType=TIMESTAMP},
+		#{uptTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR})
 	</insert>
 	<insert id="insertSelective"
 		parameterType="com.seadun.rebot.entity.ContractDetail">
@@ -148,6 +146,9 @@
 			<if test="uptTime != null">
 				upt_time,
 			</if>
+			<if test="status != null">
+				status,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -170,6 +171,9 @@
 			</if>
 			<if test="uptTime != null">
 				#{uptTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=VARCHAR},
 			</if>
 		</trim>
 		ON DUPLICATE KEY UPDATE
@@ -201,18 +205,26 @@
 			<if test="uptTime != null">
 				upt_time = #{uptTime,jdbcType=TIMESTAMP},
 			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=VARCHAR},
+			</if>
 		</set>
 		where id = #{id,jdbcType=VARCHAR}
 	</update>
 	<update id="updateByPrimaryKey"
 		parameterType="com.seadun.rebot.entity.ContractDetail">
 		update contract_detail
-		set contract_id = #{contractId,jdbcType=VARCHAR},
+		set contract_id =
+		#{contractId,jdbcType=VARCHAR},
 		eq_type = #{eqType,jdbcType=VARCHAR},
 		eq_no = #{eqNo,jdbcType=VARCHAR},
-		computer_id = #{computerId,jdbcType=VARCHAR},
-		crt_time = #{crtTime,jdbcType=TIMESTAMP},
-		upt_time = #{uptTime,jdbcType=TIMESTAMP}
+		computer_id =
+		#{computerId,jdbcType=VARCHAR},
+		crt_time =
+		#{crtTime,jdbcType=TIMESTAMP},
+		upt_time =
+		#{uptTime,jdbcType=TIMESTAMP},
+		status = #{status,jdbcType=VARCHAR}
 		where id = #{id,jdbcType=VARCHAR}
 	</update>
 </mapper>
