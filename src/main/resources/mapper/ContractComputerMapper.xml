@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.seadun.rebot.mapper.ContractComputerMapper">
+  <resultMap id="BaseResultMap" type="com.seadun.rebot.entity.ContractComputer">
+    <result column="contract_detail_id" jdbcType="VARCHAR" property="contractDetailId" />
+    <result column="contract_id" jdbcType="VARCHAR" property="contractId" />
+    <result column="computer_id" jdbcType="VARCHAR" property="computerId" />
+    <result column="eq_type" jdbcType="VARCHAR" property="eqType" />
+    <result column="eq_no" jdbcType="VARCHAR" property="eqNo" />
+    <result column="contract_detail_status" jdbcType="VARCHAR" property="contractDetailStatus" />
+    <result column="contract" jdbcType="VARCHAR" property="contract" />
+    <result column="contract_status" jdbcType="VARCHAR" property="contractStatus" />
+    <result column="bios_sn" jdbcType="VARCHAR" property="biosSn" />
+    <result column="op_system" jdbcType="VARCHAR" property="opSystem" />
+    <result column="op_install_date" jdbcType="VARCHAR" property="opInstallDate" />
+    <result column="ip" jdbcType="VARCHAR" property="ip" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    contract_detail_id, contract_id, computer_id, eq_type, eq_no,contract_detail_status,contract,contract_status,bios_sn,op_system,op_install_date,ip
+  </sql>
+  <insert id="insert" parameterType="com.seadun.rebot.entity.ContractComputer">
+    insert into contract_computer (contract_detail_id, contract_id, computer_id, 
+      eq_type, eq_no, contract_detail_status, 
+      contract, contract_status, bios_sn, 
+      op_system, op_install_date, ip
+      )
+    values (#{contractDetailId,jdbcType=VARCHAR}, #{contractId,jdbcType=VARCHAR}, #{computerId,jdbcType=VARCHAR}, 
+      #{eqType,jdbcType=VARCHAR}, #{eqNo,jdbcType=VARCHAR}, #{contractDetailStatus,jdbcType=VARCHAR}, 
+      #{contract,jdbcType=VARCHAR}, #{contractStatus,jdbcType=VARCHAR}, #{biosSn,jdbcType=VARCHAR}, 
+      #{opSystem,jdbcType=VARCHAR}, #{opInstallDate,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.seadun.rebot.entity.ContractComputer">
+    insert into contract_computer
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="contractDetailId != null">
+        contract_detail_id,
+      </if>
+      <if test="contractId != null">
+        contract_id,
+      </if>
+      <if test="computerId != null">
+        computer_id,
+      </if>
+      <if test="eqType != null">
+        eq_type,
+      </if>
+      <if test="eqNo != null">
+        eq_no,
+      </if>
+      <if test="contractDetailStatus != null">
+        contract_detail_status,
+      </if>
+      <if test="contract != null">
+        contract,
+      </if>
+      <if test="contractStatus != null">
+        contract_status,
+      </if>
+      <if test="biosSn != null">
+        bios_sn,
+      </if>
+      <if test="opSystem != null">
+        op_system,
+      </if>
+      <if test="opInstallDate != null">
+        op_install_date,
+      </if>
+      <if test="ip != null">
+        ip,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="contractDetailId != null">
+        #{contractDetailId,jdbcType=VARCHAR},
+      </if>
+      <if test="contractId != null">
+        #{contractId,jdbcType=VARCHAR},
+      </if>
+      <if test="computerId != null">
+        #{computerId,jdbcType=VARCHAR},
+      </if>
+      <if test="eqType != null">
+        #{eqType,jdbcType=VARCHAR},
+      </if>
+      <if test="eqNo != null">
+        #{eqNo,jdbcType=VARCHAR},
+      </if>
+      <if test="contractDetailStatus != null">
+        #{contractDetailStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="contract != null">
+        #{contract,jdbcType=VARCHAR},
+      </if>
+      <if test="contractStatus != null">
+        #{contractStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="biosSn != null">
+        #{biosSn,jdbcType=VARCHAR},
+      </if>
+      <if test="opSystem != null">
+        #{opSystem,jdbcType=VARCHAR},
+      </if>
+      <if test="opInstallDate != null">
+        #{opInstallDate,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null">
+        #{ip,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <!-- 新增根據對象查詢所有的匹配內容 -->
+  <select id="selectPage" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from contract_computer
+    where 1=1
+    <if test="computerId != null">
+        and computer_id = #{computerId,jdbcType=VARCHAR}
+    </if>
+    <if test="contractDetailStatus != null">
+        and contract_detail_status = #{contractDetailStatus,jdbcType=VARCHAR}
+    </if>
+    <if test="contractStatus != null">
+        and contract_status = #{contractStatus,jdbcType=VARCHAR}
+    </if>
+  </select>
+</mapper>

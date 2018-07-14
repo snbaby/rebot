@@ -165,6 +165,7 @@ public class FileService {
 					contractDetail.setEqNo(eqNo);
 					contractDetail.setEqType(eqType);
 					contractDetail.setStatus(RebotConstants.CONTRACT_UNCONFIRM);
+					contractDetail.setComputerId("");
 					contractDetail.setCrtTime(new Date());
 					contractDetail.setUptTime(new Date());
 					contractDetailMapper.insertSelective(contractDetail);

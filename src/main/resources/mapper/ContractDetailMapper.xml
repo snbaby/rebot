@@ -51,9 +51,6 @@
 		<if test="computerId != null">
 			and computer_id = #{computerId,jdbcType=VARCHAR}
 		</if>
-		<if test="computerId == null">
-			and computer_id is null
-		</if>
 		<if test="status != null">
 			and status = #{status,jdbcType=VARCHAR}
 		</if>
@@ -67,13 +64,13 @@
 		from contract_detail
 		where 1=1
 		<if test="contractDetail.contractId != null">
-			and contract_id = #{contractDetail.contractId,jdbcType=VARCHAR},
+			and contract_id = #{contractDetail.contractId,jdbcType=VARCHAR}
 		</if>
 		<if test="contractDetail.eqType != null">
-			and eq_type = #{contractDetail.eqType,jdbcType=VARCHAR},
+			and eq_type = #{contractDetail.eqType,jdbcType=VARCHAR}
 		</if>
 		<if test="contractDetail.eqNo != null">
-			and eq_no = #{contractDetail.eqNo,jdbcType=VARCHAR},
+			and eq_no = #{contractDetail.eqNo,jdbcType=VARCHAR}
 		</if>
 		<if test="contractDetail.status != null">
 			and status = #{contractDetail.status,jdbcType=VARCHAR}
@@ -88,16 +85,16 @@
 		from contract_detail
 		where 1=1
 		<if test="contractDetail.contractId != null">
-			and contract_id = #{contractDetail.contractId,jdbcType=VARCHAR},
+			and contract_id = #{contractDetail.contractId,jdbcType=VARCHAR}
 		</if>
 		<if test="contractDetail.eqType != null">
-			and eq_type = #{contractDetail.eqType,jdbcType=VARCHAR},
+			and eq_type = #{contractDetail.eqType,jdbcType=VARCHAR}
 		</if>
 		<if test="contractDetail.eqNo != null">
-			and eq_no = #{contractDetail.eqNo,jdbcType=VARCHAR},
+			and eq_no = #{contractDetail.eqNo,jdbcType=VARCHAR}
 		</if>
 		<if test="contractDetail.status != null">
-			and status = #{contractDetail.status,jdbcType=VARCHAR},
+			and status = #{contractDetail.status,jdbcType=VARCHAR}
 		</if>
 		<if test="uptTime != null">
 			and upt_time >= #{uptTime,jdbcType=VARCHAR}

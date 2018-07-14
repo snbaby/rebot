@@ -23,7 +23,7 @@ import com.seadun.rebot.util.Utils;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
-@RequestMapping("contract-detail")
+@RequestMapping("/api/contract-detail")
 @Slf4j
 public class ContractDetailController {
 

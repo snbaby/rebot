@@ -9,7 +9,7 @@
 				value="true" />
 		</commentGenerator>
 		<jdbcConnection
-			connectionURL="jdbc:mysql://120.79.197.22:3306/tknDb2"
+			connectionURL="jdbc:mysql://120.79.197.22:3306/rebot"
 			driverClass="com.mysql.jdbc.Driver"
 			password="Apple1688!@#"
 			userId="root" />
@@ -114,14 +114,15 @@
 			selectByExampleQueryId="false">
 		</table> -->
 		<table
-			schema="tknDb2"
-			tableName="detection_account"
-			domainObjectName="DetectionAccount"
+			schema="rebot"
+			tableName="contract_computer"
+			domainObjectName="ContractComputer"
 			enableCountByExample="false"
 			enableUpdateByExample="false"
 			enableDeleteByExample="false"
 			enableSelectByExample="false"
 			selectByExampleQueryId="false">
 		</table>
+		
 	</context>
 </generatorConfiguration>
