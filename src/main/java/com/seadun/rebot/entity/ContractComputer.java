@@ -1,5 +1,7 @@
 package com.seadun.rebot.entity;
 
+import java.util.Date;
+
 public class ContractComputer {
     private String contractDetailId;
 
@@ -14,6 +16,8 @@ public class ContractComputer {
     private String cpu;
 
     private String contractDetailStatus;
+    
+    private Date contractDetailUptTime;
 
     private String contract;
 
@@ -129,6 +133,14 @@ public class ContractComputer {
 
 	public void setCpu(String cpu) {
 		this.cpu = cpu;
+	}
+
+	public Date getContractDetailUptTime() {
+		return contractDetailUptTime;
+	}
+
+	public void setContractDetailUptTime(Date contractDetailUptTime) {
+		this.contractDetailUptTime = contractDetailUptTime;
 	}
     
     
