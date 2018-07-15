@@ -11,6 +11,7 @@ import com.seadun.rebot.constant.RebotExceptionConstants;
 import com.seadun.rebot.entity.Computer;
 import com.seadun.rebot.entity.Contract;
 import com.seadun.rebot.entity.ContractDetail;
+import com.seadun.rebot.entity.Disk;
 import com.seadun.rebot.entity.Memory;
 import com.seadun.rebot.entity.Network;
 import com.seadun.rebot.entity.RebotException;
@@ -18,6 +19,7 @@ import com.seadun.rebot.entity.Video;
 import com.seadun.rebot.mapper.ComputerMapper;
 import com.seadun.rebot.mapper.ContractDetailMapper;
 import com.seadun.rebot.mapper.ContractMapper;
+import com.seadun.rebot.mapper.DiskMapper;
 import com.seadun.rebot.mapper.MemoryMapper;
 import com.seadun.rebot.mapper.NetworkMapper;
 import com.seadun.rebot.mapper.VideoMapper;
@@ -40,6 +42,8 @@ public class AgentService {
 	private ContractMapper contractMapper;
 	@Autowired
 	private ContractDetailMapper contractDetailMapper;
+	@Autowired
+	private DiskMapper diskMapper;
 	
 	@Transactional
 	public void save(Computer computer) {
@@ -94,5 +98,10 @@ public class AgentService {
 	@Transactional
 	public void save(Video video) {
 		videoMapper.insertSelective(video);
+	}
+	
+	@Transactional
+	public void save(Disk disk) {
+		diskMapper.insertSelective(disk);
 	}
 }

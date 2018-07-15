@@ -10,6 +10,8 @@ public class ContractComputer {
     private String eqType;
 
     private String eqNo;
+    
+    private String cpu;
 
     private String contractDetailStatus;
 
@@ -120,4 +122,14 @@ public class ContractComputer {
     public void setIp(String ip) {
         this.ip = ip;
     }
+
+	public String getCpu() {
+		return cpu;
+	}
+
+	public void setCpu(String cpu) {
+		this.cpu = cpu;
+	}
+    
+    
 }

@@ -26,6 +26,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.seadun.rebot.constant.RebotExceptionConstants;
 import com.seadun.rebot.entity.Computer;
 import com.seadun.rebot.entity.ContractDetail;
+import com.seadun.rebot.entity.Disk;
 import com.seadun.rebot.entity.Memory;
 import com.seadun.rebot.entity.Network;
 import com.seadun.rebot.entity.RebotException;
@@ -136,6 +137,28 @@ public class AgentController {
 		}else if(DISK_DRIVE.equals(msgFrom)) {
 			//to-do 暂时不做处理，待刘毅给出解决方案 
 			log.debug(">>>>>DISK_DRIVE:{}",jsonData.getJSONArray("content"));
+			JSONArray jsa = jsonData.getJSONArray("content");
+			jsa.forEach(obj->{
+				JSONObject jsb = (JSONObject) obj;
+				String interfaceType = jsb.getString("InterfaceType");
+				String serial = jsb.getString("serial");
+				String size = jsb.getString("Size");
+				//to-do 存入数据库
+				
+				Disk disk = new  Disk();
+				disk.setId(UUID.randomUUID().toString());
+				disk.setComputerId(uuid);
+				disk.setDiskInterfaceType(interfaceType);
+				disk.setDiskCapacity(size);
+				disk.setDiskSn(serial);
+				disk.setDiskShellSn(serial);
+				
+				disk.setCrtTime(new Date());
+				disk.setUptTime(new Date());
+				
+				log.debug(">>>>>磁盘:{}",JSON.toJSONString(disk));
+				agentService.save(disk);
+			});
 		}else if(NETWORK_ADAPTER.equals(msgFrom)) {
 			JSONArray jsa = jsonData.getJSONArray("content");
 			jsa.forEach(obj->{
