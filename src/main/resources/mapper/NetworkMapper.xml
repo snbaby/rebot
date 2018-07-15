@@ -21,6 +21,10 @@
     delete from network
     where id = #{id,jdbcType=VARCHAR}
   </delete>
+  <delete id="deleteByComputerId" parameterType="java.lang.String">
+    delete from network
+    where computer_id = #{computerId,jdbcType=VARCHAR}
+  </delete>
   <insert id="insert" parameterType="com.seadun.rebot.entity.Network">
     insert into network (id, computer_id, mac_address, 
       crt_time, upt_time)

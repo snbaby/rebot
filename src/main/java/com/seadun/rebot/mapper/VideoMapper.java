@@ -6,6 +6,8 @@ import com.seadun.rebot.entity.Video;
 
 public interface VideoMapper {
     int deleteByPrimaryKey(String id);
+    
+    int deleteByComputerId(String computerId);
 
     int insert(Video record);
 

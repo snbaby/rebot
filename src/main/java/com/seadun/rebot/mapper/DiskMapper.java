@@ -10,6 +10,8 @@ import com.seadun.rebot.entity.Disk;
 public interface DiskMapper {
     int deleteByPrimaryKey(String id);
 
+    int deleteByComputerId(String computerId);
+    
     int insert(Disk record);
 
     int insertSelective(Disk record);

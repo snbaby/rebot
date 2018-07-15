@@ -23,6 +23,10 @@
     delete from memory
     where id = #{id,jdbcType=VARCHAR}
   </delete>
+  <delete id="deleteByComputerId" parameterType="java.lang.String">
+    delete from memory
+    where computer_id = #{computerId,jdbcType=VARCHAR}
+  </delete>
   <insert id="insert" parameterType="com.seadun.rebot.entity.Memory">
     insert into memory (id, computer_id, mem_sn, 
       mem_type, mem_capacity, crt_time, 

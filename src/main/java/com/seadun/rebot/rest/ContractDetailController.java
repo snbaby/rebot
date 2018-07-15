@@ -2,8 +2,6 @@ package com.seadun.rebot.rest;
 
 import java.util.UUID;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -58,4 +56,15 @@ public class ContractDetailController {
 		ResponseSuccessResult responseResult = new ResponseSuccessResult(HttpStatus.OK.value(), "success", jsb);
 		return new ResponseEntity<>(responseResult, HttpStatus.OK);
 	}
+	
+	@PostMapping("change")
+	public ResponseEntity<ResponseSuccessResult> change(@RequestBody ContractDetail contractDetail) {
+		log.debug(">>>>>更新详细,contractDetail:{}",JSON.toJSONString(contractDetail));
+		contractDetailMapper.updateByPrimaryKeySelective(contractDetail);
+		
+		ResponseSuccessResult responseResult = new ResponseSuccessResult(HttpStatus.OK.value(), "success");
+		return new ResponseEntity<>(responseResult, HttpStatus.OK);
+	}
+	
+	
 }

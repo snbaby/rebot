@@ -6,6 +6,8 @@ import com.seadun.rebot.entity.Memory;
 
 public interface MemoryMapper {
     int deleteByPrimaryKey(String id);
+    
+    int deleteByComputerId(String computerId);
 
     int insert(Memory record);
 

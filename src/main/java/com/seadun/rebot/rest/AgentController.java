@@ -32,6 +32,10 @@ import com.seadun.rebot.entity.Network;
 import com.seadun.rebot.entity.RebotException;
 import com.seadun.rebot.entity.Video;
 import com.seadun.rebot.mapper.ContractDetailMapper;
+import com.seadun.rebot.mapper.DiskMapper;
+import com.seadun.rebot.mapper.MemoryMapper;
+import com.seadun.rebot.mapper.NetworkMapper;
+import com.seadun.rebot.mapper.VideoMapper;
 import com.seadun.rebot.response.ResponseSuccessResult;
 import com.seadun.rebot.service.AgentService;
 import com.seadun.rebot.util.Utils;
@@ -50,6 +54,14 @@ public class AgentController {
 	
 	@Autowired
 	private ContractDetailMapper contractDetailMapper;
+	@Autowired
+	private MemoryMapper memoryMapper;
+	@Autowired
+	private VideoMapper videoMapper;
+	@Autowired
+	private DiskMapper diskMapper;
+	@Autowired
+	private NetworkMapper networkMapper;
 	
 	
 	private static final String BIOS = "BIOS";
@@ -135,8 +147,7 @@ public class AgentController {
 				rtJsonObject.put("computer", contractDetail.getEqNo());
 			}
 		}else if(DISK_DRIVE.equals(msgFrom)) {
-			//to-do 暂时不做处理，待刘毅给出解决方案 
-			log.debug(">>>>>DISK_DRIVE:{}",jsonData.getJSONArray("content"));
+			diskMapper.deleteByComputerId(uuid);
 			JSONArray jsa = jsonData.getJSONArray("content");
 			jsa.forEach(obj->{
 				JSONObject jsb = (JSONObject) obj;
@@ -160,6 +171,7 @@ public class AgentController {
 				agentService.save(disk);
 			});
 		}else if(NETWORK_ADAPTER.equals(msgFrom)) {
+			networkMapper.deleteByComputerId(uuid);
 			JSONArray jsa = jsonData.getJSONArray("content");
 			jsa.forEach(obj->{
 				JSONObject jsb = (JSONObject) obj;
@@ -179,6 +191,7 @@ public class AgentController {
 			});
 			
 		}else if(PHYSICAL_MEMORY.equals(msgFrom)) {
+			memoryMapper.deleteByComputerId(uuid);
 			JSONArray jsa = jsonData.getJSONArray("content");
 			jsa.forEach(obj->{
 				JSONObject jsb = (JSONObject) obj;
@@ -203,6 +216,7 @@ public class AgentController {
 				agentService.save(memory);
 			});
 		}else if(VIDEO.equals(msgFrom)) {
+			videoMapper.deleteByComputerId(uuid);
 			JSONArray jsa = jsonData.getJSONArray("content");
 			jsa.forEach(obj->{
 				JSONObject jsb = (JSONObject) obj;

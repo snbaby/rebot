@@ -22,6 +22,10 @@
     delete from video
     where id = #{id,jdbcType=VARCHAR}
   </delete>
+  <delete id="deleteByComputerId" parameterType="java.lang.String">
+    delete from video
+    where computer_id = #{computerId,jdbcType=VARCHAR}
+  </delete>
   <insert id="insert" parameterType="com.seadun.rebot.entity.Video">
     insert into video (id, computer_id, video_sn, 
       video_type, crt_time, upt_time
