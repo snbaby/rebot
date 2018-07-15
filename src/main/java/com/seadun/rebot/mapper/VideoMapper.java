@@ -1,5 +1,7 @@
 package com.seadun.rebot.mapper;
 
+import java.util.List;
+
 import com.seadun.rebot.entity.Video;
 
 public interface VideoMapper {
@@ -14,4 +16,6 @@ public interface VideoMapper {
     int updateByPrimaryKeySelective(Video record);
 
     int updateByPrimaryKey(Video record);
+    
+    List<Video> select(Video video);
 }

@@ -16,6 +16,8 @@ public class Computer {
     private Date crtDate;
 
     private Date uptDate;
+    
+    private String cpu;
 
     public String getId() {
         return id;
@@ -72,4 +74,14 @@ public class Computer {
     public void setUptDate(Date uptDate) {
         this.uptDate = uptDate;
     }
+
+	public String getCpu() {
+		return cpu;
+	}
+
+	public void setCpu(String cpu) {
+		this.cpu = cpu;
+	}
+    
+    
 }

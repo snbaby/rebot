@@ -1,5 +1,7 @@
 package com.seadun.rebot.mapper;
 
+import java.util.List;
+
 import com.seadun.rebot.entity.Memory;
 
 public interface MemoryMapper {
@@ -14,4 +16,6 @@ public interface MemoryMapper {
     int updateByPrimaryKeySelective(Memory record);
 
     int updateByPrimaryKey(Memory record);
+    
+    List<Memory> select(Memory memory);
 }

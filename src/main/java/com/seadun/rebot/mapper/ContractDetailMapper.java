@@ -25,9 +25,4 @@ public interface ContractDetailMapper {
     
     long selectCountBefore(@Param("contractDetail") ContractDetail record,@Param("uptTime") String uptTime);
     
-    /*long selectComplete(@Param("contractId") String contractId);
-    
-    long selectUnComplete(@Param("contractId") String contractId);
-    
-    long selectCompleteBefore(@Param("contractId") String contractId,@Param("crtTime") String crtTime);*/
 }

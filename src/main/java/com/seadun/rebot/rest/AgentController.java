@@ -2,6 +2,7 @@ package com.seadun.rebot.rest;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -22,10 +23,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.seadun.rebot.constant.RebotExceptionConstants;
 import com.seadun.rebot.entity.Computer;
+import com.seadun.rebot.entity.ContractDetail;
 import com.seadun.rebot.entity.Memory;
 import com.seadun.rebot.entity.Network;
+import com.seadun.rebot.entity.RebotException;
 import com.seadun.rebot.entity.Video;
+import com.seadun.rebot.mapper.ContractDetailMapper;
 import com.seadun.rebot.response.ResponseSuccessResult;
 import com.seadun.rebot.service.AgentService;
 import com.seadun.rebot.util.Utils;
@@ -42,6 +47,9 @@ public class AgentController {
 	@Autowired
 	private AgentService agentService;
 	
+	@Autowired
+	private ContractDetailMapper contractDetailMapper;
+	
 	
 	private static final String BIOS = "BIOS";
 	private static final String OPERATING_SYSTEM = "OperatingSystem";
@@ -49,6 +57,7 @@ public class AgentController {
 	private static final String NETWORK_ADAPTER = "NetworkAdapterConfiguration";
 	private static final String PHYSICAL_MEMORY = "PhysicalMemory";
 	private static final String VIDEO = "VideoController";
+	private static final String PROCESSOR = "Processor";
 	
 	@PostMapping(value = { "/sbox/data/{hostName}" })
 	@ResponseBody
@@ -59,13 +68,9 @@ public class AgentController {
 		String msgFrom = jsonData.getString("from");
 		String uuid = jsonData.getString("uuid");
 		
+		JSONObject rtJsonObject = new JSONObject();
+		
 		if (BIOS.equals(msgFrom)) {
-			/*if(1==1) {
-				throw new RebotException(RebotExceptionConstants.ASSET_CODE_NOT_EXISTS_ERROR_CODE,
-						RebotExceptionConstants.ASSET_CODE_NOT_EXISTS_ERROR_MESSAGE,
-						RebotExceptionConstants.ASSET_CODE_NOT_EXISTS_ERROR_HTTP_STATUS);
-			}*/
-			
 			//获取设备序列号
 			String biosSn = jsonData.getJSONArray("content").getJSONObject(0).getString("SerialNumber");
 			
@@ -80,11 +85,26 @@ public class AgentController {
 			log.debug(">>>>>设备序列号:{}",JSON.toJSONString(computer));
 			agentService.save(computer);
 			//to-do 存入数据库
+		}else if(PROCESSOR.equals(msgFrom)) {
+			//cpu
+			String cpu = jsonData.getJSONArray("content").getJSONObject(0).getString("Name");
+			
+			Computer computer = new Computer();
+			computer.setId(uuid);
+			computer.setCpu(cpu);
+			computer.setIp(hostIP);
+			
+			computer.setCrtDate(new Date());
+			computer.setUptDate(new Date());
+			
+			agentService.save(computer);
 		}else if(OPERATING_SYSTEM.equals(msgFrom)) {
 			//操作系统
 			String opSystem = jsonData.getJSONArray("content").getJSONObject(0).getString("Caption");
 			//安装日期
 			String opInstallDate = jsonData.getJSONArray("content").getJSONObject(0).getString("InstallDate");
+			//計算機名
+			String csName = jsonData.getJSONArray("content").getJSONObject(0).getString("CSName");
 			
 			//to-do 存入数据库
 			Computer computer = new Computer();
@@ -98,8 +118,24 @@ public class AgentController {
 			
 			log.debug(">>>>>操作系统:{}",JSON.toJSONString(computer));
 			agentService.save(computer);
+			
+			ContractDetail contractDetailParam = new ContractDetail();
+			contractDetailParam.setComputerId(uuid);
+			List<ContractDetail> contractDetailList = contractDetailMapper.select(contractDetailParam);
+			if(contractDetailList.size()!=1) {
+				throw new RebotException(RebotExceptionConstants.INTERNAL_SERVER_ERROR_CODE,
+						RebotExceptionConstants.INTERNAL_SERVER_ERROR_MESSAGE,
+						RebotExceptionConstants.INTERNAL_SERVER_ERROR_HTTP_STATUS);
+			}
+			ContractDetail contractDetail = contractDetailList.get(0);
+			
+			if(!csName.equals(contractDetail.getEqNo())) {//判断修改计算机名
+				rtJsonObject.put("code", "RENAME_COMPUTER");
+				rtJsonObject.put("computer", contractDetail.getEqNo());
+			}
 		}else if(DISK_DRIVE.equals(msgFrom)) {
 			//to-do 暂时不做处理，待刘毅给出解决方案 
+			log.debug(">>>>>DISK_DRIVE:{}",jsonData.getJSONArray("content"));
 		}else if(NETWORK_ADAPTER.equals(msgFrom)) {
 			JSONArray jsa = jsonData.getJSONArray("content");
 			jsa.forEach(obj->{
@@ -169,7 +205,7 @@ public class AgentController {
 			log.debug(">>>>>未采取的指标:{},内容:{}",msgFrom,jsonData);
 		}
 		
-		ResponseSuccessResult responseResult = new ResponseSuccessResult(HttpStatus.OK.value(), "success");
+		ResponseSuccessResult responseResult = new ResponseSuccessResult(HttpStatus.OK.value(), "success",rtJsonObject);
 		return new ResponseEntity<>(responseResult, HttpStatus.OK);
 	}
 	

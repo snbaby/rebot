@@ -1,5 +1,7 @@
 package com.seadun.rebot.mapper;
 
+import java.util.List;
+
 import com.seadun.rebot.entity.Network;
 
 public interface NetworkMapper {
@@ -14,4 +16,6 @@ public interface NetworkMapper {
     int updateByPrimaryKeySelective(Network record);
 
     int updateByPrimaryKey(Network record);
+    
+    List<Network> select(Network network);
 }

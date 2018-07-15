@@ -141,4 +141,42 @@
       upt_time = #{uptTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  <!-- 新增根據對象查詢所有的匹配內容 -->
+  <select id="selectPage" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from disk
+    where 1=1
+    <if test='computerId != null'>
+     and computer_id = #{computerId,jdbcType=VARCHAR}
+    </if>
+  </select>
+   <!-- 新增根據對象查詢所有的匹配內容 -->
+  <select id="select" parameterType="com.seadun.rebot.entity.Disk" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from disk
+    where 1=1
+    <if test="computerId != null">
+      and computer_id = #{computerId,jdbcType=VARCHAR}
+    </if>
+    <if test="diskSn != null">
+      and disk_sn = #{diskSn,jdbcType=VARCHAR}
+    </if>
+    <if test="diskInterfaceType != null">
+      and disk_interface_type = #{diskInterfaceType,jdbcType=VARCHAR}
+    </if>
+    <if test="diskCapacity != null">
+      and disk_capacity = #{diskCapacity,jdbcType=VARCHAR}
+    </if>
+    <if test="diskShellSn != null">
+      and disk_shell_sn = #{diskShellSn,jdbcType=VARCHAR}
+    </if>
+    <if test="crtTime != null">
+      and crt_time = #{crtTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="uptTime != null">
+      and upt_time = #{uptTime,jdbcType=TIMESTAMP}
+    </if>
+  </select>
 </mapper>

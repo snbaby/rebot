@@ -22,7 +22,10 @@ import com.seadun.rebot.mapper.MemoryMapper;
 import com.seadun.rebot.mapper.NetworkMapper;
 import com.seadun.rebot.mapper.VideoMapper;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class AgentService {
 	
 	@Autowired
@@ -41,6 +44,7 @@ public class AgentService {
 	@Transactional
 	public void save(Computer computer) {
 		String uuid = computer.getId();
+		
 		if(computerMapper.selectByPrimaryKey(uuid) == null) {//新增，需要判断是否有可
 			Contract contractParam = new Contract();
 			contractParam.setStatus("YES");
@@ -57,7 +61,7 @@ public class AgentService {
 				Contract contractTemp = contractList.get(0);
 				ContractDetail contractDetailParam = new ContractDetail();
 				contractDetailParam.setContractId(contractTemp.getId());
-				contractDetailParam.setComputerId(null);
+				contractDetailParam.setComputerId("");
 				List<ContractDetail> contractDetailList = contractDetailMapper.select(contractDetailParam);
 				
 				if(contractDetailList.isEmpty()) {
@@ -79,34 +83,16 @@ public class AgentService {
 	
 	@Transactional
 	public void save(Network network) {
-		String uuid = network.getComputerId();
-		if(computerMapper.selectByPrimaryKey(uuid) == null) {//computer数据未获取之前，不能新增
-			throw new RebotException(RebotExceptionConstants.ASSET_CODE_NOT_EXISTS_ERROR_CODE,
-					RebotExceptionConstants.ASSET_CODE_NOT_EXISTS_ERROR_MESSAGE,
-					RebotExceptionConstants.ASSET_CODE_NOT_EXISTS_ERROR_HTTP_STATUS);
-		}
 		networkMapper.insertSelective(network);
 	}
 	
 	@Transactional
 	public void save(Memory memory) {
-		String uuid = memory.getComputerId();
-		if(computerMapper.selectByPrimaryKey(uuid) == null) {//computer数据未获取之前，不能新增
-			throw new RebotException(RebotExceptionConstants.ASSET_CODE_NOT_EXISTS_ERROR_CODE,
-					RebotExceptionConstants.ASSET_CODE_NOT_EXISTS_ERROR_MESSAGE,
-					RebotExceptionConstants.ASSET_CODE_NOT_EXISTS_ERROR_HTTP_STATUS);
-		}
 		memoryMapper.insertSelective(memory);
 	}
 	
 	@Transactional
 	public void save(Video video) {
-		String uuid = video.getComputerId();
-		if(computerMapper.selectByPrimaryKey(uuid) == null) {//computer数据未获取之前，不能新增
-			throw new RebotException(RebotExceptionConstants.ASSET_CODE_NOT_EXISTS_ERROR_CODE,
-					RebotExceptionConstants.ASSET_CODE_NOT_EXISTS_ERROR_MESSAGE,
-					RebotExceptionConstants.ASSET_CODE_NOT_EXISTS_ERROR_HTTP_STATUS);
-		}
 		videoMapper.insertSelective(video);
 	}
 }
