@@ -35,6 +35,9 @@
     <if test="contractStatus != null">
         and contract_status = #{contractStatus,jdbcType=VARCHAR}
     </if>
+    <if test="contractId != null">
+        and contract_id = #{contractId,jdbcType=VARCHAR}
+    </if>
   </select>
   
   <!-- 新增根據對象查詢所有的匹配內容 -->

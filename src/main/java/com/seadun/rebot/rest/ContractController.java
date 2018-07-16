@@ -46,6 +46,17 @@ public class ContractController {
 		return new ResponseEntity<>(responseResult, HttpStatus.OK);
 	}
 	
+	// 获取合同
+	@GetMapping("list")
+	public ResponseEntity<ResponseSuccessResult> list() {
+		log.debug(">>>>>获取所有合同数据");
+		
+		List<Contract> contractList = contractMapper.select(new Contract());
+
+		ResponseSuccessResult responseResult = new ResponseSuccessResult(HttpStatus.OK.value(), "success", contractList);
+		return new ResponseEntity<>(responseResult, HttpStatus.OK);
+	}
+	
 	// 启用禁用某个合同
 	@PutMapping("/{id}/{status}")
 	public ResponseEntity<ResponseSuccessResult> statusChange(@PathVariable String id, @PathVariable String status) {
