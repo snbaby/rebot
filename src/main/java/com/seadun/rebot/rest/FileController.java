@@ -1,6 +1,9 @@
 package com.seadun.rebot.rest;
 
 import java.io.IOException;
+import java.net.URLEncoder;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,10 +34,13 @@ public class FileController {
 	
 	//下載excel文件
 	@GetMapping("file")
-	public ResponseEntity<ResponseSuccessResult> download() throws IOException {
-		ResponseSuccessResult responseResult = new ResponseSuccessResult(HttpStatus.OK.value(),"success",
-				"");
-		return new ResponseEntity<>(responseResult,HttpStatus.OK);
+	public void download(HttpServletResponse response
+			) throws IOException {
+		// 告诉浏览器用什么软件可以打开此文件
+        response.setHeader("content-Type", "application/vnd.ms-excel");
+        // 下载文件的默认名称
+        response.setHeader("Content-Disposition", "attachment;filename="+URLEncoder.encode("export.xls", "utf-8"));
+		fileService.fileExport(response,null, null, "C");
 	}
 
 }

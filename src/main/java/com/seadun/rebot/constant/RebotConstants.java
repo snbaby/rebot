@@ -6,4 +6,6 @@ public class RebotConstants {
 
 	public final static String CONTRACT_CONFIRM =  "YES";//已确认
 	public final static String CONTRACT_UNCONFIRM = "NO";//未确认
+	
+	public final static String SPLIT = ",";//未确认
 }

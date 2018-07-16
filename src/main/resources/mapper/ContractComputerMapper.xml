@@ -9,7 +9,7 @@
     <result column="eq_no" jdbcType="VARCHAR" property="eqNo" />
     <result column="cpu" jdbcType="VARCHAR" property="cpu" />
     <result column="contract_detail_status" jdbcType="VARCHAR" property="contractDetailStatus" />
-    <result column="contract_detail_upt_time" jdbcType="VARCHAR" property="contractDetailUptTime" />
+    <result column="contract_detail_upt_time" jdbcType="TIMESTAMP" property="contractDetailUptTime" />
     <result column="contract" jdbcType="VARCHAR" property="contract" />
     <result column="contract_status" jdbcType="VARCHAR" property="contractStatus" />
     <result column="bios_sn" jdbcType="VARCHAR" property="biosSn" />
@@ -34,6 +34,26 @@
     </if>
     <if test="contractStatus != null">
         and contract_status = #{contractStatus,jdbcType=VARCHAR}
+    </if>
+  </select>
+  
+  <!-- 新增根據對象查詢所有的匹配內容 -->
+  <select id="select" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from contract_computer
+    where 1=1
+    <if test="contract != null">
+        and contract = #{contract,jdbcType=VARCHAR}
+    </if>
+    <if test="contractDetailStatus != null">
+        and contract_detail_status = #{contractDetailStatus,jdbcType=VARCHAR}
+    </if>
+    <if test="startTime != null">
+        and contract_detail_upt_time <![CDATA[ >= ]]> #{startTime,jdbcType=VARCHAR}
+    </if>
+    <if test="endTime != null">
+        and contract_detail_upt_time <![CDATA[ <= ]]> #{endTime,jdbcType=VARCHAR}
     </if>
   </select>
 </mapper>
