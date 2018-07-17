@@ -26,12 +26,14 @@ import com.alibaba.fastjson.JSONObject;
 import com.seadun.rebot.constant.RebotExceptionConstants;
 import com.seadun.rebot.entity.Computer;
 import com.seadun.rebot.entity.ContractDetail;
+import com.seadun.rebot.entity.DictMemoryType;
 import com.seadun.rebot.entity.Disk;
 import com.seadun.rebot.entity.Memory;
 import com.seadun.rebot.entity.Network;
 import com.seadun.rebot.entity.RebotException;
 import com.seadun.rebot.entity.Video;
 import com.seadun.rebot.mapper.ContractDetailMapper;
+import com.seadun.rebot.mapper.DictMemoryTypeMapper;
 import com.seadun.rebot.mapper.DiskMapper;
 import com.seadun.rebot.mapper.MemoryMapper;
 import com.seadun.rebot.mapper.NetworkMapper;
@@ -62,6 +64,8 @@ public class AgentController {
 	private DiskMapper diskMapper;
 	@Autowired
 	private NetworkMapper networkMapper;
+	@Autowired
+	private DictMemoryTypeMapper dictMemoryTypeMapper;
 	
 	
 	private static final String BIOS = "BIOS";
@@ -197,6 +201,10 @@ public class AgentController {
 				JSONObject jsb = (JSONObject) obj;
 				//内存类型PartNumber
 				String memType = jsb.getString("MemoryType");
+				DictMemoryType dictMemoryType = dictMemoryTypeMapper.selectByPrimaryMemTypeId(memType);
+				if(dictMemoryType!=null) {
+					memType = dictMemoryType.getMemoryTypeName();
+				}
 				//内存容量Capacity
 				String memCapacity = jsb.getString("Capacity");
 				//内存序列号

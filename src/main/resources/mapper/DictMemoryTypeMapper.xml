@@ -68,4 +68,10 @@
       memory_type_name = #{memoryTypeName,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  <select id="selectByPrimaryMemTypeId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dict_memory_type
+    where memory_type_id = #{selectByPrimaryMemTypeId,jdbcType=VARCHAR}
+  </select>
 </mapper>

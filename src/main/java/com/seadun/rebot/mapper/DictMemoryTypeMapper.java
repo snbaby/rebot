@@ -14,4 +14,6 @@ public interface DictMemoryTypeMapper {
     int updateByPrimaryKeySelective(DictMemoryType record);
 
     int updateByPrimaryKey(DictMemoryType record);
+    
+    DictMemoryType selectByPrimaryMemTypeId(String memoryTypeId);
 }
