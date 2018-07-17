@@ -212,7 +212,7 @@ public class FileService {
 		}
 	}
 	
-	public void fileExport(HttpServletResponse response,String startTime,String endTime,String contract){
+	public void fileExport(HttpServletResponse response,String contractDetailStatus,String contractId,String startTime,String endTime){
 		InputStream inputStream = null;
 		HSSFWorkbook hwb = null;
 		OutputStream out = null;
@@ -247,16 +247,18 @@ public class FileService {
 			HSSFSheet hssfSheet = hwb.getSheetAt(0);
 			hssfSheet.setColumnWidth(16, 20 * 256);//设置第24行的宽度
 			
+			Contract contractTemp = contractMapper.selectByPrimaryKey(contractId);
+			
 			HSSFRow hssfRow2 = hssfSheet.getRow(2);
 			HSSFCell hssfCell2d = hssfRow2.getCell(3);
-			hssfCell2d.setCellValue(contract);//设置合同编号
+			hssfCell2d.setCellValue(contractTemp.getContract());//设置合同编号
 			
 			HSSFCell hssfCell2r = hssfRow2.getCell(16);
 			hssfCell2r.setCellStyle(cellDateStyle);//设置格式为日期
 			hssfCell2r.setCellValue(new Date());//设置合同编号
 			
 			
-			List<ContractComputer> contractComputerList = contractComputerMapper.select(contract, "YES", startTime, endTime);
+			List<ContractComputer> contractComputerList = contractComputerMapper.select(contractDetailStatus, contractId, startTime, endTime);
 			int startRow = 5;
 			contractComputerList.forEach(contractComputer ->{
 				HSSFRow hssfRow = hssfSheet.createRow(startRow);

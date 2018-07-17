@@ -38,6 +38,12 @@
     <if test="contractId != null">
         and contract_id = #{contractId,jdbcType=VARCHAR}
     </if>
+    <if test="startTime != null">
+        and contract_detail_upt_time <![CDATA[ >= ]]> #{startTime,jdbcType=VARCHAR}
+    </if>
+    <if test="endTime != null">
+        and contract_detail_upt_time <![CDATA[ <= ]]> #{endTime,jdbcType=VARCHAR}
+    </if>
   </select>
   
   <!-- 新增根據對象查詢所有的匹配內容 -->
@@ -46,11 +52,11 @@
     <include refid="Base_Column_List" />
     from contract_computer
     where 1=1
-    <if test="contract != null">
-        and contract = #{contract,jdbcType=VARCHAR}
-    </if>
     <if test="contractDetailStatus != null">
         and contract_detail_status = #{contractDetailStatus,jdbcType=VARCHAR}
+    </if>
+    <if test="contractId != null">
+        and contract_id = #{contractId,jdbcType=VARCHAR}
     </if>
     <if test="startTime != null">
         and contract_detail_upt_time <![CDATA[ >= ]]> #{startTime,jdbcType=VARCHAR}

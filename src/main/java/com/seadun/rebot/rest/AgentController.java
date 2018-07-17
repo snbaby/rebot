@@ -196,7 +196,7 @@ public class AgentController {
 			jsa.forEach(obj->{
 				JSONObject jsb = (JSONObject) obj;
 				//内存类型PartNumber
-				String memType = jsb.getString("PartNumber");
+				String memType = jsb.getString("MemoryType");
 				//内存容量Capacity
 				String memCapacity = jsb.getString("Capacity");
 				//内存序列号

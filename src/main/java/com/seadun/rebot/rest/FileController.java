@@ -34,13 +34,13 @@ public class FileController {
 	
 	//下載excel文件
 	@GetMapping("file")
-	public void download(HttpServletResponse response
+	public void download(HttpServletResponse response,String contractDetailStatus,String contractId,String startTime,String endTime
 			) throws IOException {
 		// 告诉浏览器用什么软件可以打开此文件
         response.setHeader("content-Type", "application/vnd.ms-excel");
         // 下载文件的默认名称
         response.setHeader("Content-Disposition", "attachment;filename="+URLEncoder.encode("export.xls", "utf-8"));
-		fileService.fileExport(response,null, null, "C");
+		fileService.fileExport(response, contractDetailStatus, contractId, startTime, endTime);
 	}
 
 }
