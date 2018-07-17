@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.seadun.rebot.mapper.DictMemoryTypeMapper">
+  <resultMap id="BaseResultMap" type="com.seadun.rebot.entity.DictMemoryType">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="memory_type_id" jdbcType="VARCHAR" property="memoryTypeId" />
+    <result column="memory_type_name" jdbcType="VARCHAR" property="memoryTypeName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, memory_type_id, memory_type_name
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dict_memory_type
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from dict_memory_type
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.seadun.rebot.entity.DictMemoryType">
+    insert into dict_memory_type (id, memory_type_id, memory_type_name
+      )
+    values (#{id,jdbcType=VARCHAR}, #{memoryTypeId,jdbcType=VARCHAR}, #{memoryTypeName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.seadun.rebot.entity.DictMemoryType">
+    insert into dict_memory_type
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="memoryTypeId != null">
+        memory_type_id,
+      </if>
+      <if test="memoryTypeName != null">
+        memory_type_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="memoryTypeId != null">
+        #{memoryTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="memoryTypeName != null">
+        #{memoryTypeName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.seadun.rebot.entity.DictMemoryType">
+    update dict_memory_type
+    <set>
+      <if test="memoryTypeId != null">
+        memory_type_id = #{memoryTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="memoryTypeName != null">
+        memory_type_name = #{memoryTypeName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.seadun.rebot.entity.DictMemoryType">
+    update dict_memory_type
+    set memory_type_id = #{memoryTypeId,jdbcType=VARCHAR},
+      memory_type_name = #{memoryTypeName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

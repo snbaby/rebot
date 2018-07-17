@@ -42,5 +42,7 @@ public class FileController {
         response.setHeader("Content-Disposition", "attachment;filename="+URLEncoder.encode("export.xls", "utf-8"));
 		fileService.fileExport(response, contractDetailStatus, contractId, startTime, endTime);
 	}
+	
+	
 
 }

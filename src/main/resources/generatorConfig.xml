@@ -112,7 +112,7 @@
 			enableDeleteByExample="false"
 			enableSelectByExample="false"
 			selectByExampleQueryId="false">
-		</table> -->
+		</table> 
 		<table
 			schema="rebot"
 			tableName="contract_computer"
@@ -123,6 +123,16 @@
 			enableSelectByExample="false"
 			selectByExampleQueryId="false">
 		</table>
-		
+		-->
+		<table
+			schema="rebot"
+			tableName="dict_memory_type"
+			domainObjectName="DictMemoryType"
+			enableCountByExample="false"
+			enableUpdateByExample="false"
+			enableDeleteByExample="false"
+			enableSelectByExample="false"
+			selectByExampleQueryId="false">
+		</table>
 	</context>
 </generatorConfiguration>
