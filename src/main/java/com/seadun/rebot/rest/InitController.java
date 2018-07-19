@@ -1,5 +1,6 @@
 package com.seadun.rebot.rest;
 
+import java.util.Date;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,20 +10,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.seadun.rebot.entity.DictMemoryType;
+import com.seadun.rebot.entity.User;
 import com.seadun.rebot.mapper.DictMemoryTypeMapper;
+import com.seadun.rebot.mapper.UserMapper;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
-@RequestMapping("/api/dict")
+@RequestMapping("/api/init")
 @Slf4j
-public class DictController {
+public class InitController {
 	@Autowired
 	private DictMemoryTypeMapper dictMemoryTypeMapper;
+	@Autowired
+	private UserMapper userMapper;
 	
 	@GetMapping(value = { "/memory-type" })
 	@ResponseBody
 	public void memoryType() {
+		log.info(">>>>>init memory-type");
 		DictMemoryType dictMemoryType = new DictMemoryType();
 		
 		dictMemoryType.setId(UUID.randomUUID().toString());
@@ -150,5 +156,17 @@ public class DictController {
 		dictMemoryType.setMemoryTypeId("24");
 		dictMemoryType.setMemoryTypeName("DDR3");
 		dictMemoryTypeMapper.insert(dictMemoryType);
+	}
+	
+	@GetMapping(value = { "/user" })
+	@ResponseBody
+	public void user() {
+		log.info(">>>>>init user");
+		User user = new User();
+		user.setId(UUID.randomUUID().toString());
+		user.setUserName("admin");
+		user.setUserPassword("admin@123");
+		user.setCrtTime(new Date());
+		userMapper.insertSelective(user);
 	}
 }

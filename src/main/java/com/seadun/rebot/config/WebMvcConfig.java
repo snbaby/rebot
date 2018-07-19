@@ -1,24 +1,27 @@
 package com.seadun.rebot.config;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
-import com.seadun.rebot.interceptor.SboxInterceptor;
+import com.seadun.rebot.interceptor.CorsInterceptor;
+import com.seadun.rebot.interceptor.TokenInterceptor;
 
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurationSupport {
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(new SboxInterceptor()).addPathPatterns("/api/**");
+		registry.addInterceptor(new CorsInterceptor()).addPathPatterns("/**");
+		List<String> patterns = new ArrayList<>();
+		patterns.add("/api/auth/login");
+		patterns.add("/api/auth/logout");
+		patterns.add("/api/init/memory-type");
+		patterns.add("/api/init/user");
+		registry.addInterceptor(new TokenInterceptor()).addPathPatterns("/**").excludePathPatterns(patterns);
 		super.addInterceptors(registry);
-	}
-
-	@Override
-	public void addCorsMappings(CorsRegistry registry) {
-		registry.addMapping("/**").allowedOrigins("*").allowCredentials(true)
-				.allowedMethods("GET", "POST", "DELETE", "PUT", "OPTION").maxAge(3600);
 	}
 }

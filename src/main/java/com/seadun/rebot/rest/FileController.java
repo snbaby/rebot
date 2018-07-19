@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.seadun.rebot.entity.Contract;
+import com.seadun.rebot.mapper.ContractMapper;
 import com.seadun.rebot.response.ResponseSuccessResult;
 import com.seadun.rebot.service.FileService;
 
@@ -23,6 +25,9 @@ import com.seadun.rebot.service.FileService;
 public class FileController {
 	@Autowired
 	private FileService fileService;
+	
+	@Autowired
+	private ContractMapper contractMapper;
 	
 	//上傳excel文件
 	@PostMapping("file")
@@ -36,10 +41,11 @@ public class FileController {
 	@GetMapping("file")
 	public void download(HttpServletResponse response,String contractDetailStatus,String contractId,String startTime,String endTime
 			) throws IOException {
+		Contract contract = contractMapper.selectByPrimaryKey(contractId);
 		// 告诉浏览器用什么软件可以打开此文件
         response.setHeader("content-Type", "application/vnd.ms-excel");
         // 下载文件的默认名称
-        response.setHeader("Content-Disposition", "attachment;filename="+URLEncoder.encode("export.xls", "utf-8"));
+        response.setHeader("Content-Disposition", "attachment;filename="+URLEncoder.encode(contract.getContract()+".xls", "utf-8"));
 		fileService.fileExport(response, contractDetailStatus, contractId, startTime, endTime);
 	}
 	

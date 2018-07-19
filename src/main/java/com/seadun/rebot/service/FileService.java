@@ -260,7 +260,7 @@ public class FileService {
 			
 			List<ContractComputer> contractComputerList = contractComputerMapper.select(contractDetailStatus, contractId, startTime, endTime);
 			int startRow = 5;
-			contractComputerList.forEach(contractComputer ->{
+			for(ContractComputer contractComputer:contractComputerList) {
 				HSSFRow hssfRow = hssfSheet.createRow(startRow);
 				HSSFCell cellNo = hssfRow.createCell(1);//序号
 				cellNo.setCellValue(startRow-4);
@@ -419,7 +419,9 @@ public class FileService {
 				
 				HSSFCell cellDisplaySize = hssfRow.createCell(18);//显示器尺寸
 				cellDisplaySize.setCellStyle(cellBoderStyle);
-			});
+				startRow ++;
+				
+		};
 			try {
 				hwb.write(out);
 			} catch (IOException e) {
