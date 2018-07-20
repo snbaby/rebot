@@ -21,6 +21,10 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 		patterns.add("/api/auth/logout");
 		patterns.add("/api/init/memory-type");
 		patterns.add("/api/init/user");
+		patterns.add("/api/file");
+		patterns.add("/api/sbox/data/**");
+		patterns.add("/api/auth/client/token");
+		patterns.add("/api/upgrade/**");
 		registry.addInterceptor(new TokenInterceptor()).addPathPatterns("/**").excludePathPatterns(patterns);
 		super.addInterceptors(registry);
 	}
