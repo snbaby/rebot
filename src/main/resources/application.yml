@@ -7,8 +7,8 @@ server:
 spring:
   datasource:
     driverClassName: com.mysql.jdbc.Driver
-    password: admin1234
-    url: jdbc:mysql://127.0.0.1:3306/rebot?autoReconnect=true&useUnicode=true&characterEncoding=utf8&useSSL=false
+    password: Apple1688!@#
+    url: jdbc:mysql://120.79.197.22:3306/rebot?autoReconnect=true&useUnicode=true&characterEncoding=utf8&useSSL=false
     username: root
     type: org.apache.commons.dbcp2.BasicDataSource
     dbcp2:
