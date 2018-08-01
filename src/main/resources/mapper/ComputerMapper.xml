@@ -7,12 +7,13 @@
     <result column="op_system" jdbcType="VARCHAR" property="opSystem" />
     <result column="op_install_date" jdbcType="VARCHAR" property="opInstallDate" />
     <result column="ip" jdbcType="VARCHAR" property="ip" />
+    <result column="version" jdbcType="VARCHAR" property="version" />
     <result column="cpu" jdbcType="VARCHAR" property="cpu" />
     <result column="crt_date" jdbcType="TIMESTAMP" property="crtDate" />
     <result column="upt_date" jdbcType="TIMESTAMP" property="uptDate" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, bios_sn, op_system, op_install_date, ip, crt_date, upt_date, cpu
+    id, bios_sn, op_system, op_install_date, ip, crt_date, upt_date, cpu, version
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -26,10 +27,10 @@
   </delete>
   <insert id="insert" parameterType="com.seadun.rebot.entity.Computer">
     insert into computer (id, bios_sn, op_system, 
-      op_install_date, ip, cpu, crt_date, 
+      op_install_date, ip, cpu, version, crt_date, 
       upt_date)
     values (#{id,jdbcType=VARCHAR}, #{biosSn,jdbcType=VARCHAR}, #{opSystem,jdbcType=VARCHAR}, 
-      #{opInstallDate,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, #{cpu,jdbcType=VARCHAR}, #{crtDate,jdbcType=TIMESTAMP}, 
+      #{opInstallDate,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, #{cpu,jdbcType=VARCHAR},#{version,jdbcType=VARCHAR}, #{crtDate,jdbcType=TIMESTAMP}, 
       #{uptDate,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.seadun.rebot.entity.Computer">
@@ -52,6 +53,9 @@
       </if>
       <if test="cpu != null">
         cpu,
+      </if>
+      <if test="version != null">
+        version,
       </if>
       <if test="crtDate != null">
         crt_date,
@@ -79,6 +83,9 @@
       <if test="cpu != null">
         #{cpu,jdbcType=VARCHAR},
       </if>
+      <if test="version != null">
+        #{version,jdbcType=VARCHAR},
+      </if>
       <if test="crtDate != null">
         #{crtDate,jdbcType=TIMESTAMP},
       </if>
@@ -103,6 +110,9 @@
       <if test="cpu != null">
         cpu = #{cpu,jdbcType=VARCHAR},
       </if>
+      <if test="version != null">
+        version = #{version,jdbcType=VARCHAR},
+      </if>
       <if test="uptDate != null">
         upt_date = #{uptDate,jdbcType=TIMESTAMP}
       </if>
@@ -126,6 +136,9 @@
       <if test="cpu != null">
         cpu = #{cpu,jdbcType=VARCHAR},
       </if>
+      <if test="version != null">
+        version = #{version,jdbcType=VARCHAR},
+      </if>
       <if test="crtDate != null">
         crt_date = #{crtDate,jdbcType=TIMESTAMP},
       </if>
@@ -142,6 +155,7 @@
       op_install_date = #{opInstallDate,jdbcType=VARCHAR},
       ip = #{ip,jdbcType=VARCHAR},
       cpu = #{cpu,jdbcType=VARCHAR},
+      version = #{version,jdbcType=VARCHAR},
       crt_date = #{crtDate,jdbcType=TIMESTAMP},
       upt_date = #{uptDate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}

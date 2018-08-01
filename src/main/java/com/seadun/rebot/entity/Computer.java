@@ -18,6 +18,8 @@ public class Computer {
     private Date uptDate;
     
     private String cpu;
+    
+    private String version;
 
     public String getId() {
         return id;
@@ -81,6 +83,14 @@ public class Computer {
 
 	public void setCpu(String cpu) {
 		this.cpu = cpu;
+	}
+
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
 	}
     
     

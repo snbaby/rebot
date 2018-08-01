@@ -18,7 +18,16 @@
     where id = #{id,jdbcType=VARCHAR}
   </select>
   
-  
+  <!-- 新增根據對象查詢所有的匹配內容 -->
+  <select id="selectFilterTime" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from contract
+    where 1=1
+    <if test='startTime != null and startTime != ""'>
+     and crt_time <![CDATA[ >= ]]>  #{startTime,jdbcType=VARCHAR}
+    </if>
+  </select>
   
   
   <!-- 新增根據對象查詢所有的匹配內容 -->

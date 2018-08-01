@@ -22,6 +22,9 @@ public interface ContractMapper {
     
     List<Contract> select(Contract contract);
     
+    List<Contract> selectFilterTime(@Param("startTime")  String
+			startTime);
+    
     List<Contract> selectPage(RowBounds rowBounds,@Param("contract") String contract,@Param("startTime")  String
 			startTime,@Param("endTime") String endTime);
     

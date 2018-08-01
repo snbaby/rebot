@@ -122,6 +122,8 @@ public class AgentController {
 			String opInstallDate = jsonData.getJSONArray("content").getJSONObject(0).getString("InstallDate");
 			//計算機名
 			String csName = jsonData.getJSONArray("content").getJSONObject(0).getString("CSName");
+			//操作系统版本号
+			String version = jsonData.getJSONArray("content").getJSONObject(0).getString("Version");
 			
 			//to-do 存入数据库
 			Computer computer = new Computer();
@@ -129,6 +131,7 @@ public class AgentController {
 			computer.setOpSystem(opSystem);
 			computer.setOpInstallDate(opInstallDate);
 			computer.setIp(hostIP);
+			computer.setVersion(version);
 			
 			computer.setCrtDate(new Date());
 			computer.setUptDate(new Date());
@@ -164,7 +167,7 @@ public class AgentController {
 				disk.setId(UUID.randomUUID().toString());
 				disk.setComputerId(uuid);
 				disk.setDiskInterfaceType(interfaceType);
-				disk.setDiskCapacity(size);
+				disk.setDiskCapacity(Utils.getSize(size));
 				disk.setDiskSn(serial);
 				disk.setDiskShellSn(serial);
 				
@@ -214,7 +217,7 @@ public class AgentController {
 				memory.setId(UUID.randomUUID().toString());
 				memory.setComputerId(uuid);
 				memory.setMemType(memType);
-				memory.setMemCapacity(memCapacity);
+				memory.setMemCapacity(Utils.getSize(memCapacity));
 				memory.setMemSn(memSn);
 				
 				memory.setCrtTime(new Date());

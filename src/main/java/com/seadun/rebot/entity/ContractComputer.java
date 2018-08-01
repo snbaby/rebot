@@ -14,6 +14,8 @@ public class ContractComputer {
     private String eqNo;
     
     private String cpu;
+    
+    private String version;
 
     private String contractDetailStatus;
     
@@ -141,6 +143,14 @@ public class ContractComputer {
 
 	public void setContractDetailUptTime(Date contractDetailUptTime) {
 		this.contractDetailUptTime = contractDetailUptTime;
+	}
+
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
 	}
     
     
