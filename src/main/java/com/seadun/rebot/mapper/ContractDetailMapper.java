@@ -23,6 +23,8 @@ public interface ContractDetailMapper {
     
     long selectCount(@Param("contractDetail") ContractDetail record);
     
+    long selectCountTime(@Param("startTime") String startTime,@Param("endTime") String endTime,@Param("status") String status);
+    
     long selectCountBefore(@Param("contractDetail") ContractDetail record,@Param("uptTime") String uptTime);
     
 }

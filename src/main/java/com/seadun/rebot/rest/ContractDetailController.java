@@ -1,11 +1,13 @@
 package com.seadun.rebot.rest;
 
+import java.util.Date;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,7 +43,19 @@ public class ContractDetailController {
 		ResponseSuccessResult responseResult = new ResponseSuccessResult(HttpStatus.OK.value(), "success", jsb);
 		return new ResponseEntity<>(responseResult, HttpStatus.OK);
 	}
+	
+	@GetMapping("count/time")
+	public ResponseEntity<ResponseSuccessResult> count(String startTime,String endTime,String status) {
+		log.debug(">>>>>获取合同详细个数,startTime:{},endTime:{},status:{}", startTime, endTime, status);
+		long total = contractDetailMapper.selectCountTime(startTime, endTime, status);
 
+		JSONObject jsb = new JSONObject();
+		jsb.put("total", total);
+
+		ResponseSuccessResult responseResult = new ResponseSuccessResult(HttpStatus.OK.value(), "success", jsb);
+		return new ResponseEntity<>(responseResult, HttpStatus.OK);
+	}
+	
 	@PostMapping("count/{before}")
 	public ResponseEntity<ResponseSuccessResult> count(@RequestBody ContractDetail contractDetail,
 			@PathVariable int before) {
@@ -60,11 +74,10 @@ public class ContractDetailController {
 	@PostMapping("change")
 	public ResponseEntity<ResponseSuccessResult> change(@RequestBody ContractDetail contractDetail) {
 		log.debug(">>>>>更新详细,contractDetail:{}",JSON.toJSONString(contractDetail));
+		contractDetail.setUptTime(new Date());
 		contractDetailMapper.updateByPrimaryKeySelective(contractDetail);
 		
 		ResponseSuccessResult responseResult = new ResponseSuccessResult(HttpStatus.OK.value(), "success");
 		return new ResponseEntity<>(responseResult, HttpStatus.OK);
 	}
-	
-	
 }
