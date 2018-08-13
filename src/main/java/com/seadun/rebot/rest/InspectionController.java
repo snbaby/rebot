@@ -1,10 +1,12 @@
 package com.seadun.rebot.rest;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,6 +41,10 @@ public class InspectionController {
 	private ContractMapper contractMapper;
 	@Autowired
 	private ContractDetailMapper contractDetailMapper;
+	
+	@Value("${rebot.dhcp-client-cmd}")
+	private String dhcpClientCmd;
+	
 	// 获取驗機分页
 	@GetMapping("page")
 	public ResponseEntity<ResponseSuccessResult> page(@RequestParam(required = true) int pageNo,
@@ -49,6 +55,15 @@ public class InspectionController {
 		PageInfo<ContractComputer> pageInfo = new PageInfo<ContractComputer>(contractComputerList);// 封装分页信息，便于前端展示
 
 		ResponseSuccessResult responseResult = new ResponseSuccessResult(HttpStatus.OK.value(), "success", pageInfo);
+		return new ResponseEntity<>(responseResult, HttpStatus.OK);
+	}
+	
+	// 启动DHCP
+	@GetMapping("start")
+	public ResponseEntity<ResponseSuccessResult> start() throws IOException {
+		log.debug(">>>>>启动验机");
+		Process child = Runtime.getRuntime().exec(dhcpClientCmd);
+		ResponseSuccessResult responseResult = new ResponseSuccessResult(HttpStatus.OK.value(), "success");
 		return new ResponseEntity<>(responseResult, HttpStatus.OK);
 	}
 	

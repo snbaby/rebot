@@ -1,14 +1,14 @@
 logging:
   level:
-    root: ERROR
+    root: INFO
   path: ../log
 server:
   port: 8765
 spring:
   datasource:
     driverClassName: com.mysql.jdbc.Driver
-    password: Apple1688!@#
-    url: jdbc:mysql://120.79.197.22:3306/rebot?autoReconnect=true&useUnicode=true&characterEncoding=utf8&useSSL=false
+    password: admin1234
+    url: jdbc:mysql://127.0.0.1:3306/rebot?autoReconnect=true&useUnicode=true&characterEncoding=utf8&useSSL=false
     username: root
     type: org.apache.commons.dbcp2.BasicDataSource
     dbcp2:
@@ -31,3 +31,6 @@ pagehelper:
   offset-as-page-num: true
   row-bounds-with-count: true
   reasonable: true
+  
+rebot:
+  dhcp-client-cmd: E:\seadun\bin\dhcp_start.bat
