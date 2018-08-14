@@ -33,4 +33,4 @@ pagehelper:
   reasonable: true
   
 rebot:
-  dhcp-client-cmd: E:\seadun\bin\dhcp_start.bat
+  dhcp-client-cmd: E:\seadun\bin\dhcp_startup.bat
