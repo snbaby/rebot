@@ -122,18 +122,29 @@ public class FileService {
 						RebotExceptionConstants.EXCEL_CONTENT_ERROR_MESSAGE + "或合同编号为空",
 						RebotExceptionConstants.EXCEL_CONTENT_ERROR_HTTP_STATUS);
 			}
-
+			
+			Contract contractParam = new Contract();
+			contractParam.setContract(contractNo);
+			List<Contract> contractList = contractMapper.select(contractParam);
+			
 			// 新增合同，如果合同存在则更新更新时间
-			String uuid = UUID.randomUUID().toString();
+			String uuid = "";
+			
+			if(contractList.isEmpty()) {
+				// 新增合同，如果合同存在则更新更新时间
+				uuid = UUID.randomUUID().toString();
 
-			Contract contract = new Contract();
-			contract.setId(uuid);
-			contract.setContract(contractNo);
-			contract.setStatus(RebotConstants.CONTRACT_UNVERIFIED);
-			contract.setUptTime(new Date());
-			contract.setCrtTime(new Date());
+				Contract contract = new Contract();
+				contract.setId(uuid);
+				contract.setContract(contractNo);
+				contract.setStatus(RebotConstants.CONTRACT_UNVERIFIED);
+				contract.setUptTime(new Date());
+				contract.setCrtTime(new Date());
 
-			contractMapper.insertSelective(contract);
+				contractMapper.insertSelective(contract);
+			}else {
+				uuid = contractList.get(0).getId();
+			}
 
 			for (int i = 5; i <= rowNo; i++) {
 				HSSFRow hssfRow = hssfSheet.getRow(i);

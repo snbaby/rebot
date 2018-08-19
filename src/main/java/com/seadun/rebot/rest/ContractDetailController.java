@@ -3,10 +3,12 @@ package com.seadun.rebot.rest;
 import java.util.Date;
 import java.util.UUID;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +18,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.seadun.rebot.entity.ContractDetail;
+import com.seadun.rebot.mapper.ComputerMapper;
 import com.seadun.rebot.mapper.ContractDetailMapper;
+import com.seadun.rebot.mapper.DiskMapper;
+import com.seadun.rebot.mapper.MemoryMapper;
+import com.seadun.rebot.mapper.NetworkMapper;
+import com.seadun.rebot.mapper.VideoMapper;
 import com.seadun.rebot.response.ResponseSuccessResult;
 import com.seadun.rebot.util.Utils;
 
@@ -29,6 +36,16 @@ public class ContractDetailController {
 
 	@Autowired
 	private ContractDetailMapper contractDetailMapper;
+	@Autowired
+	private ComputerMapper computerMapper;
+	@Autowired
+	private DiskMapper diskMapper;
+	@Autowired
+	private MemoryMapper memoryMapper;
+	@Autowired
+	private NetworkMapper networkMapper;
+	@Autowired
+	private VideoMapper videoMapper;
 
 	@PostMapping("count")
 	public ResponseEntity<ResponseSuccessResult> count(@RequestBody ContractDetail contractDetail) {
@@ -80,4 +97,25 @@ public class ContractDetailController {
 		ResponseSuccessResult responseResult = new ResponseSuccessResult(HttpStatus.OK.value(), "success");
 		return new ResponseEntity<>(responseResult, HttpStatus.OK);
 	}
+	
+	// 刪除合同對應的所有資源
+		@DeleteMapping("/{id}")
+		public ResponseEntity<ResponseSuccessResult> delete(@PathVariable String id) {
+			log.debug(">>>>>刪除合同某個資產號,id:{}",id);
+			
+			ContractDetail contractDetail = contractDetailMapper.selectByPrimaryKey(id);
+			String computerId = contractDetail.getComputerId();
+			if(StringUtils.isNoneBlank(computerId)) {
+				computerMapper.deleteByPrimaryKey(computerId);
+				diskMapper.deleteByComputerId(computerId);
+				memoryMapper.deleteByComputerId(computerId);
+				networkMapper.deleteByComputerId(computerId);
+				videoMapper.deleteByComputerId(computerId);
+			}
+			
+			contractDetailMapper.deleteByPrimaryKey(id);
+
+			ResponseSuccessResult responseResult = new ResponseSuccessResult(HttpStatus.OK.value(), "success");
+			return new ResponseEntity<>(responseResult, HttpStatus.OK);
+		}
 }

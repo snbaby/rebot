@@ -25,6 +25,9 @@
     delete from network
     where computer_id = #{computerId,jdbcType=VARCHAR}
   </delete>
+  <delete id="deleteByComputerIds" parameterType="java.util.List">
+    delete from network where computer_id in <foreach item="item" index="index" collection="list" open="(" separator="," close=")">#{item}</foreach>
+  </delete>
   <insert id="insert" parameterType="com.seadun.rebot.entity.Network">
     insert into network (id, computer_id, mac_address, 
       crt_time, upt_time)

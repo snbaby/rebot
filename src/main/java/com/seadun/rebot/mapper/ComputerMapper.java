@@ -1,9 +1,13 @@
 package com.seadun.rebot.mapper;
 
+import java.util.List;
+
 import com.seadun.rebot.entity.Computer;
 
 public interface ComputerMapper {
     int deleteByPrimaryKey(String id);
+    
+    int deleteByPrimaryKeys(List<String> list);
 
     int insert(Computer record);
 

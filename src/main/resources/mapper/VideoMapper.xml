@@ -26,6 +26,9 @@
     delete from video
     where computer_id = #{computerId,jdbcType=VARCHAR}
   </delete>
+  <delete id="deleteByComputerIds" parameterType="java.util.List">
+    delete from video where computer_id in <foreach item="item" collection="list" open="(" separator="," close=")">#{item}</foreach>
+  </delete>
   <insert id="insert" parameterType="com.seadun.rebot.entity.Video">
     insert into video (id, computer_id, video_sn, 
       video_type, crt_time, upt_time

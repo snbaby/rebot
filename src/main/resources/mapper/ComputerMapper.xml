@@ -25,6 +25,10 @@
     delete from computer
     where id = #{id,jdbcType=VARCHAR}
   </delete>
+  <delete id="deleteByPrimaryKeys" parameterType="java.util.List">
+    delete from computer where id in <foreach item="id" collection="list" open="(" close=")" separator=",">#{id}</foreach>
+  </delete>
+  
   <insert id="insert" parameterType="com.seadun.rebot.entity.Computer">
     insert into computer (id, bios_sn, op_system, 
       op_install_date, ip, cpu, version, crt_date, 

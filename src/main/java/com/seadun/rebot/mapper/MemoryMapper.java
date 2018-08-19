@@ -8,6 +8,8 @@ public interface MemoryMapper {
     int deleteByPrimaryKey(String id);
     
     int deleteByComputerId(String computerId);
+    
+    int deleteByComputerIds(List<String> computerIds);
 
     int insert(Memory record);
 

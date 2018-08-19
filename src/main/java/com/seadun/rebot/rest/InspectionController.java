@@ -71,23 +71,31 @@ public class InspectionController {
 	@PostMapping("import")
 	public ResponseEntity<ResponseSuccessResult> contractImport(@RequestBody JSONObject jsonObj) {
 		log.debug(">>>>>手动导入合同,jsonObj:{}", jsonObj);
+		
+		Contract contractParam = new Contract();
+		contractParam.setContract(jsonObj.getString("contract"));
+		List<Contract> contractList = contractMapper.select(contractParam);
+		
 		String eqType = jsonObj.getString("eqType");
 		List<String> eqNos = jsonObj.getJSONArray("eqNos").toJavaList(String.class);
+		String uuid = "";
 		
-		// 新增合同，如果合同存在则更新更新时间
-		String uuid = UUID.randomUUID().toString();
+		if(contractList.isEmpty()) {
+			// 新增合同，如果合同存在则更新更新时间
+			uuid = UUID.randomUUID().toString();
 
-		Contract contract = new Contract();
-		contract.setId(uuid);
-		contract.setContract(jsonObj.getString("contract"));
-		contract.setStatus(RebotConstants.CONTRACT_UNVERIFIED);
-		contract.setUptTime(new Date());
-		contract.setCrtTime(new Date());
-
-		contractMapper.insertSelective(contract);
+			Contract contract = new Contract();
+			contract.setId(uuid);
+			contract.setContract(jsonObj.getString("contract"));
+			contract.setStatus(RebotConstants.CONTRACT_UNVERIFIED);
+			contract.setUptTime(new Date());
+			contract.setCrtTime(new Date());
+			contractMapper.insertSelective(contract);
+		}else {
+			uuid = contractList.get(0).getId();
+		}
 		
-		eqNos.forEach(eqNo -> {
-			// 新增资产表，入存在，则更新状态
+		for(String eqNo : eqNos) {
 			ContractDetail contractDetail = new ContractDetail();
 			contractDetail.setId(UUID.randomUUID().toString());
 			contractDetail.setContractId(uuid);
@@ -98,8 +106,8 @@ public class InspectionController {
 			contractDetail.setCrtTime(new Date());
 			contractDetail.setUptTime(new Date());
 			contractDetailMapper.insertSelective(contractDetail);
-		});
-
+		}
+		
 		ResponseSuccessResult responseResult = new ResponseSuccessResult(HttpStatus.OK.value(), "success");
 		return new ResponseEntity<>(responseResult, HttpStatus.OK);
 	}

@@ -29,6 +29,9 @@
     delete from disk
     where computer_id = #{computerId,jdbcType=VARCHAR}
   </delete>
+  <delete id="deleteByComputerIds" parameterType="java.util.List">
+    delete from disk where computer_id in <foreach item="item" index="index" collection="list" open="(" separator="," close=")">#{item}</foreach>
+  </delete>
   <insert id="insert" parameterType="com.seadun.rebot.entity.Disk">
     insert into disk (id, computer_id, disk_sn, 
       disk_interface_type, disk_capacity, disk_shell_sn, 

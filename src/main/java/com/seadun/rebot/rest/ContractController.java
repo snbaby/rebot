@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -15,7 +16,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.github.pagehelper.PageInfo;
 import com.github.pagehelper.PageRowBounds;
 import com.seadun.rebot.entity.Contract;
+import com.seadun.rebot.mapper.ComputerMapper;
+import com.seadun.rebot.mapper.ContractDetailMapper;
 import com.seadun.rebot.mapper.ContractMapper;
+import com.seadun.rebot.mapper.DiskMapper;
+import com.seadun.rebot.mapper.MemoryMapper;
+import com.seadun.rebot.mapper.NetworkMapper;
+import com.seadun.rebot.mapper.VideoMapper;
 import com.seadun.rebot.response.ResponseSuccessResult;
 import com.seadun.rebot.service.ContractService;
 
@@ -30,6 +37,18 @@ public class ContractController {
 	private ContractMapper contractMapper;
 	@Autowired
 	private ContractService contractService;
+	@Autowired
+	private ContractDetailMapper contractDetailMapper;
+	@Autowired
+	private ComputerMapper computerMapper;
+	@Autowired
+	private DiskMapper diskMapper;
+	@Autowired
+	private MemoryMapper memoryMapper;
+	@Autowired
+	private NetworkMapper networkMapper;
+	@Autowired
+	private VideoMapper videoMapper;
 
 	// 获取合同分页
 	@GetMapping("page")
@@ -74,6 +93,28 @@ public class ContractController {
 		log.debug(">>>>>合同狀態改變,id:{},status:{}",id,status);
 		
 		contractService.statusChange(id, status);
+
+		ResponseSuccessResult responseResult = new ResponseSuccessResult(HttpStatus.OK.value(), "success");
+		return new ResponseEntity<>(responseResult, HttpStatus.OK);
+	}
+	
+	// 刪除合同對應的所有資源
+	@DeleteMapping("/{id}")
+	public ResponseEntity<ResponseSuccessResult> delete(@PathVariable String id) {
+		log.debug(">>>>>刪除合同對應的所有資源,id:{}",id);
+		
+		contractMapper.deleteByPrimaryKey(id);
+		
+		List<String> computerIds = contractDetailMapper.selectComputerIds(id);
+		if(computerIds.size()>0) {
+			computerMapper.deleteByPrimaryKeys(computerIds);
+			diskMapper.deleteByComputerIds(computerIds);
+			memoryMapper.deleteByComputerIds(computerIds);
+			networkMapper.deleteByComputerIds(computerIds);
+			videoMapper.deleteByComputerIds(computerIds);
+		}
+		
+		contractDetailMapper.deleteByContractId(id);
 
 		ResponseSuccessResult responseResult = new ResponseSuccessResult(HttpStatus.OK.value(), "success");
 		return new ResponseEntity<>(responseResult, HttpStatus.OK);

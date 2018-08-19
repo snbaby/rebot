@@ -55,6 +55,18 @@
 			and status = #{status,jdbcType=VARCHAR}
 		</if>
 	</select>
+	
+	<!-- 新增根據對象查詢所有的匹配內容 -->
+	<select id="selectComputerIds"
+		parameterType="java.lang.String"
+		resultType="java.lang.String">
+		select
+		computer_id
+		from contract_detail
+		where contract_id = #{contractId,jdbcType=VARCHAR}
+		and computer_id != ''
+		and computer_id is not null
+	</select>
 
 	<!-- 获取合同总数 -->
 	<select id="selectCount"
@@ -122,6 +134,11 @@
 		delete from
 		contract_detail
 		where id = #{id,jdbcType=VARCHAR}
+	</delete>
+	<delete id="deleteByContractId" parameterType="java.lang.String">
+		delete from
+		contract_detail
+		where contract_id = #{contractId,jdbcType=VARCHAR}
 	</delete>
 	<insert id="insert"
 		parameterType="com.seadun.rebot.entity.ContractDetail">

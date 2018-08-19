@@ -8,6 +8,8 @@ import com.seadun.rebot.entity.ContractDetail;
 
 public interface ContractDetailMapper {
     int deleteByPrimaryKey(String id);
+    
+    int deleteByContractId(String contractId);
 
     int insert(ContractDetail record);
 
@@ -20,6 +22,8 @@ public interface ContractDetailMapper {
     int updateByPrimaryKey(ContractDetail record);
     
     List<ContractDetail> select(ContractDetail record);
+    
+    List<String> selectComputerIds(String contractId);
     
     long selectCount(@Param("contractDetail") ContractDetail record);
     

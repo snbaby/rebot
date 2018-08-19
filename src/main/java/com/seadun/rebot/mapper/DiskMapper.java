@@ -12,6 +12,8 @@ public interface DiskMapper {
 
     int deleteByComputerId(String computerId);
     
+    int deleteByComputerIds(List<String> computerIds);
+    
     int insert(Disk record);
 
     int insertSelective(Disk record);
@@ -25,4 +27,5 @@ public interface DiskMapper {
     List<Disk> selectPage(RowBounds rowBounds,@Param("computerId") String computerId);
     
     List<Disk> select(Disk disk);
+    
 }
