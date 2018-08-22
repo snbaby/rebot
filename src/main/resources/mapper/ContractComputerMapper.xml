@@ -45,6 +45,7 @@
     <if test="endTime != null">
         and contract_detail_upt_time <![CDATA[ <= ]]> #{endTime,jdbcType=VARCHAR}
     </if>
+    order by eq_no
   </select>
   
   <!-- 新增根據對象查詢所有的匹配內容 -->
@@ -65,5 +66,6 @@
     <if test="endTime != null">
         and contract_detail_upt_time <![CDATA[ <= ]]> #{endTime,jdbcType=VARCHAR}
     </if>
+    order by eq_no
   </select>
 </mapper>

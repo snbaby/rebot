@@ -54,6 +54,7 @@
 		<if test="status != null">
 			and status = #{status,jdbcType=VARCHAR}
 		</if>
+		order by eq_no
 	</select>
 	
 	<!-- 新增根據對象查詢所有的匹配內容 -->
