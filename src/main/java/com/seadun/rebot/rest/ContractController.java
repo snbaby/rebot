@@ -57,7 +57,7 @@ public class ContractController {
 			String endTime) {
 		log.debug(">>>>>获取合同分页数据,pageNo:{},pageSize:{},contract:{},startTime:{},endTime{}", pageNo, pageSize, contract,
 				startTime, endTime);
-		PageRowBounds rowBounds = new PageRowBounds((pageNo - 1) * pageSize, pageSize);
+		PageRowBounds rowBounds = new PageRowBounds(pageNo, pageSize);
 		List<Contract> contractList = contractMapper.selectPage(rowBounds, contract, startTime, endTime);
 		PageInfo<Contract> pageInfo = new PageInfo<Contract>(contractList);// 封装分页信息，便于前端展示
 

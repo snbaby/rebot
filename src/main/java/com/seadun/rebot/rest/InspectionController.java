@@ -50,7 +50,7 @@ public class InspectionController {
 	public ResponseEntity<ResponseSuccessResult> page(@RequestParam(required = true) int pageNo,
 			@RequestParam(required = true) int pageSize,String contractId,String computerId,String contractStatus,String contractDetailStatus,String startTime,String endTime) {
 		log.debug(">>>>>获取验机分页数据,pageNo:{},pageSize:{},contract:{},startTime:{},endTime{}", pageNo, pageSize);
-		PageRowBounds rowBounds = new PageRowBounds((pageNo - 1) * pageSize, pageSize);
+		PageRowBounds rowBounds = new PageRowBounds(pageNo, pageSize);
 		List<ContractComputer> contractComputerList = contractComputerMapper.selectPage(rowBounds,contractId,computerId, contractStatus, contractDetailStatus,startTime,endTime);
 		PageInfo<ContractComputer> pageInfo = new PageInfo<ContractComputer>(contractComputerList);// 封装分页信息，便于前端展示
 
