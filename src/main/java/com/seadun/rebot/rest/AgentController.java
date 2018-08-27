@@ -118,6 +118,23 @@ public class AgentController {
 		}else if(OPERATING_SYSTEM.equals(msgFrom)) {
 			//操作系统
 			String opSystem = jsonData.getJSONArray("content").getJSONObject(0).getString("Caption");
+			
+			if(opSystem.toLowerCase().contains("7")) {
+				opSystem = "Windows 7";
+			}else if(opSystem.toLowerCase().contains("xp")) {
+				opSystem = "Windows XP";
+			}else if(opSystem.toLowerCase().contains("2003")) {
+				opSystem = "Windows Server 2003";
+			}else if(opSystem.toLowerCase().contains("2008")) {
+				opSystem = "Windows Server 2008";
+			}else if(opSystem.toLowerCase().contains("vista")) {
+				opSystem = "Windows Vista";
+			}else if(opSystem.toLowerCase().contains("98")) {
+				opSystem = "Windows 98";
+			}else if(opSystem.toLowerCase().contains("8")) {
+				opSystem = "Windows 8";
+			}
+			
 			//安装日期
 			String opInstallDate = jsonData.getJSONArray("content").getJSONObject(0).getString("InstallDate");
 			//計算機名
@@ -256,7 +273,6 @@ public class AgentController {
 		ResponseSuccessResult responseResult = new ResponseSuccessResult(HttpStatus.OK.value(), "success",rtJsonObject);
 		return new ResponseEntity<>(responseResult, HttpStatus.OK);
 	}
-	
 	
 	@GetMapping(value = { "/auth/client/token" })
 	@ResponseBody
