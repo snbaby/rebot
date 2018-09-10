@@ -120,19 +120,19 @@ public class AgentController {
 			String opSystem = jsonData.getJSONArray("content").getJSONObject(0).getString("Caption");
 			
 			if(opSystem.toLowerCase().contains("7")) {
-				opSystem = "Windows 7";
+				opSystem = "windows 7";
 			}else if(opSystem.toLowerCase().contains("xp")) {
-				opSystem = "Windows XP";
+				opSystem = "windows XP";
 			}else if(opSystem.toLowerCase().contains("2003")) {
-				opSystem = "Windows Server 2003";
+				opSystem = "windows Server 2003";
 			}else if(opSystem.toLowerCase().contains("2008")) {
-				opSystem = "Windows Server 2008";
+				opSystem = "windows Server 2008";
 			}else if(opSystem.toLowerCase().contains("vista")) {
-				opSystem = "Windows Vista";
+				opSystem = "windows Vista";
 			}else if(opSystem.toLowerCase().contains("98")) {
-				opSystem = "Windows 98";
+				opSystem = "windows 98";
 			}else if(opSystem.toLowerCase().contains("8")) {
-				opSystem = "Windows 8";
+				opSystem = "windows 8";
 			}
 			
 			//安装日期
