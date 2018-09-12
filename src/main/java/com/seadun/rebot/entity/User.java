@@ -11,7 +11,15 @@ public class User {
 
     private Date crtTime;
 
-    private Date crtUser;
+    private String crtUser;
+
+    private Date uptTime;
+
+    private String uptUser;
+
+    private String roleId;
+
+    private String departmentId;
 
     public String getId() {
         return id;
@@ -45,11 +53,43 @@ public class User {
         this.crtTime = crtTime;
     }
 
-    public Date getCrtUser() {
+    public String getCrtUser() {
         return crtUser;
     }
 
-    public void setCrtUser(Date crtUser) {
+    public void setCrtUser(String crtUser) {
         this.crtUser = crtUser;
+    }
+
+    public Date getUptTime() {
+        return uptTime;
+    }
+
+    public void setUptTime(Date uptTime) {
+        this.uptTime = uptTime;
+    }
+
+    public String getUptUser() {
+        return uptUser;
+    }
+
+    public void setUptUser(String uptUser) {
+        this.uptUser = uptUser;
+    }
+
+    public String getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(String roleId) {
+        this.roleId = roleId;
+    }
+
+    public String getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(String departmentId) {
+        this.departmentId = departmentId;
     }
 }

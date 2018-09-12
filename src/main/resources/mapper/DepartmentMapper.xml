@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.seadun.rebot.mapper.DepartmentMapper">
+  <resultMap id="BaseResultMap" type="com.seadun.rebot.entity.Department">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="parent_id" jdbcType="VARCHAR" property="parentId" />
+    <result column="dep_path" jdbcType="VARCHAR" property="depPath" />
+    <result column="crt_user" jdbcType="VARCHAR" property="crtUser" />
+    <result column="crt_date" jdbcType="TIMESTAMP" property="crtDate" />
+    <result column="upt_user" jdbcType="VARCHAR" property="uptUser" />
+    <result column="upt_time" jdbcType="TIMESTAMP" property="uptTime" />
+  </resultMap>
+  
+  <resultMap id="nodeMap" type="com.seadun.rebot.entity.Node">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="label" jdbcType="VARCHAR" property="label" />
+    <result column="value" jdbcType="VARCHAR" property="value" />
+    <collection property="children" select="getChildren" column="id" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    id, name, parent_id, dep_path, crt_user, crt_date, upt_user, upt_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from department
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="list" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from department
+  </select>
+  
+  <select id="getChildren" resultMap="nodeMap">
+    select 
+    id,id as value,name as label
+    from department
+    where parent_id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectTree" resultMap="nodeMap">
+    select 
+    id,id as value,name as label
+    from department
+    where parent_id = -1
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from department
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  
+  <delete id="deleteByid" parameterType="java.lang.String">
+    delete from department
+    where id = #{id,jdbcType=VARCHAR} or parent_id like "%"#{id,jdbcType=VARCHAR}"%"
+  </delete>
+  
+  <insert id="insert" parameterType="com.seadun.rebot.entity.Department">
+    insert into department (id, name, parent_id, 
+      dep_path, crt_user, crt_date, 
+      upt_user, upt_time)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR}, 
+      #{depPath,jdbcType=VARCHAR}, #{crtUser,jdbcType=VARCHAR}, #{crtDate,jdbcType=TIMESTAMP}, 
+      #{uptUser,jdbcType=VARCHAR}, #{uptTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.seadun.rebot.entity.Department">
+    insert into department
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="depPath != null">
+        dep_path,
+      </if>
+      <if test="crtUser != null">
+        crt_user,
+      </if>
+      <if test="crtDate != null">
+        crt_date,
+      </if>
+      <if test="uptUser != null">
+        upt_user,
+      </if>
+      <if test="uptTime != null">
+        upt_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="depPath != null">
+        #{depPath,jdbcType=VARCHAR},
+      </if>
+      <if test="crtUser != null">
+        #{crtUser,jdbcType=VARCHAR},
+      </if>
+      <if test="crtDate != null">
+        #{crtDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uptUser != null">
+        #{uptUser,jdbcType=VARCHAR},
+      </if>
+      <if test="uptTime != null">
+        #{uptTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.seadun.rebot.entity.Department">
+    update department
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="depPath != null">
+        dep_path = #{depPath,jdbcType=VARCHAR},
+      </if>
+      <if test="crtUser != null">
+        crt_user = #{crtUser,jdbcType=VARCHAR},
+      </if>
+      <if test="crtDate != null">
+        crt_date = #{crtDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uptUser != null">
+        upt_user = #{uptUser,jdbcType=VARCHAR},
+      </if>
+      <if test="uptTime != null">
+        upt_time = #{uptTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.seadun.rebot.entity.Department">
+    update department
+    set name = #{name,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=VARCHAR},
+      dep_path = #{depPath,jdbcType=VARCHAR},
+      crt_user = #{crtUser,jdbcType=VARCHAR},
+      crt_date = #{crtDate,jdbcType=TIMESTAMP},
+      upt_user = #{uptUser,jdbcType=VARCHAR},
+      upt_time = #{uptTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

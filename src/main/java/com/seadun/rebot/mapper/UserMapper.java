@@ -2,6 +2,8 @@ package com.seadun.rebot.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
+
 import com.seadun.rebot.entity.User;
 
 public interface UserMapper {
@@ -18,4 +20,6 @@ public interface UserMapper {
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);
+    
+    List<User> selectPage(RowBounds rowBounds);
 }

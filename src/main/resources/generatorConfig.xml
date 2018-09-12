@@ -65,16 +65,6 @@
 		</table>
 		<table
 			schema="rebot"
-			tableName="user"
-			domainObjectName="User"
-			enableCountByExample="false"
-			enableUpdateByExample="false"
-			enableDeleteByExample="false"
-			enableSelectByExample="false"
-			selectByExampleQueryId="false">
-		</table>
-		<table
-			schema="rebot"
 			tableName="video"
 			domainObjectName="Video"
 			enableCountByExample="false"
@@ -123,11 +113,41 @@
 			enableSelectByExample="false"
 			selectByExampleQueryId="false">
 		</table>
-		-->
 		<table
 			schema="rebot"
 			tableName="dict_memory_type"
 			domainObjectName="DictMemoryType"
+			enableCountByExample="false"
+			enableUpdateByExample="false"
+			enableDeleteByExample="false"
+			enableSelectByExample="false"
+			selectByExampleQueryId="false">
+		</table>
+		<table
+			schema="rebot"
+			tableName="department"
+			domainObjectName="Department"
+			enableCountByExample="false"
+			enableUpdateByExample="false"
+			enableDeleteByExample="false"
+			enableSelectByExample="false"
+			selectByExampleQueryId="false">
+		</table>
+		<table
+			schema="rebot"
+			tableName="role"
+			domainObjectName="Role"
+			enableCountByExample="false"
+			enableUpdateByExample="false"
+			enableDeleteByExample="false"
+			enableSelectByExample="false"
+			selectByExampleQueryId="false">
+		</table>
+		-->
+		<table
+			schema="rebot"
+			tableName="user"
+			domainObjectName="User"
 			enableCountByExample="false"
 			enableUpdateByExample="false"
 			enableDeleteByExample="false"

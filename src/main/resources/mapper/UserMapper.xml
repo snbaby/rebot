@@ -6,11 +6,20 @@
     <result column="user_name" jdbcType="VARCHAR" property="userName" />
     <result column="user_password" jdbcType="VARCHAR" property="userPassword" />
     <result column="crt_time" jdbcType="TIMESTAMP" property="crtTime" />
-    <result column="crt_user" jdbcType="TIMESTAMP" property="crtUser" />
+    <result column="crt_user" jdbcType="VARCHAR" property="crtUser" />
+    <result column="upt_time" jdbcType="TIMESTAMP" property="uptTime" />
+    <result column="upt_user" jdbcType="VARCHAR" property="uptUser" />
+    <result column="role_id" jdbcType="VARCHAR" property="roleId" />
+    <result column="department_id" jdbcType="VARCHAR" property="departmentId" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, user_name, user_password, crt_time, crt_user
+    id, user_name, user_password, crt_time, crt_user, upt_time, upt_user, role_id, department_id
   </sql>
+  <select id="selectPage" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -41,9 +50,13 @@
   </delete>
   <insert id="insert" parameterType="com.seadun.rebot.entity.User">
     insert into user (id, user_name, user_password, 
-      crt_time, crt_user)
+      crt_time, crt_user, upt_time, 
+      upt_user, role_id, department_id
+      )
     values (#{id,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{userPassword,jdbcType=VARCHAR}, 
-      #{crtTime,jdbcType=TIMESTAMP}, #{crtUser,jdbcType=TIMESTAMP})
+      #{crtTime,jdbcType=TIMESTAMP}, #{crtUser,jdbcType=VARCHAR}, #{uptTime,jdbcType=TIMESTAMP}, 
+      #{uptUser,jdbcType=VARCHAR}, #{roleId,jdbcType=VARCHAR}, #{departmentId,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.seadun.rebot.entity.User">
     insert into user
@@ -63,6 +76,18 @@
       <if test="crtUser != null">
         crt_user,
       </if>
+      <if test="uptTime != null">
+        upt_time,
+      </if>
+      <if test="uptUser != null">
+        upt_user,
+      </if>
+      <if test="roleId != null">
+        role_id,
+      </if>
+      <if test="departmentId != null">
+        department_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -78,16 +103,19 @@
         #{crtTime,jdbcType=TIMESTAMP},
       </if>
       <if test="crtUser != null">
-        #{crtUser,jdbcType=TIMESTAMP},
+        #{crtUser,jdbcType=VARCHAR},
       </if>
-    </trim>
-    ON DUPLICATE KEY UPDATE
-    <trim>
-      <if test="userPassword != null">
-        user_password = #{userPassword,jdbcType=TIMESTAMP},
+      <if test="uptTime != null">
+        #{uptTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="crtTime != null">
-        crt_time = #{crtTime,jdbcType=TIMESTAMP}
+      <if test="uptUser != null">
+        #{uptUser,jdbcType=VARCHAR},
+      </if>
+      <if test="roleId != null">
+        #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentId != null">
+        #{departmentId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -104,7 +132,19 @@
         crt_time = #{crtTime,jdbcType=TIMESTAMP},
       </if>
       <if test="crtUser != null">
-        crt_user = #{crtUser,jdbcType=TIMESTAMP},
+        crt_user = #{crtUser,jdbcType=VARCHAR},
+      </if>
+      <if test="uptTime != null">
+        upt_time = #{uptTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uptUser != null">
+        upt_user = #{uptUser,jdbcType=VARCHAR},
+      </if>
+      <if test="roleId != null">
+        role_id = #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentId != null">
+        department_id = #{departmentId,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
@@ -114,7 +154,11 @@
     set user_name = #{userName,jdbcType=VARCHAR},
       user_password = #{userPassword,jdbcType=VARCHAR},
       crt_time = #{crtTime,jdbcType=TIMESTAMP},
-      crt_user = #{crtUser,jdbcType=TIMESTAMP}
+      crt_user = #{crtUser,jdbcType=VARCHAR},
+      upt_time = #{uptTime,jdbcType=TIMESTAMP},
+      upt_user = #{uptUser,jdbcType=VARCHAR},
+      role_id = #{roleId,jdbcType=VARCHAR},
+      department_id = #{departmentId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

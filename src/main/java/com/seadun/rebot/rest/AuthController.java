@@ -19,9 +19,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.seadun.rebot.constant.RebotExceptionConstants;
 import com.seadun.rebot.entity.RebotException;
 import com.seadun.rebot.entity.User;
+import com.seadun.rebot.mapper.DepartmentMapper;
+import com.seadun.rebot.mapper.RoleMapper;
 import com.seadun.rebot.mapper.UserMapper;
 import com.seadun.rebot.response.ResponseSuccessResult;
 
@@ -40,6 +43,12 @@ public class AuthController {
 	
 	@Autowired
 	private UserMapper userMapper;
+	
+	@Autowired
+	private RoleMapper roleMapper;
+	
+	@Autowired
+	private DepartmentMapper departmentMapper;
 	
 	@RequestMapping(value = "login", method = RequestMethod.POST)
 	@ResponseBody
@@ -65,7 +74,15 @@ public class AuthController {
 			request.getSession().setMaxInactiveInterval(30 * 60);
 		}
 		
-		ResponseSuccessResult responseResult = new ResponseSuccessResult(HttpStatus.OK.value(), "success");
+		JSONObject jsb = new JSONObject();
+		jsb.put("username", user.getUserName());
+		jsb.put("roleId", userList.get(0).getRoleId());
+		jsb.put("departmentId", userList.get(0).getDepartmentId());
+		
+		jsb.put("roleList", roleMapper.list());
+		jsb.put("departmentList", departmentMapper.list());
+		
+		ResponseSuccessResult responseResult = new ResponseSuccessResult(HttpStatus.OK.value(), "success",jsb);
 		return new ResponseEntity<>(responseResult, HttpStatus.OK);
     }
 	
