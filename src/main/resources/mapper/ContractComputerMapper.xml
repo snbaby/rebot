@@ -6,6 +6,7 @@
     <result column="contract_id" jdbcType="VARCHAR" property="contractId" />
     <result column="computer_id" jdbcType="VARCHAR" property="computerId" />
     <result column="eq_type" jdbcType="VARCHAR" property="eqType" />
+    <result column="eq_model" jdbcType="VARCHAR" property="eqModel" />
     <result column="eq_no" jdbcType="VARCHAR" property="eqNo" />
     <result column="cpu" jdbcType="VARCHAR" property="cpu" />
     <result column="version" jdbcType="VARCHAR" property="version" />
@@ -19,7 +20,7 @@
     <result column="ip" jdbcType="VARCHAR" property="ip" />
   </resultMap>
   <sql id="Base_Column_List">
-    contract_detail_id, contract_id, computer_id, eq_type, eq_no,cpu,version,contract_detail_status,contract_detail_upt_time,contract,contract_status,bios_sn,op_system,op_install_date,ip
+    contract_detail_id, contract_id, computer_id, eq_type,eq_model, eq_no,cpu,version,contract_detail_status,contract_detail_upt_time,contract,contract_status,bios_sn,op_system,op_install_date,ip
   </sql>
   <!-- 新增根據對象查詢所有的匹配內容 -->
   <select id="selectPage" resultMap="BaseResultMap">

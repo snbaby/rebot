@@ -22,9 +22,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 import com.github.pagehelper.PageRowBounds;
-import com.seadun.rebot.entity.Contract;
-import com.seadun.rebot.entity.Department;
+import com.seadun.rebot.entity.Log;
 import com.seadun.rebot.entity.Role;
+import com.seadun.rebot.mapper.LogMapper;
 import com.seadun.rebot.mapper.RoleMapper;
 import com.seadun.rebot.response.ResponseSuccessResult;
 
@@ -37,11 +37,22 @@ public class RoleController {
 	@Autowired
 	private RoleMapper roleMapper;
 	
+	@Autowired
+	private LogMapper logMapper;
+	
 	@PostMapping("add")
 	public ResponseEntity<ResponseSuccessResult> add(HttpServletRequest request,
 			@RequestBody Role roleParam) {
 		log.debug(">>>>>新增橘色,roleParam:{}", JSON.toJSONString(roleParam));
 		String loginUser = request.getSession().getAttribute("username").toString();// 登录成功
+		
+		Log log = new Log();
+		log.setId(UUID.randomUUID().toString());
+		log.setUserId(request.getSession().getAttribute("userId").toString());
+		log.setUserName(request.getSession().getAttribute("username").toString());
+		log.setMessage("用户"+request.getSession().getAttribute("username").toString()+"新增角色："+roleParam.getName());
+		log.setCrtTime(new Date());
+		logMapper.insert(log);	
 		
 		Role role = new Role();
 		role.setId(UUID.randomUUID().toString());
@@ -56,8 +67,19 @@ public class RoleController {
 	}
 	
 	@DeleteMapping("{id}")
-	public ResponseEntity<ResponseSuccessResult> deleteDepartment(@PathVariable(value = "id") String id) {
+	public ResponseEntity<ResponseSuccessResult> deleteDepartment(HttpServletRequest request,@PathVariable(value = "id") String id) {
 		log.debug(">>>>>删除角色,id:{}",id);
+		
+		Role role = roleMapper.selectByPrimaryKey(id);
+		
+		Log log = new Log();
+		log.setId(UUID.randomUUID().toString());
+		log.setUserId(request.getSession().getAttribute("userId").toString());
+		log.setUserName(request.getSession().getAttribute("username").toString());
+		log.setMessage("用户"+request.getSession().getAttribute("username").toString()+"删除角色："+role.getName());
+		log.setCrtTime(new Date());
+		logMapper.insert(log);
+		
 		roleMapper.deleteByPrimaryKey(id);
 		ResponseSuccessResult responseResult = new ResponseSuccessResult(HttpStatus.OK.value(), "success");
 		return new ResponseEntity<>(responseResult, HttpStatus.OK);
@@ -70,10 +92,23 @@ public class RoleController {
 		log.debug(">>>>>修改角色名称,RoleParam:{}", JSON.toJSONString(roleParam));
 		String loginUser = request.getSession().getAttribute("username").toString();// 登录成功
 		Role role = roleMapper.selectByPrimaryKey(roleParam.getId());
+		
+		String ol = JSON.toJSONString(role);
+		
 		role.setName(roleParam.getName());
 		role.setUptUser(loginUser);
 		role.setUptTime(new Date());
 		roleMapper.updateByPrimaryKeySelective(role);
+		
+		String ne = JSON.toJSONString(role);
+		
+		Log log = new Log();
+		log.setId(UUID.randomUUID().toString());
+		log.setUserId(request.getSession().getAttribute("userId").toString());
+		log.setUserName(request.getSession().getAttribute("username").toString());
+		log.setMessage("用户"+request.getSession().getAttribute("username").toString()+"将角色："+ol+"，修改为："+ne);
+		log.setCrtTime(new Date());
+		logMapper.insert(log);
 
 		ResponseSuccessResult responseResult = new ResponseSuccessResult(HttpStatus.OK.value(), "success");
 		return new ResponseEntity<>(responseResult, HttpStatus.OK);

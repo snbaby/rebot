@@ -1,6 +1,10 @@
 package com.seadun.rebot.rest;
 
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,10 +20,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.github.pagehelper.PageInfo;
 import com.github.pagehelper.PageRowBounds;
 import com.seadun.rebot.entity.Contract;
+import com.seadun.rebot.entity.Log;
 import com.seadun.rebot.mapper.ComputerMapper;
 import com.seadun.rebot.mapper.ContractDetailMapper;
 import com.seadun.rebot.mapper.ContractMapper;
 import com.seadun.rebot.mapper.DiskMapper;
+import com.seadun.rebot.mapper.LogMapper;
 import com.seadun.rebot.mapper.MemoryMapper;
 import com.seadun.rebot.mapper.NetworkMapper;
 import com.seadun.rebot.mapper.VideoMapper;
@@ -49,6 +55,8 @@ public class ContractController {
 	private NetworkMapper networkMapper;
 	@Autowired
 	private VideoMapper videoMapper;
+	@Autowired
+	private LogMapper logMapper;
 
 	// 获取合同分页
 	@GetMapping("page")
@@ -57,6 +65,7 @@ public class ContractController {
 			String endTime) {
 		log.debug(">>>>>获取合同分页数据,pageNo:{},pageSize:{},contract:{},startTime:{},endTime{}", pageNo, pageSize, contract,
 				startTime, endTime);
+		
 		PageRowBounds rowBounds = new PageRowBounds(pageNo, pageSize);
 		List<Contract> contractList = contractMapper.selectPage(rowBounds, contract, startTime, endTime);
 		PageInfo<Contract> pageInfo = new PageInfo<Contract>(contractList);// 封装分页信息，便于前端展示
@@ -89,8 +98,16 @@ public class ContractController {
 	
 	// 启用禁用某个合同
 	@PutMapping("/{id}/{status}")
-	public ResponseEntity<ResponseSuccessResult> statusChange(@PathVariable String id, @PathVariable String status) {
+	public ResponseEntity<ResponseSuccessResult> statusChange(HttpServletRequest request,@PathVariable String id, @PathVariable String status) {
 		log.debug(">>>>>合同狀態改變,id:{},status:{}",id,status);
+		
+		Log log = new Log();
+		log.setId(UUID.randomUUID().toString());
+		log.setUserId(request.getSession().getAttribute("userId").toString());
+		log.setUserName(request.getSession().getAttribute("username").toString());
+		log.setMessage("用户"+request.getSession().getAttribute("username").toString()+"设置合同状态:"+status);
+		log.setCrtTime(new Date());
+		logMapper.insert(log);
 		
 		contractService.statusChange(id, status);
 
@@ -100,8 +117,18 @@ public class ContractController {
 	
 	// 刪除合同對應的所有資源
 	@DeleteMapping("/{id}")
-	public ResponseEntity<ResponseSuccessResult> delete(@PathVariable String id) {
+	public ResponseEntity<ResponseSuccessResult> delete(HttpServletRequest request,@PathVariable String id) {
 		log.debug(">>>>>刪除合同對應的所有資源,id:{}",id);
+		
+		Contract contract = contractMapper.selectByPrimaryKey(id);
+		
+		Log log = new Log();
+		log.setId(UUID.randomUUID().toString());
+		log.setUserId(request.getSession().getAttribute("userId").toString());
+		log.setUserName(request.getSession().getAttribute("username").toString());
+		log.setMessage("用户"+request.getSession().getAttribute("username").toString()+"删除合同:"+contract.getContract());
+		log.setCrtTime(new Date());
+		logMapper.insert(log);
 		
 		contractMapper.deleteByPrimaryKey(id);
 		

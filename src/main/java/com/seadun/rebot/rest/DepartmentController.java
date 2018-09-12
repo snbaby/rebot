@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
 import com.seadun.rebot.entity.Department;
+import com.seadun.rebot.entity.Log;
 import com.seadun.rebot.mapper.DepartmentMapper;
+import com.seadun.rebot.mapper.LogMapper;
 import com.seadun.rebot.response.ResponseSuccessResult;
 
 import lombok.extern.slf4j.Slf4j;
@@ -31,12 +33,24 @@ import lombok.extern.slf4j.Slf4j;
 public class DepartmentController {
 	@Autowired
 	private DepartmentMapper departmentMapper;
+	@Autowired
+	private LogMapper logMapper;
 	
 	@PostMapping("add")
 	public ResponseEntity<ResponseSuccessResult> add(HttpServletRequest request,
 			@RequestBody Department departmentParam) {
 		log.debug(">>>>>新增部门,Department:{}", JSON.toJSONString(departmentParam));
 		String loginUser = request.getSession().getAttribute("username").toString();// 登录成功
+		
+		
+		Log log = new Log();
+		log.setId(UUID.randomUUID().toString());
+		log.setUserId(request.getSession().getAttribute("userId").toString());
+		log.setUserName(request.getSession().getAttribute("username").toString());
+		log.setMessage("用户"+request.getSession().getAttribute("username").toString()+"新增部門："+departmentParam.getName());
+		log.setCrtTime(new Date());
+		logMapper.insert(log);	
+		
 		if(StringUtils.isBlank(departmentParam.getParentId())) {//新增根節點部門
 			Department department = new Department();
 			department.setId(UUID.randomUUID().toString());
@@ -78,8 +92,19 @@ public class DepartmentController {
 	}
 	
 	@DeleteMapping("{id}")
-	public ResponseEntity<ResponseSuccessResult> deleteDepartment(@PathVariable(value = "id") String id) {
+	public ResponseEntity<ResponseSuccessResult> deleteDepartment(HttpServletRequest request,@PathVariable(value = "id") String id) {
 		log.debug(">>>>>删除部门樹,id:{}",id);
+		
+		Department departmentParam = departmentMapper.selectByPrimaryKey(id);
+		
+		Log log = new Log();
+		log.setId(UUID.randomUUID().toString());
+		log.setUserId(request.getSession().getAttribute("userId").toString());
+		log.setUserName(request.getSession().getAttribute("username").toString());
+		log.setMessage("用户"+request.getSession().getAttribute("username").toString()+"刪除部門："+departmentParam.getName());
+		log.setCrtTime(new Date());
+		logMapper.insert(log);	
+		
 		departmentMapper.deleteByid(id);
 		ResponseSuccessResult responseResult = new ResponseSuccessResult(HttpStatus.OK.value(), "success");
 		return new ResponseEntity<>(responseResult, HttpStatus.OK);
@@ -89,13 +114,28 @@ public class DepartmentController {
 	public ResponseEntity<ResponseSuccessResult> edit(HttpServletRequest request,
 			@RequestBody Department departmentParam) {
 		
+		
+		
 		log.debug(">>>>>修改部门名称,Department:{}", JSON.toJSONString(departmentParam));
 		String loginUser = request.getSession().getAttribute("username").toString();// 登录成功
 		Department department = departmentMapper.selectByPrimaryKey(departmentParam.getId());
+		
+		Log log = new Log();
+		log.setId(UUID.randomUUID().toString());
+		log.setUserId(request.getSession().getAttribute("userId").toString());
+		log.setUserName(request.getSession().getAttribute("username").toString());
+		log.setMessage("用户"+request.getSession().getAttribute("username").toString()+"將部門："+departmentParam.getName()+",修改為："+departmentParam.getName());
+		log.setCrtTime(new Date());
+		logMapper.insert(log);	
+		
+		
 		department.setName(departmentParam.getName());
 		department.setUptTime(new Date());
 		department.setUptUser(loginUser);
 		departmentMapper.updateByPrimaryKeySelective(department);
+		
+		
+		
 
 		ResponseSuccessResult responseResult = new ResponseSuccessResult(HttpStatus.OK.value(), "success");
 		return new ResponseEntity<>(responseResult, HttpStatus.OK);

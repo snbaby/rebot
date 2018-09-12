@@ -156,7 +156,8 @@ public class FileService {
 				HSSFCell hssfCellSqNo = hssfRow.getCell(1);
 				HSSFCell hssfCellEqType = hssfRow.getCell(2);
 				HSSFCell hssfCellEqNo = hssfRow.getCell(3);
-
+				HSSFCell hssfCellEqModel = hssfRow.getCell(4);
+				
 				String sqNo = null;
 				if (hssfCellSqNo != null) {
 					if (hssfCellSqNo.getCellTypeEnum() == CellType.NUMERIC) {
@@ -194,6 +195,17 @@ public class FileService {
 						}
 					}
 				}
+				
+				String eqModel = null;
+				if (hssfCellEqModel != null) {
+					if (hssfCellEqModel.getCellTypeEnum() == CellType.NUMERIC) {
+						eqModel = String.valueOf(hssfCellEqModel.getNumericCellValue());
+					} else if (hssfCellEqModel.getCellTypeEnum() == CellType.STRING) {
+						eqModel = hssfCellEqModel.getStringCellValue();
+					}
+				}
+				
+				
 
 				log.debug(">>>>>excel 合同编号：{}，中的第{}行,sqNo为{}，eqType为{}，eqNo为{}", sqNo, eqType, eqNo);
 				if (StringUtils.isBlank(sqNo) && StringUtils.isBlank(eqType) && StringUtils.isBlank(eqNo)) {
@@ -207,6 +219,7 @@ public class FileService {
 					contractDetail.setContractId(uuid);
 					contractDetail.setEqNo(eqNo);
 					contractDetail.setEqType(eqType);
+					contractDetail.setEqModel(eqModel);
 					contractDetail.setStatus(RebotConstants.CONTRACT_UNCONFIRM);
 					contractDetail.setComputerId("");
 					contractDetail.setCrtTime(new Date());

@@ -10,6 +10,8 @@ public class ContractComputer {
     private String computerId;
 
     private String eqType;
+    
+    private String eqModel;
 
     private String eqNo;
     
@@ -65,7 +67,17 @@ public class ContractComputer {
         this.eqType = eqType;
     }
 
-    public String getEqNo() {
+    
+    
+    public String getEqModel() {
+		return eqModel;
+	}
+
+	public void setEqModel(String eqModel) {
+		this.eqModel = eqModel;
+	}
+
+	public String getEqNo() {
         return eqNo;
     }
 

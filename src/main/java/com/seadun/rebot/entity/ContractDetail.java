@@ -8,6 +8,8 @@ public class ContractDetail {
     private String contractId;
 
     private String eqType;
+    
+    private String eqModel;
 
     private String eqNo;
 
@@ -42,8 +44,16 @@ public class ContractDetail {
     public void setEqType(String eqType) {
         this.eqType = eqType;
     }
+    
+    public String getEqModel() {
+		return eqModel;
+	}
 
-    public String getEqNo() {
+	public void setEqModel(String eqModel) {
+		this.eqModel = eqModel;
+	}
+
+	public String getEqNo() {
         return eqNo;
     }
 

@@ -7,6 +7,10 @@ public class RebotExceptionConstants {
 	public final static String USER_VALID_FAILD_MESSAGE =  "用户名或密码错误.";
 	public static final HttpStatus USER_VALID_FAILD_HTTP_STATUS = HttpStatus.FORBIDDEN;
 	
+	public final static String USER_VALID_PASSWORD_FAILD_CODE =  "USER_VALID_PASSWORD_FAILD";
+	public final static String USER_VALID_PASSWORD_FAILD_MESSAGE =  "原密码错误.";
+	public static final HttpStatus USER_VALID_PASSWORD_FAILD_HTTP_STATUS = HttpStatus.FORBIDDEN;
+	
 	public static final String USER_NOT_LOGIN_EXCEPTION_CODE = "USER_NOT_LOGIN_EXCEPTION";
 	public static final String USER_NOT_LOGIN_EXCEPTION_MESSAGE = "用户未登录";
 	public static final HttpStatus USER_NOT_LOGIN_EXCEPTION_HTTP_STATUS = HttpStatus.UNAUTHORIZED;

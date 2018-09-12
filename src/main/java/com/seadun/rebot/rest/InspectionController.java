@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -23,9 +25,11 @@ import com.seadun.rebot.constant.RebotConstants;
 import com.seadun.rebot.entity.Contract;
 import com.seadun.rebot.entity.ContractComputer;
 import com.seadun.rebot.entity.ContractDetail;
+import com.seadun.rebot.entity.Log;
 import com.seadun.rebot.mapper.ContractComputerMapper;
 import com.seadun.rebot.mapper.ContractDetailMapper;
 import com.seadun.rebot.mapper.ContractMapper;
+import com.seadun.rebot.mapper.LogMapper;
 import com.seadun.rebot.response.ResponseSuccessResult;
 
 import lombok.extern.slf4j.Slf4j;
@@ -41,6 +45,9 @@ public class InspectionController {
 	private ContractMapper contractMapper;
 	@Autowired
 	private ContractDetailMapper contractDetailMapper;
+	
+	@Autowired
+	private LogMapper logMapper;
 	
 	@Value("${rebot.dhcp-client-cmd}")
 	private String dhcpClientCmd;
@@ -60,8 +67,17 @@ public class InspectionController {
 	
 	// 启动DHCP
 	@GetMapping("start")
-	public ResponseEntity<ResponseSuccessResult> start() throws IOException {
+	public ResponseEntity<ResponseSuccessResult> start(HttpServletRequest request) throws IOException {
 		log.debug(">>>>>启动验机");
+		
+		Log log = new Log();
+		log.setId(UUID.randomUUID().toString());
+		log.setUserId(request.getSession().getAttribute("userId").toString());
+		log.setUserName(request.getSession().getAttribute("username").toString());
+		log.setMessage("用户"+request.getSession().getAttribute("username").toString()+"开启DHCP服务");
+		log.setCrtTime(new Date());
+		logMapper.insert(log);	
+		
 		Process child = Runtime.getRuntime().exec(dhcpClientCmd);
 		ResponseSuccessResult responseResult = new ResponseSuccessResult(HttpStatus.OK.value(), "success");
 		return new ResponseEntity<>(responseResult, HttpStatus.OK);
@@ -69,7 +85,7 @@ public class InspectionController {
 	
 	// 合同入库
 	@PostMapping("import")
-	public ResponseEntity<ResponseSuccessResult> contractImport(@RequestBody JSONObject jsonObj) {
+	public ResponseEntity<ResponseSuccessResult> contractImport(HttpServletRequest request,@RequestBody JSONObject jsonObj) {
 		log.debug(">>>>>手动导入合同,jsonObj:{}", jsonObj);
 		
 		Contract contractParam = new Contract();
@@ -77,8 +93,17 @@ public class InspectionController {
 		List<Contract> contractList = contractMapper.select(contractParam);
 		
 		String eqType = jsonObj.getString("eqType");
+		String eqModel = jsonObj.getString("eqModel");
 		List<String> eqNos = jsonObj.getJSONArray("eqNos").toJavaList(String.class);
 		String uuid = "";
+		
+		Log log = new Log();
+		log.setId(UUID.randomUUID().toString());
+		log.setUserId(request.getSession().getAttribute("userId").toString());
+		log.setUserName(request.getSession().getAttribute("username").toString());
+		log.setMessage("用户"+request.getSession().getAttribute("username").toString()+"将合同:"+jsonObj.getString("contract")+",入库");
+		log.setCrtTime(new Date());
+		logMapper.insert(log);
 		
 		if(contractList.isEmpty()) {
 			// 新增合同，如果合同存在则更新更新时间
@@ -101,6 +126,7 @@ public class InspectionController {
 			contractDetail.setContractId(uuid);
 			contractDetail.setEqNo(eqNo);
 			contractDetail.setEqType(eqType);
+			contractDetail.setEqModel(eqModel);
 			contractDetail.setStatus(RebotConstants.CONTRACT_UNCONFIRM);
 			contractDetail.setComputerId("");
 			contractDetail.setCrtTime(new Date());

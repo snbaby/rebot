@@ -7,6 +7,7 @@
 		<result column="contract_id" jdbcType="VARCHAR"
 			property="contractId" />
 		<result column="eq_type" jdbcType="VARCHAR" property="eqType" />
+		<result column="eq_model" jdbcType="VARCHAR" property="eqModel" />
 		<result column="eq_no" jdbcType="VARCHAR" property="eqNo" />
 		<result column="computer_id" jdbcType="VARCHAR"
 			property="computerId" />
@@ -17,7 +18,7 @@
 		<result column="status" jdbcType="VARCHAR" property="status" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, contract_id, eq_type, eq_no, computer_id, crt_time,
+		id, contract_id, eq_type,eq_model, eq_no, computer_id, crt_time,
 		upt_time, status
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
@@ -44,6 +45,9 @@
 		</if>
 		<if test="eqType != null">
 			and eq_type = #{eqType,jdbcType=VARCHAR}
+		</if>
+		<if test="eqModel != null">
+			and eq_model = #{eqModel,jdbcType=VARCHAR}
 		</if>
 		<if test="eqNo != null">
 			and eq_no = #{eqNo,jdbcType=VARCHAR}
@@ -143,12 +147,12 @@
 	</delete>
 	<insert id="insert"
 		parameterType="com.seadun.rebot.entity.ContractDetail">
-		insert into contract_detail (id, contract_id, eq_type,
+		insert into contract_detail (id, contract_id, eq_type,eq_model,
 		eq_no, computer_id, crt_time,
 		upt_time, status)
 		values
 		(#{id,jdbcType=VARCHAR}, #{contractId,jdbcType=VARCHAR},
-		#{eqType,jdbcType=VARCHAR},
+		#{eqType,jdbcType=VARCHAR},#{eqModel,jdbcType=VARCHAR},
 		#{eqNo,jdbcType=VARCHAR},
 		#{computerId,jdbcType=VARCHAR}, #{crtTime,jdbcType=TIMESTAMP},
 		#{uptTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR})
@@ -165,6 +169,9 @@
 			</if>
 			<if test="eqType != null">
 				eq_type,
+			</if>
+			<if test="eqModel != null">
+				eq_model,
 			</if>
 			<if test="eqNo != null">
 				eq_no,
@@ -191,6 +198,9 @@
 			</if>
 			<if test="eqType != null">
 				#{eqType,jdbcType=VARCHAR},
+			</if>
+			<if test="eqModel != null">
+				#{eqModel,jdbcType=VARCHAR},
 			</if>
 			<if test="eqNo != null">
 				#{eqNo,jdbcType=VARCHAR},
@@ -225,6 +235,9 @@
 			<if test="eqType != null">
 				eq_type = #{eqType,jdbcType=VARCHAR},
 			</if>
+			<if test="eqModel != null">
+				eq_model = #{eqModel,jdbcType=VARCHAR},
+			</if>
 			<if test="eqNo != null">
 				eq_no = #{eqNo,jdbcType=VARCHAR},
 			</if>
@@ -249,6 +262,7 @@
 		set contract_id =
 		#{contractId,jdbcType=VARCHAR},
 		eq_type = #{eqType,jdbcType=VARCHAR},
+		eq_model = #{eqModel,jdbcType=VARCHAR},
 		eq_no = #{eqNo,jdbcType=VARCHAR},
 		computer_id =
 		#{computerId,jdbcType=VARCHAR},

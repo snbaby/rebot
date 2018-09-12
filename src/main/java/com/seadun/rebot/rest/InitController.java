@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.seadun.rebot.entity.DictMemoryType;
 import com.seadun.rebot.entity.User;
 import com.seadun.rebot.mapper.DictMemoryTypeMapper;
+import com.seadun.rebot.mapper.LogMapper;
 import com.seadun.rebot.mapper.UserMapper;
 
 import lombok.extern.slf4j.Slf4j;
