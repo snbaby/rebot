@@ -23,6 +23,8 @@ public interface ContractDetailMapper {
     
     List<ContractDetail> select(ContractDetail record);
     
+    ContractDetail selectOneByContractId(@Param("contractId") String contractId);
+    
     List<String> selectComputerIds(String contractId);
     
     long selectCount(@Param("contractDetail") ContractDetail record);

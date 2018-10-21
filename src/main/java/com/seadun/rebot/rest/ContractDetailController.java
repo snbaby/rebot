@@ -1,6 +1,7 @@
 package com.seadun.rebot.rest;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -145,6 +146,26 @@ public class ContractDetailController {
 		contractDetailMapper.deleteByPrimaryKey(id);
 
 		ResponseSuccessResult responseResult = new ResponseSuccessResult(HttpStatus.OK.value(), "success");
+		return new ResponseEntity<>(responseResult, HttpStatus.OK);
+	}
+
+	@GetMapping("/contract/{contractId}")
+	public ResponseEntity<ResponseSuccessResult> getContractDetail(HttpServletRequest request,
+			@PathVariable String contractId) {
+		log.debug(">>>>>获取合同对应的任何一个验机,contractId:{}", contractId);
+
+		ContractDetail contractDetailParam = new ContractDetail();
+		contractDetailParam.setContractId(contractId);
+
+		ContractDetail contractDetail = contractDetailMapper.selectOneByContractId(contractId);
+
+		ResponseSuccessResult responseResult = null;
+		if (contractDetail == null) {
+			responseResult = new ResponseSuccessResult(HttpStatus.OK.value(), "success", "");
+		} else {
+			responseResult = new ResponseSuccessResult(HttpStatus.OK.value(), "success", contractDetail.getEqModel());
+		}
+
 		return new ResponseEntity<>(responseResult, HttpStatus.OK);
 	}
 }

@@ -35,7 +35,6 @@ import com.seadun.rebot.response.ResponseSuccessResult;
 
 import lombok.extern.slf4j.Slf4j;
 
-
 /**
  * @author Paul
  *
@@ -45,114 +44,115 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("api/auth")
 @Slf4j
 public class AuthController {
-	
+
 	@Autowired
 	private UserMapper userMapper;
-	
+
 	@Autowired
 	private RoleMapper roleMapper;
-	
+
 	@Autowired
 	private DepartmentMapper departmentMapper;
-	
+
 	@Autowired
 	private LogMapper logMapper;
-	
+
 	@RequestMapping(value = "login", method = RequestMethod.POST)
 	@ResponseBody
-    public ResponseEntity<ResponseSuccessResult> postAuthToken(HttpServletRequest request,@RequestBody User user) throws Exception {
-		log.debug(">>>>>user login:{}",JSON.toJSONString(user));
-		if(StringUtils.isBlank(user.getUserName())||StringUtils.isBlank(user.getUserPassword())) {
+	public ResponseEntity<ResponseSuccessResult> postAuthToken(HttpServletRequest request, @RequestBody User user)
+			throws Exception {
+		log.debug(">>>>>user login:{}", JSON.toJSONString(user));
+		if (StringUtils.isBlank(user.getUserName()) || StringUtils.isBlank(user.getUserPassword())) {
 			throw new RebotException(RebotExceptionConstants.USER_VALID_FAILD_CODE,
 					RebotExceptionConstants.USER_VALID_FAILD_MESSAGE,
 					RebotExceptionConstants.USER_VALID_FAILD_HTTP_STATUS);
 		}
 		List<User> userList = userMapper.select(user);
-		if(userList.size()==0) {
+		if (userList.size() == 0) {
 			throw new RebotException(RebotExceptionConstants.USER_VALID_FAILD_CODE,
 					RebotExceptionConstants.USER_VALID_FAILD_MESSAGE,
 					RebotExceptionConstants.USER_VALID_FAILD_HTTP_STATUS);
-		}else if(userList.size()>1){
+		} else if (userList.size() > 1) {
 			throw new RebotException(RebotExceptionConstants.INTERNAL_SERVER_ERROR_CODE,
 					RebotExceptionConstants.INTERNAL_SERVER_ERROR_MESSAGE,
 					RebotExceptionConstants.INTERNAL_SERVER_ERROR_HTTP_STATUS);
-		}else {
+		} else {
 			request.getSession().setAttribute("isLogin", "yes");// 登录成功
 			request.getSession().setAttribute("username", user.getUserName());// 登录成功
 			request.getSession().setAttribute("userId", userList.get(0).getId());// 登录成功
-			request.getSession().setMaxInactiveInterval(30 * 60);
+			request.getSession().setMaxInactiveInterval(4 * 60 * 60);
 		}
-		
+
 		Log log = new Log();
 		log.setId(UUID.randomUUID().toString());
 		log.setUserId(request.getSession().getAttribute("userId").toString());
 		log.setUserName(request.getSession().getAttribute("username").toString());
-		log.setMessage("用户"+request.getSession().getAttribute("username").toString()+"登录系统");
+		log.setMessage("用户" + request.getSession().getAttribute("username").toString() + "登录系统");
 		log.setCrtTime(new Date());
 		logMapper.insert(log);
-		
+
 		JSONObject jsb = new JSONObject();
 		jsb.put("username", user.getUserName());
 		jsb.put("roleId", userList.get(0).getRoleId());
 		jsb.put("userId", userList.get(0).getId());
 		jsb.put("departmentId", userList.get(0).getDepartmentId());
-		
+
 		jsb.put("roleList", roleMapper.list());
 		jsb.put("departmentList", departmentMapper.list());
-		
-		ResponseSuccessResult responseResult = new ResponseSuccessResult(HttpStatus.OK.value(), "success",jsb);
+
+		ResponseSuccessResult responseResult = new ResponseSuccessResult(HttpStatus.OK.value(), "success", jsb);
 		return new ResponseEntity<>(responseResult, HttpStatus.OK);
-    }
-	
+	}
+
 	@GetMapping(value = "logout")
 	@ResponseBody
-    public ResponseEntity<ResponseSuccessResult> postAuthToken(HttpServletRequest request) throws Exception {
-		log.debug(">>>>>user:{} ,logout",request.getSession().getAttribute("username"));
-		
+	public ResponseEntity<ResponseSuccessResult> postAuthToken(HttpServletRequest request) throws Exception {
+		log.debug(">>>>>user:{} ,logout", request.getSession().getAttribute("username"));
+
 		Log log = new Log();
 		log.setId(UUID.randomUUID().toString());
 		log.setUserId(request.getSession().getAttribute("userId").toString());
 		log.setUserName(request.getSession().getAttribute("username").toString());
-		log.setMessage("用户"+request.getSession().getAttribute("username").toString()+"退出系统");
+		log.setMessage("用户" + request.getSession().getAttribute("username").toString() + "退出系统");
 		log.setCrtTime(new Date());
 		logMapper.insert(log);
-		
+
 		request.getSession().invalidate();
 		ResponseSuccessResult responseResult = new ResponseSuccessResult(HttpStatus.OK.value(), "success");
 		return new ResponseEntity<>(responseResult, HttpStatus.OK);
-    }
-	
+	}
+
 	@PostMapping(value = "change")
 	@ResponseBody
-    public ResponseEntity<ResponseSuccessResult> passwordChange(HttpServletRequest request,@RequestBody JSONObject jsb) throws Exception {
-		log.debug(">>>>>user:{} ,logout",request.getSession().getAttribute("username"));
-		
+	public ResponseEntity<ResponseSuccessResult> passwordChange(HttpServletRequest request, @RequestBody JSONObject jsb)
+			throws Exception {
+		log.debug(">>>>>user:{} ,logout", request.getSession().getAttribute("username"));
+
 		String oldPassword = jsb.getString("oldPassword");
 		String newPassword = jsb.getString("newPassword");
-		
+
 		User user = userMapper.selectByPrimaryKey(request.getSession().getAttribute("userId").toString());
-		if(!user.getUserPassword().equals(oldPassword)) {
+		if (!user.getUserPassword().equals(oldPassword)) {
 			throw new RebotException(RebotExceptionConstants.USER_VALID_PASSWORD_FAILD_CODE,
 					RebotExceptionConstants.USER_VALID_PASSWORD_FAILD_MESSAGE,
 					RebotExceptionConstants.USER_VALID_PASSWORD_FAILD_HTTP_STATUS);
 		}
-		
+
 		user.setUserPassword(newPassword);
 		user.setUptUser(request.getSession().getAttribute("username").toString());
 		user.setUptTime(new Date());
 		userMapper.updateByPrimaryKeySelective(user);
-		
+
 		Log log = new Log();
 		log.setId(UUID.randomUUID().toString());
 		log.setUserId(request.getSession().getAttribute("userId").toString());
 		log.setUserName(request.getSession().getAttribute("username").toString());
-		log.setMessage("用户"+request.getSession().getAttribute("username").toString()+"修改密码");
+		log.setMessage("用户" + request.getSession().getAttribute("username").toString() + "修改密码");
 		log.setCrtTime(new Date());
 		logMapper.insert(log);
-		
+
 		request.getSession().invalidate();
 		ResponseSuccessResult responseResult = new ResponseSuccessResult(HttpStatus.OK.value(), "success");
 		return new ResponseEntity<>(responseResult, HttpStatus.OK);
-    }
+	}
 }
-

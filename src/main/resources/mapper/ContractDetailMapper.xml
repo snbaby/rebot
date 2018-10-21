@@ -61,6 +61,16 @@
 		order by eq_no
 	</select>
 	
+	<select id="selectOneByContractId"
+		parameterType="com.seadun.rebot.entity.ContractDetail"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from contract_detail
+		where contract_id = #{contractId,jdbcType=VARCHAR}
+		limit 1
+	</select>
+	
 	<!-- 新增根據對象查詢所有的匹配內容 -->
 	<select id="selectComputerIds"
 		parameterType="java.lang.String"
