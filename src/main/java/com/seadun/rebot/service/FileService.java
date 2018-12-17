@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.ParseException;
-import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -14,6 +14,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.annotations.Param;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -45,7 +46,6 @@ import com.seadun.rebot.mapper.DiskMapper;
 import com.seadun.rebot.mapper.MemoryMapper;
 import com.seadun.rebot.mapper.NetworkMapper;
 import com.seadun.rebot.mapper.VideoMapper;
-import com.seadun.rebot.util.Utils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -248,7 +248,7 @@ public class FileService {
 
 		try {
 
-			inputStream = getClass().getClassLoader().getResourceAsStream("export.xls");
+			inputStream = getClass().getClassLoader().getResourceAsStream("rebort.xls");
 			try {
 				hwb = new HSSFWorkbook(inputStream);
 				out = response.getOutputStream();
@@ -496,5 +496,205 @@ public class FileService {
 		}
 
 	}
+	
+	public void contractExport(HttpServletResponse response,String contractId) throws ParseException {
+		InputStream inputStream = null;
+		HSSFWorkbook hwb = null;
+		OutputStream out = null;
+
+		try {
+
+			inputStream = getClass().getClassLoader().getResourceAsStream("rebot.xls");
+			try {
+				hwb = new HSSFWorkbook(inputStream);
+				out = response.getOutputStream();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				throw new RebotException(RebotExceptionConstants.EXCEL_PRASE_ERROR_CODE,
+						RebotExceptionConstants.EXCEL_PRASE_ERROR_MESSAGE,
+						RebotExceptionConstants.EXCEL_PRASE_ERROR_HTTP_STATUS);
+			}
+
+			HSSFCellStyle alignCenterStyle = hwb.createCellStyle();  
+			alignCenterStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+			HSSFCellStyle allStyle = hwb.createCellStyle();
+			allStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+			allStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+			allStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
+			allStyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
+			allStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+			
+			HSSFSheet hssfSheet = hwb.getSheetAt(0);
+			HSSFRow hssfRow1 = hssfSheet.createRow(1);
+			HSSFCell hssfCell1g = hssfRow1.createCell(6);// 序号
+
+			Calendar cal = Calendar.getInstance();
+			SimpleDateFormat simdf = new SimpleDateFormat("YYYY年MM月dd日");
+			hssfCell1g.setCellValue(simdf.format(cal.getTime()));// 设置导出时间
+			hssfCell1g.setCellStyle(alignCenterStyle);//居中
+			
+			
+			Contract contract = contractMapper.selectByPrimaryKey(contractId);
+			HSSFRow hssfRow2 = hssfSheet.getRow(2);
+			HSSFCell hssfCell2b = hssfRow2.createCell(1);// 合同名称
+			hssfCell2b.setCellValue(contract.getContract());
+			hssfCell2b.setCellStyle(allStyle);
+			
+			ContractDetail contractDetail = new ContractDetail();
+			contractDetail.setContractId(contractId);
+			
+			HSSFCell hssfCell2f = hssfRow2.createCell(5);// 合同数量
+			hssfCell2f.setCellValue(contractDetailMapper.selectCount(contractDetail));
+			hssfCell2f.setCellStyle(allStyle);
+			
+			ContractComputer contractComputer = contractComputerMapper.selectOne(contractId);
+			if (contractComputer == null) {
+				log.error(">>>>>excel 获取合同详细数据为空");
+				throw new RebotException(RebotExceptionConstants.EXCEL_CONTENT_ERROR_CODE,
+						RebotExceptionConstants.EXCEL_CONTENT_ERROR_MESSAGE + "或获取合同详细数据为空",
+						RebotExceptionConstants.EXCEL_CONTENT_ERROR_HTTP_STATUS);
+			}
+			
+			HSSFRow hssfRow3 = hssfSheet.getRow(3);
+			HSSFCell hssfCell3c = hssfRow3.createCell(2);// cpu
+			hssfCell3c.setCellValue(contractComputer.getCpu());
+			hssfCell3c.setCellStyle(allStyle);
+			
+			
+			Disk disk = new Disk();
+			disk.setComputerId(contractComputer.getComputerId());
+			List<Disk> diskList = diskMapper.select(disk);
+			
+			String diskCapacity = "";
+			for(Disk d : diskList) {
+				diskCapacity= "、"+diskCapacity+d.getDiskCapacity();
+			}
+			diskCapacity = diskCapacity.replaceFirst("、", "");
+			
+			HSSFRow hssfRow4 = hssfSheet.getRow(4);
+			HSSFCell hssfCell4c = hssfRow4.createCell(2);// 硬盤
+			hssfCell4c.setCellValue(diskCapacity);
+			hssfCell4c.setCellStyle(allStyle);
+			
+			Video video = new Video();
+			video.setComputerId(contractComputer.getComputerId());
+			List<Video> videoList = videoMapper.select(video);
+			
+			String videoType = "";
+			for(Video v : videoList) {
+				videoType= "、"+videoType+v.getVideoType();
+			}
+			videoType = videoType.replaceFirst("、", "");
+			HSSFCell hssfCell4e = hssfRow4.createCell(4);// 顯卡
+			hssfCell4e.setCellValue(videoType);
+			hssfCell4e.setCellStyle(allStyle);
+			
+			
+			HSSFRow hssfRow5 = hssfSheet.getRow(5);
+			HSSFCell hssfCell5c = hssfRow5.createCell(2);// 操作系統
+			hssfCell5c.setCellValue(contractComputer.getOpSystem());
+			hssfCell5c.setCellStyle(allStyle);
+			
+			Memory memory = new Memory();
+			memory.setComputerId(contractComputer.getComputerId());
+			List<Memory> memoryList = memoryMapper.select(memory);
+			
+			String memoryCapacity = "";
+			
+			for(Memory m : memoryList) {
+				memoryCapacity= "、"+memoryCapacity+m.getMemCapacity();
+			}
+			memoryCapacity = memoryCapacity.replaceFirst("、", "");
+			
+			HSSFCell hssfCell5e = hssfRow5.createCell(4);// 內存
+			hssfCell5e.setCellValue(memoryCapacity);
+			hssfCell5e.setCellStyle(allStyle);
+			
+			List<ContractComputer> contractComputerList =  contractComputerMapper.select("YES",contractId,null,null);
+			for(int i=0;i<contractComputerList.size();i++) {
+				ContractComputer contractComputerTemp = contractComputerList.get(i);
+				HSSFRow hssfRow = hssfSheet.createRow(7+i);
+				HSSFCell hssfCelli0 = hssfRow.createCell(0);// 序号
+				hssfCelli0.setCellValue(i+1);
+				hssfCelli0.setCellStyle(allStyle);
+				
+				HSSFCell hssfCelli1 = hssfRow.createCell(1);// 统一编号
+				hssfCelli1.setCellValue(contractComputerTemp.getEqNo());
+				hssfCelli1.setCellStyle(allStyle);
+				
+				HSSFCell hssfCelli2 = hssfRow.createCell(2);// 机器号
+				hssfCelli2.setCellValue(contractComputerTemp.getBiosSn());
+				hssfCelli2.setCellStyle(allStyle);
+				
+				HSSFCell hssfCelli3 = hssfRow.createCell(3);// 机器号
+				hssfCelli3.setCellStyle(allStyle);
+				
+				HSSFCell hssfCelli4 = hssfRow.createCell(4);// 序号
+				hssfCelli4.setCellValue(contractComputerTemp.getComputerId());
+				hssfCelli4.setCellStyle(allStyle);
+				
+				HSSFCell hssfCelli5 = hssfRow.createCell(5);// 机器号
+				hssfCelli5.setCellStyle(allStyle);
+				
+				Disk diskTemp = new Disk();
+				diskTemp.setComputerId(contractComputerTemp.getComputerId());
+				List<Disk> diskTempList = diskMapper.select(diskTemp);
+				
+				String diskTempSn = "";
+				for(Disk dTemp : diskTempList) {
+					diskTempSn= "、"+diskTempSn+dTemp.getDiskSn();
+				}
+				diskTempSn = diskTempSn.replaceFirst("、", "");
+				
+				HSSFCell hssfCelli6 = hssfRow.createCell(6);// 序号
+				hssfCelli6.setCellValue(diskTempSn);
+				hssfCelli6.setCellStyle(allStyle);
+				
+				HSSFCell hssfCelli7 = hssfRow.createCell(7);// 序号
+				hssfCelli7.setCellStyle(allStyle);
+			}
+			
+			try {
+				hwb.write(out);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				throw new RebotException(RebotExceptionConstants.EXCEL_PRASE_ERROR_CODE,
+						RebotExceptionConstants.EXCEL_PRASE_ERROR_MESSAGE,
+						RebotExceptionConstants.EXCEL_PRASE_ERROR_HTTP_STATUS);
+			}
+		} finally {
+			// TODO: handle finally clause
+			if (inputStream != null) {
+				try {
+					inputStream.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+			if (hwb != null) {
+				try {
+					hwb.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+			if (out != null) {
+				try {
+					out.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+
+	}
+	
 
 }

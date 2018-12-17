@@ -22,6 +22,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 		patterns.add("/api/init/memory-type");
 		patterns.add("/api/init/user");
 		patterns.add("/api/file");
+		patterns.add("/api/file/contract");
 		patterns.add("/api/sbox/data/**");
 		patterns.add("/api/auth/client/token");
 		patterns.add("/api/upgrade/**");

@@ -60,6 +60,22 @@ public class FileController {
 	}
 	
 	//下載excel文件
+	@GetMapping("file/contract")
+	public void downloadContract(HttpServletResponse response,String contractId) throws IOException, ParseException {
+		Contract contract = contractMapper.selectByPrimaryKey(contractId);
+		// 告诉浏览器用什么软件可以打开此文件
+        response.setHeader("content-Type", "application/vnd.ms-excel");
+        
+        String fileName = "验机报告";
+        if(contract!=null && StringUtils.isNotBlank(contract.getContract())) {
+        	fileName = contract.getContract() + "-" +fileName;
+        }
+        // 下载文件的默认名称
+        response.setHeader("Content-Disposition", "attachment;filename="+URLEncoder.encode(fileName+".xls", "utf-8"));
+		fileService.contractExport(response, contractId);
+	}
+	
+	//下載excel文件
 	@PostMapping("compress")
 	public ResponseEntity<ResponseSuccessResult>  compress(HttpServletResponse response,@RequestBody JSONObject jsonObject) throws Exception {
 		ResponseSuccessResult responseResult = new ResponseSuccessResult(HttpStatus.OK.value(),Utils.compress(jsonObject.toJSONString()));

@@ -69,4 +69,17 @@
     </if>
     order by eq_no
   </select>
+  
+  <!-- 新增根據對象查詢所有的匹配內容 -->
+  <select id="selectOne" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from contract_computer
+    where 1=1
+    <if test="contractId != null">
+        and contract_id = #{contractId,jdbcType=VARCHAR}
+    </if>
+    and contract_detail_status = 'YES'
+    limit 1
+  </select>
 </mapper>
