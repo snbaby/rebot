@@ -248,7 +248,7 @@ public class FileService {
 
 		try {
 
-			inputStream = getClass().getClassLoader().getResourceAsStream("rebort.xls");
+			inputStream = getClass().getClassLoader().getResourceAsStream("export.xls");
 			try {
 				hwb = new HSSFWorkbook(inputStream);
 				out = response.getOutputStream();
@@ -568,7 +568,7 @@ public class FileService {
 			
 			String diskCapacity = "";
 			for(Disk d : diskList) {
-				diskCapacity= "、"+diskCapacity+d.getDiskCapacity();
+				diskCapacity= diskCapacity+"、"+d.getDiskCapacity();
 			}
 			diskCapacity = diskCapacity.replaceFirst("、", "");
 			
@@ -583,7 +583,7 @@ public class FileService {
 			
 			String videoType = "";
 			for(Video v : videoList) {
-				videoType= "、"+videoType+v.getVideoType();
+				videoType= videoType+"、"+v.getVideoType();
 			}
 			videoType = videoType.replaceFirst("、", "");
 			HSSFCell hssfCell4e = hssfRow4.createCell(4);// 顯卡
@@ -603,7 +603,7 @@ public class FileService {
 			String memoryCapacity = "";
 			
 			for(Memory m : memoryList) {
-				memoryCapacity= "、"+memoryCapacity+m.getMemCapacity();
+				memoryCapacity= memoryCapacity+"、"+m.getMemCapacity();
 			}
 			memoryCapacity = memoryCapacity.replaceFirst("、", "");
 			
@@ -643,7 +643,7 @@ public class FileService {
 				
 				String diskTempSn = "";
 				for(Disk dTemp : diskTempList) {
-					diskTempSn= "、"+diskTempSn+dTemp.getDiskSn();
+					diskTempSn= diskTempSn+"、"+dTemp.getDiskSn();
 				}
 				diskTempSn = diskTempSn.replaceFirst("、", "");
 				
