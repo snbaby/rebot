@@ -128,12 +128,13 @@ public class ContractDetailController {
 		log.setId(UUID.randomUUID().toString());
 		log.setUserId(request.getSession().getAttribute("userId").toString());
 		log.setUserName(request.getSession().getAttribute("username").toString());
-		log.setMessage("用户" + request.getSession().getAttribute("username").toString() + "删除资产号："
+		log.setMessage("用户" + request.getSession().getAttribute("username").toString() + "清除资产号："
 				+ contractDetailTemp.getEqNo());
 		log.setCrtTime(new Date());
 		logMapper.insert(log);
 
 		ContractDetail contractDetail = contractDetailMapper.selectByPrimaryKey(id);
+		
 		String computerId = contractDetail.getComputerId();
 		if (StringUtils.isNoneBlank(computerId)) {
 			computerMapper.deleteByPrimaryKey(computerId);
@@ -142,8 +143,11 @@ public class ContractDetailController {
 			networkMapper.deleteByComputerId(computerId);
 			videoMapper.deleteByComputerId(computerId);
 		}
-
-		contractDetailMapper.deleteByPrimaryKey(id);
+		contractDetail.setComputerId("");
+		contractDetail.setStatus("NO");
+		contractDetail.setEqModel("");;
+		contractDetailMapper.updateByPrimaryKeySelective(contractDetail);
+//		contractDetailMapper.deleteByPrimaryKey(id);
 
 		ResponseSuccessResult responseResult = new ResponseSuccessResult(HttpStatus.OK.value(), "success");
 		return new ResponseEntity<>(responseResult, HttpStatus.OK);
