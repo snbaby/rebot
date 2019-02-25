@@ -145,7 +145,6 @@ public class ContractDetailController {
 		}
 		contractDetail.setComputerId("");
 		contractDetail.setStatus("NO");
-		contractDetail.setEqModel("");;
 		contractDetailMapper.updateByPrimaryKeySelective(contractDetail);
 //		contractDetailMapper.deleteByPrimaryKey(id);
 
